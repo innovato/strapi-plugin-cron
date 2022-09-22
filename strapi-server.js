@@ -1,18 +1,28 @@
 "use strict";
 
 const server = require("./dist/server");
-const schedule = require("node-schedule");
+const cron = require("node-schedule");
 
 module.exports = {
   ...server.default,
   async bootstrap({ strapi }) {
-    const service = await strapi
+    const serviceTest = await strapi
       .plugin("cronjob-manager")
-      .service("myService")
+      .service("cronjobService")
       .getWelcomeMessage();
-    console.log(service);
-    const job = schedule.scheduleJob("* * * * * *", function () {
-      console.log("🚀");
-    });
+    console.log(serviceTest);
+
+    const jobs = await strapi
+      .plugin("cronjob-manager")
+      .service("cronjobService")
+      .getCronJobs();
+
+    scheduleJobs(jobs);
   },
 };
+
+function scheduleJobs(jobs) {
+  for (const job of jobs) {
+    cron.scheduleJob(job.schedule, new Function(job.script));
+  }
+}
