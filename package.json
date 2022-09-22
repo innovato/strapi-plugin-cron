@@ -7,7 +7,9 @@
     "description": "Description of cronjob-manager plugin",
     "kind": "plugin"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-schedule": "^2.1.0"
+  },
   "devDependencies": {
     "typescript": "4.6.3"
   },
