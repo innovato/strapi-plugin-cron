@@ -12,13 +12,17 @@
   },
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "schedule": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "script": {
-      "type": "text"
+      "type": "text",
+      "required": true
     }
   }
 }

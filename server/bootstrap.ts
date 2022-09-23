@@ -1,5 +1,6 @@
-import { Strapi } from '@strapi/strapi';
+import { Strapi } from "@strapi/strapi";
+import { cron } from "../cron";
 
 export default ({ strapi }: { strapi: Strapi }) => {
-  // bootstrap phase
+  cron.init();
 };
