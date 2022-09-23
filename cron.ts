@@ -6,7 +6,7 @@ const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 class Cron {
   async init() {
     const cronJobs = await strapi
-      .plugin("cronjob-manager")
+      .plugin("cron")
       .service("cron-job")
       .getPublished();
     for (const cronJob of cronJobs) {
