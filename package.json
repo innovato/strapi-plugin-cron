@@ -1,10 +1,10 @@
 {
-  "name": "cronjob-manager",
+  "name": "strapi-plugin-cron",
   "version": "0.0.0",
-  "description": "This is the description of the plugin.",
+  "description": "Manage and monitor cron from the admin panel.",
   "strapi": {
-    "name": "cronjob-manager",
-    "description": "Description of cronjob-manager plugin",
+    "name": "cron",
+    "description": "Manage and monitor cron from the admin panel.",
     "kind": "plugin"
   },
   "dependencies": {

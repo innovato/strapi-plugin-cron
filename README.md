@@ -1,3 +1,3 @@
-# Strapi plugin cronjob-manager
+# Strapi plugin cron
 
-A quick description of cronjob-manager.
+Manage and monitor cron from the admin panel.
