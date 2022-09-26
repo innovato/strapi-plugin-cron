@@ -23,6 +23,18 @@
     "script": {
       "type": "text",
       "required": true
+    },
+    "iterations": {
+      "type": "integer",
+      "min": -1,
+      "default": -1,
+      "required": true
+    },
+    "startDate": {
+      "type": "datetime"
+    },
+    "endDate": {
+      "type": "datetime"
     }
   }
 }
