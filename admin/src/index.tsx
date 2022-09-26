@@ -1,11 +1,10 @@
-import React from 'react';
-import { prefixPluginTranslations } from '@strapi/helper-plugin';
-import pluginPkg from '../../package.json';
-import pluginId from './pluginId';
-import Initializer from './components/Initializer';
-import PluginIcon from './components/PluginIcon';
+import { prefixPluginTranslations } from "@strapi/helper-plugin";
+import Initializer from "./components/Initializer";
+import PluginIcon from "./components/PluginIcon";
+import pluginId from "./pluginId";
+import { pluginName } from "./utils/pluginName";
 
-const name = pluginPkg.strapi.name;
+const name = pluginName;
 
 export default {
   register(app) {
@@ -17,7 +16,9 @@ export default {
         defaultMessage: name,
       },
       Component: async () => {
-        const component = await import(/* webpackChunkName: "[request]" */ './pages/App');
+        const component = await import(
+          /* webpackChunkName: "[request]" */ "./pages/App"
+        );
 
         return component;
       },
@@ -44,7 +45,7 @@ export default {
     const { locales } = app;
 
     const importedTrads = await Promise.all(
-      locales.map(locale => {
+      locales.map((locale) => {
         return import(`./translations/${locale}.json`)
           .then(({ default: data }) => {
             return {
