@@ -4,6 +4,7 @@
   "description": "Manage and monitor cron from the admin panel.",
   "strapi": {
     "name": "cron",
+    "displayName": "Cron",
     "description": "Manage and monitor cron from the admin panel.",
     "kind": "plugin"
   },
