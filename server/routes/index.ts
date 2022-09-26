@@ -1,10 +1,11 @@
 export default [
   {
-    method: 'GET',
-    path: '/',
-    handler: 'myController.index',
+    method: "GET",
+    path: "/cron-jobs",
+    handler: "cronJobController.getAll",
     config: {
       policies: [],
+      auth: false,
     },
   },
 ];

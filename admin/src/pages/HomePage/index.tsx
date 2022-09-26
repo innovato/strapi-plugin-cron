@@ -1,10 +1,17 @@
 import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { cron } from "../../api/cron";
 import { pluginName } from "../../utils/pluginName";
 
 const HomePage: React.FunctionComponent = () => {
-  const cronJobs = [];
+  const [cronJobs, setCronJobs] = useState([]);
+
+  useEffect(() => {
+    cron.getAllCronJobs().then((res) => {
+      setCronJobs(res.data);
+    });
+  }, []);
 
   return (
     <>
