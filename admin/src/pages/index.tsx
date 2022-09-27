@@ -2,10 +2,10 @@ import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import EmptyDocuments from "@strapi/icons/EmptyDocuments";
 import React, { useEffect, useState } from "react";
-import { cron } from "../../api/cron";
-import CronJobsTable from "../../components/CronJobsTable";
+import { cron } from "../api/cron";
+import { CronJobsTable } from "../components/CronJobsTable";
 
-const HomePage: React.FunctionComponent = () => {
+export const HomePage: React.FunctionComponent = () => {
   const [cronJobs, setCronJobs] = useState([]);
 
   useEffect(() => {
@@ -30,5 +30,3 @@ const HomePage: React.FunctionComponent = () => {
     </>
   );
 };
-
-export default HomePage;

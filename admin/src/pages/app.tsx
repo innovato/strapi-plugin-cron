@@ -5,13 +5,13 @@
  *
  */
 
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { NotFound } from '@strapi/helper-plugin';
-import pluginId from '../../pluginId';
-import HomePage from '../HomePage';
+import { NotFound } from "@strapi/helper-plugin";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import pluginId from "../pluginId";
+import { HomePage } from "./";
 
-const App: React.VoidFunctionComponent = () => {
+const App: React.FunctionComponent = () => {
   return (
     <div>
       <Switch>
