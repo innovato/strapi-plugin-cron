@@ -2,14 +2,14 @@ import { prefixPluginTranslations } from "@strapi/helper-plugin";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
 import pluginId from "./pluginId";
-import { pluginName } from "./utils/pluginName";
+import { pluginBasePath, pluginName } from "./utils/plugin";
 
 const name = pluginName;
 
 export default {
   register(app) {
     app.addMenuLink({
-      to: `/plugins/${pluginId}`,
+      to: pluginBasePath,
       icon: PluginIcon,
       intlLabel: {
         id: `${pluginId}.plugin.name`,
