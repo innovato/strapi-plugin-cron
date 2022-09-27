@@ -4,7 +4,6 @@ import EmptyDocuments from "@strapi/icons/EmptyDocuments";
 import React, { useEffect, useState } from "react";
 import { cron } from "../../api/cron";
 import CronJobsTable from "../../components/CronJobsTable";
-import { pluginName } from "../../utils/pluginName";
 
 const HomePage: React.FunctionComponent = () => {
   const [cronJobs, setCronJobs] = useState([]);
@@ -17,11 +16,7 @@ const HomePage: React.FunctionComponent = () => {
 
   return (
     <>
-      <BaseHeaderLayout
-        title={`${pluginName} Plugin`}
-        // subtitle=""
-        as="h2"
-      />
+      <BaseHeaderLayout title="Cron Jobs" as="h2" />
       <ContentLayout>
         {cronJobs.length === 0 ? (
           <EmptyStateLayout
