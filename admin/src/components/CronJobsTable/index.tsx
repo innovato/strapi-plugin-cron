@@ -20,11 +20,11 @@ import Trash from "@strapi/icons/Trash";
 import React, { useState } from "react";
 import { CronJob } from "../../../../types";
 
-type CronJobsTableProps = {
+type Props = {
   cronJobs: CronJob[];
 };
 
-export default function CronJobsTable(props: CronJobsTableProps) {
+export const CronJobsTable: React.FunctionComponent<Props> = (props) => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
@@ -129,4 +129,4 @@ export default function CronJobsTable(props: CronJobsTableProps) {
       </Table>
     </Box>
   );
-}
+};
