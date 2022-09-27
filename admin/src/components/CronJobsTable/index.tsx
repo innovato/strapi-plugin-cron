@@ -18,7 +18,9 @@ import Pencil from "@strapi/icons/Pencil";
 import Plus from "@strapi/icons/Plus";
 import Trash from "@strapi/icons/Trash";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { CronJob } from "../../../../types";
+import pluginId from "../../pluginId";
 
 type Props = {
   cronJobs: CronJob[];
@@ -28,6 +30,7 @@ export const CronJobsTable: React.FunctionComponent<Props> = (props) => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
+  const history = useHistory();
   const [entries, setEntry] = useState(
     props.cronJobs.map((cronJob) => ({
       ...cronJob,
@@ -40,7 +43,16 @@ export const CronJobsTable: React.FunctionComponent<Props> = (props) => {
       <Table
         colCount={COL_COUNT}
         rowCount={ROW_COUNT}
-        footer={<TFooter icon={<Plus />}>Add new Cron Job</TFooter>}
+        footer={
+          <TFooter
+            onClick={() => {
+              history.push(`/plugins/${pluginId}/cron-jobs/create`);
+            }}
+            icon={<Plus />}
+          >
+            Add new Cron Job
+          </TFooter>
+        }
       >
         <Thead>
           <Tr>
