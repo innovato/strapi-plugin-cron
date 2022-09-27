@@ -20,7 +20,7 @@ import Trash from "@strapi/icons/Trash";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CronJob } from "../../../../types";
-import pluginId from "../../pluginId";
+import { pluginBasePath } from "../../utils/plugin";
 
 type Props = {
   cronJobs: CronJob[];
@@ -46,7 +46,7 @@ export const CronJobsTable: React.FunctionComponent<Props> = (props) => {
         footer={
           <TFooter
             onClick={() => {
-              history.push(`/plugins/${pluginId}/cron-jobs/create`);
+              history.push(`${pluginBasePath}/cron-jobs/create`);
             }}
             icon={<Plus />}
           >
