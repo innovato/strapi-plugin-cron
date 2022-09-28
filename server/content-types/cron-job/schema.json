@@ -34,9 +34,7 @@
     },
     "iterations": {
       "type": "integer",
-      "min": -1,
-      "default": -1,
-      "required": true
+      "min": 1
     },
     "startDate": {
       "type": "datetime"

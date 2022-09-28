@@ -9,10 +9,15 @@ export const HomePage: React.FunctionComponent = () => {
   const [cronJobs, setCronJobs] = useState([]);
 
   useEffect(() => {
+    fetchData();
+  }, []);
+
+  function fetchData() {
     cron.getAllCronJobs().then((res) => {
       setCronJobs(res.data);
+      // setCronJobs([]);
     });
-  }, []);
+  }
 
   return (
     <>
