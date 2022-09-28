@@ -4,7 +4,6 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  *
  */
-
 import { NotFound } from "@strapi/helper-plugin";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
@@ -14,7 +13,7 @@ import { NewCronJobPage } from "./cron-jobs/create";
 
 const App: React.FunctionComponent = () => {
   return (
-    <div>
+    <>
       <Switch>
         <Route path={`${pluginBasePath}`} component={HomePage} exact />
         <Route
@@ -24,7 +23,7 @@ const App: React.FunctionComponent = () => {
         />
         <Route component={NotFound} />
       </Switch>
-    </div>
+    </>
   );
 };
 
