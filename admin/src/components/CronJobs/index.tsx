@@ -2,6 +2,7 @@ import { BaseCheckbox } from "@strapi/design-system/BaseCheckbox";
 import { Box } from "@strapi/design-system/Box";
 import { Flex } from "@strapi/design-system/Flex";
 import { IconButton } from "@strapi/design-system/IconButton";
+import { Switch } from "@strapi/design-system/Switch";
 import {
   Table,
   Tbody,
@@ -35,6 +36,7 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
     props.cronJobs.map((cronJob) => ({
       ...cronJob,
       checked: false,
+      enabled: !!cronJob.publishedAt,
     }))
   );
 
@@ -118,21 +120,29 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
                 </Typography>
               </Td>
               <Td>
-                <Flex>
-                  <IconButton
-                    onClick={() => console.log("edit")}
-                    label="Edit"
-                    noBorder
-                    icon={<Pencil />}
-                  />
-                  <Box paddingLeft={1}>
+                <Flex justifyContent="space-evenly">
+                  <Flex>
                     <IconButton
-                      onClick={() => console.log("delete")}
-                      label="Delete"
+                      onClick={() => console.log("edit")}
+                      label="Edit"
                       noBorder
-                      icon={<Trash />}
+                      icon={<Pencil />}
                     />
-                  </Box>
+                    <Box paddingLeft={1}>
+                      <IconButton
+                        onClick={() => console.log("delete")}
+                        label="Delete"
+                        noBorder
+                        icon={<Trash />}
+                      />
+                    </Box>
+                  </Flex>
+                  <Switch
+                    label="Toggle Cron Job"
+                    selected={cronJob.enabled}
+                    // onChange={() => setChecked((s) => !s)}
+                    visibleLabels
+                  />
                 </Flex>
               </Td>
             </Tr>
