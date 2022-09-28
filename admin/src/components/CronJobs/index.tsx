@@ -26,7 +26,7 @@ type Props = {
   cronJobs: CronJob[];
 };
 
-export const CronJobsTable: React.FunctionComponent<Props> = (props) => {
+export const CronJobs: React.FunctionComponent<Props> = (props) => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
@@ -39,7 +39,7 @@ export const CronJobsTable: React.FunctionComponent<Props> = (props) => {
   );
 
   return (
-    <Box padding={8} background="neutral100">
+    <>
       <Table
         colCount={COL_COUNT}
         rowCount={ROW_COUNT}
@@ -139,6 +139,6 @@ export const CronJobsTable: React.FunctionComponent<Props> = (props) => {
           ))}
         </Tbody>
       </Table>
-    </Box>
+    </>
   );
 };
