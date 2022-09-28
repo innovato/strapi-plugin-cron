@@ -3,7 +3,7 @@ import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import EmptyDocuments from "@strapi/icons/EmptyDocuments";
 import React, { useEffect, useState } from "react";
 import { cron } from "../api/cron";
-import { CronJobsTable } from "../components/CronJobsTable";
+import { CronJobs } from "../components/CronJobs";
 
 export const HomePage: React.FunctionComponent = () => {
   const [cronJobs, setCronJobs] = useState([]);
@@ -24,7 +24,7 @@ export const HomePage: React.FunctionComponent = () => {
             content="You don't have any Cron Jobs yet..."
           />
         ) : (
-          <CronJobsTable cronJobs={cronJobs} />
+          <CronJobs cronJobs={cronJobs} />
         )}
       </ContentLayout>
     </>
