@@ -30,5 +30,8 @@
     "develop": "tsc -w",
     "build": "tsc"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "@strapi/strapi": "^4.4.0"
+  }
 }
