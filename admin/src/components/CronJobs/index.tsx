@@ -1,4 +1,3 @@
-import { BaseCheckbox } from "@strapi/design-system/BaseCheckbox";
 import { Box } from "@strapi/design-system/Box";
 import { Flex } from "@strapi/design-system/Flex";
 import { IconButton } from "@strapi/design-system/IconButton";
@@ -18,10 +17,12 @@ import CarretDown from "@strapi/icons/CarretDown";
 import Pencil from "@strapi/icons/Pencil";
 import Plus from "@strapi/icons/Plus";
 import Trash from "@strapi/icons/Trash";
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import { useHistory } from "react-router-dom";
 import { CronJob } from "../../../../types";
 import { pluginBasePath } from "../../utils/plugin";
+import { Entry } from "./types";
+import { entriesReducer, getEntries } from "./utils";
 
 type Props = {
   cronJobs: CronJob[];
@@ -32,13 +33,18 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
   const COL_COUNT = 10;
 
   const history = useHistory();
-  const [entries, setEntry] = useState(
-    props.cronJobs.map((cronJob) => ({
-      ...cronJob,
-      checked: false,
-      enabled: !!cronJob.publishedAt,
-    }))
+  const [entries, dispatch] = useReducer(
+    entriesReducer,
+    getEntries(props.cronJobs)
   );
+
+  function handleSwitchChange(entry: Entry) {
+    const action = {
+      type: entry.enabled ? "disable" : "enable",
+      entryId: entry.id,
+    };
+    dispatch(action);
+  }
 
   return (
     <>
@@ -58,9 +64,6 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
       >
         <Thead>
           <Tr>
-            <Th>
-              <BaseCheckbox aria-label="Select all entries" />
-            </Th>
             <Th
               action={
                 <IconButton label="Sort on ID" icon={<CarretDown />} noBorder />
@@ -88,36 +91,16 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {entries.map((cronJob) => (
-            <Tr key={cronJob.id}>
+          {entries.map((entry) => (
+            <Tr key={entry.id}>
               <Td>
-                <BaseCheckbox
-                  aria-label={`Select ${cronJob.id}`}
-                  checked={cronJob.checked}
-                  onClick={(e) => {
-                    setEntry((entries) =>
-                      entries.map((entry) =>
-                        entry.id === cronJob.id
-                          ? {
-                              ...entry,
-                              checked: !entry.checked,
-                            }
-                          : entry
-                      )
-                    );
-                  }}
-                />
+                <Typography textColor="neutral800">{entry.id}</Typography>
               </Td>
               <Td>
-                <Typography textColor="neutral800">{cronJob.id}</Typography>
+                <Typography textColor="neutral800">{entry.name}</Typography>
               </Td>
               <Td>
-                <Typography textColor="neutral800">{cronJob.name}</Typography>
-              </Td>
-              <Td>
-                <Typography textColor="neutral800">
-                  {cronJob.schedule}
-                </Typography>
+                <Typography textColor="neutral800">{entry.schedule}</Typography>
               </Td>
               <Td>
                 <Flex justifyContent="space-evenly">
@@ -139,8 +122,8 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
                   </Flex>
                   <Switch
                     label="Toggle Cron Job"
-                    selected={cronJob.enabled}
-                    // onChange={() => setChecked((s) => !s)}
+                    selected={entry.enabled}
+                    onChange={() => handleSwitchChange(entry)}
                     visibleLabels
                   />
                 </Flex>
