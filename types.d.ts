@@ -5,7 +5,3 @@ export type CronJob = {
   script: string;
   publishedAt: string | null;
 };
-
-export type CronJobEntry = CronJob & {
-  enabled: boolean;
-};

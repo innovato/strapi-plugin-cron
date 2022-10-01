@@ -16,4 +16,20 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "PUT",
+    path: "/cron-jobs/publish/:id",
+    handler: "cronJobController.publish",
+    config: {
+      policies: [],
+    },
+  },
+  {
+    method: "PUT",
+    path: "/cron-jobs/unpublish/:id",
+    handler: "cronJobController.unpublish",
+    config: {
+      policies: [],
+    },
+  },
 ];

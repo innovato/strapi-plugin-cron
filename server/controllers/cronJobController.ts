@@ -21,4 +21,32 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e);
     }
   },
+  async publish(ctx: any) {
+    const { params } = ctx.request;
+    try {
+      const cronJob = await strapi
+        .plugin("cron")
+        .service("cron-job")
+        .update(params.id, {
+          publishedAt: new Date().toISOString(),
+        });
+      ctx.body = cronJob;
+    } catch (e) {
+      ctx.throw(500, e);
+    }
+  },
+  async unpublish(ctx: any) {
+    const { params } = ctx.request;
+    try {
+      const cronJob = await strapi
+        .plugin("cron")
+        .service("cron-job")
+        .update(params.id, {
+          publishedAt: null,
+        });
+      ctx.body = cronJob;
+    } catch (e) {
+      ctx.throw(500, e);
+    }
+  },
 });
