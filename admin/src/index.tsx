@@ -17,7 +17,7 @@ export default {
       },
       Component: async () => {
         const component = await import(
-          /* webpackChunkName: "[request]" */ "./pages/app"
+          /* webpackChunkName: "[request]" */ "./pages/App"
         );
 
         return component;

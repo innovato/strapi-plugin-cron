@@ -7,9 +7,9 @@
 import { NotFound } from "@strapi/helper-plugin";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { pluginBasePath } from "../utils/plugin";
-import { HomePage } from "./";
-import { NewCronJobPage } from "./cron-jobs/create";
+import { pluginBasePath } from "../../utils/plugin";
+import { HomePage } from "../HomePage";
+import { NewCronJobPage } from "../NewCronJobPage";
 
 const App: React.FunctionComponent = () => {
   return (
