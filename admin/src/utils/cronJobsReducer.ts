@@ -1,3 +1,5 @@
+import { cron } from "../api/cron";
+
 // type ReducerState = CronJobEntry[];
 
 // type ReducerAction = {
@@ -7,24 +9,33 @@
 // };
 
 export function cronJobsReducer(cronJobs, action) {
+  if (action.type === "init") {
+    return action.data.map((cronJobData) => ({
+      ...cronJobData,
+      enabled: !!cronJobData.publishedAt,
+    }));
+  }
+
   let newCronJobs = [...cronJobs];
-  const index = cronJobs.findIndex((el) => el.id === action.cronJob.id);
+  const { cronJob } = action;
+  const index = cronJobs.findIndex((el) => el.id === cronJob.id);
+
   switch (action.type) {
-    case "init":
-      newCronJobs = action.initData.map((cronJob) => ({
-        ...cronJob,
-        enabled: !!cronJob.publishedAt,
-      }));
-      break;
     case "enable":
-      // publish cron job
+      cron.updateCronJob(cronJob.id, {
+        publishedAt: new Date().toISOString(),
+      });
+      // use response data to update current cron job
       newCronJobs[index] = {
         ...cronJobs[index],
         enabled: true,
       };
       break;
     case "disable":
-      // unpublish cron job
+      cron.updateCronJob(cronJob.id, {
+        publishedAt: null,
+      });
+      // use response data to update current cron job
       newCronJobs[index] = {
         ...cronJobs[index],
         enabled: false,
