@@ -19,12 +19,13 @@ import Plus from "@strapi/icons/Plus";
 import Trash from "@strapi/icons/Trash";
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { CronJobEntry } from "../../../../types";
+import { CronJob } from "../../../../types";
+import { cron } from "../../api/cron";
 import { pluginBasePath } from "../../utils/plugin";
 
 type Props = {
-  cronJobs: CronJobEntry[];
-  dispatch: any;
+  cronJobs: CronJob[];
+  fetchCronJobs(): void;
 };
 
 export const CronJobs: React.FunctionComponent<Props> = (props) => {
@@ -33,12 +34,10 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
 
   const history = useHistory();
 
-  function handleSwitchChange(cronJob: CronJobEntry) {
-    const action = {
-      type: cronJob.enabled ? "disable" : "enable",
-      cronJob,
-    };
-    props.dispatch(action);
+  async function handleSwitchChange(cronJob: CronJob) {
+    const isPublished = !!cronJob.publishedAt;
+    await (isPublished ? cron.unpublish(cronJob.id) : cron.publish(cronJob.id));
+    props.fetchCronJobs();
   }
 
   return (
@@ -119,7 +118,7 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
                   </Flex>
                   <Switch
                     label="Toggle Cron Job"
-                    selected={cronJob.enabled}
+                    selected={!!cronJob.publishedAt}
                     onChange={() => handleSwitchChange(cronJob)}
                     visibleLabels
                   />
