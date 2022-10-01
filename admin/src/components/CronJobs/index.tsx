@@ -17,15 +17,14 @@ import CarretDown from "@strapi/icons/CarretDown";
 import Pencil from "@strapi/icons/Pencil";
 import Plus from "@strapi/icons/Plus";
 import Trash from "@strapi/icons/Trash";
-import React, { useReducer } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
-import { CronJob } from "../../../../types";
+import { CronJobEntry } from "../../../../types";
 import { pluginBasePath } from "../../utils/plugin";
-import { Entry } from "./types";
-import { entriesReducer, getEntries } from "./utils";
 
 type Props = {
-  cronJobs: CronJob[];
+  cronJobs: CronJobEntry[];
+  dispatch: any;
 };
 
 export const CronJobs: React.FunctionComponent<Props> = (props) => {
@@ -33,17 +32,13 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
   const COL_COUNT = 10;
 
   const history = useHistory();
-  const [entries, dispatch] = useReducer(
-    entriesReducer,
-    getEntries(props.cronJobs)
-  );
 
-  function handleSwitchChange(entry: Entry) {
+  function handleSwitchChange(cronJob: CronJobEntry) {
     const action = {
-      type: entry.enabled ? "disable" : "enable",
-      entryId: entry.id,
+      type: cronJob.enabled ? "disable" : "enable",
+      cronJob,
     };
-    dispatch(action);
+    props.dispatch(action);
   }
 
   return (
@@ -91,16 +86,18 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {entries.map((entry) => (
-            <Tr key={entry.id}>
+          {props.cronJobs.map((cronJob) => (
+            <Tr key={cronJob.id}>
               <Td>
-                <Typography textColor="neutral800">{entry.id}</Typography>
+                <Typography textColor="neutral800">{cronJob.id}</Typography>
               </Td>
               <Td>
-                <Typography textColor="neutral800">{entry.name}</Typography>
+                <Typography textColor="neutral800">{cronJob.name}</Typography>
               </Td>
               <Td>
-                <Typography textColor="neutral800">{entry.schedule}</Typography>
+                <Typography textColor="neutral800">
+                  {cronJob.schedule}
+                </Typography>
               </Td>
               <Td>
                 <Flex justifyContent="space-evenly">
@@ -122,8 +119,8 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
                   </Flex>
                   <Switch
                     label="Toggle Cron Job"
-                    selected={entry.enabled}
-                    onChange={() => handleSwitchChange(entry)}
+                    selected={cronJob.enabled}
+                    onChange={() => handleSwitchChange(cronJob)}
                     visibleLabels
                   />
                 </Flex>

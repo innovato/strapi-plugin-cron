@@ -1,12 +1,13 @@
 import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import EmptyDocuments from "@strapi/icons/EmptyDocuments";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer } from "react";
 import { cron } from "../api/cron";
 import { CronJobs } from "../components/CronJobs";
+import { cronJobsReducer } from "../utils/cronJobsReducer";
 
 export const HomePage: React.FunctionComponent = () => {
-  const [cronJobs, setCronJobs] = useState([]);
+  const [cronJobs, dispatch] = useReducer(cronJobsReducer, []);
 
   useEffect(() => {
     fetchData();
@@ -14,8 +15,10 @@ export const HomePage: React.FunctionComponent = () => {
 
   function fetchData() {
     cron.getAllCronJobs().then((res) => {
-      setCronJobs(res.data);
-      // setCronJobs([]);
+      dispatch({
+        type: "init",
+        initData: res.data,
+      });
     });
   }
 
@@ -29,7 +32,7 @@ export const HomePage: React.FunctionComponent = () => {
             content="You don't have any Cron Jobs yet..."
           />
         ) : (
-          <CronJobs cronJobs={cronJobs} />
+          <CronJobs cronJobs={cronJobs} dispatch={dispatch} />
         )}
       </ContentLayout>
     </>
