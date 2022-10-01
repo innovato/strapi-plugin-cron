@@ -14,10 +14,10 @@ export const HomePage: React.FunctionComponent = () => {
   }, []);
 
   function fetchData() {
-    cron.getAllCronJobs().then((res) => {
+    cron.getAllCronJobs().then((data) => {
       dispatch({
         type: "init",
-        initData: res.data,
+        data,
       });
     });
   }

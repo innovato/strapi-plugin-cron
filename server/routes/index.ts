@@ -8,4 +8,12 @@ export default [
       auth: false,
     },
   },
+  {
+    method: "PUT",
+    path: "/cron-jobs/:id",
+    handler: "cronJobController.update",
+    config: {
+      policies: [],
+    },
+  },
 ];
