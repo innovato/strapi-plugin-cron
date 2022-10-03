@@ -7,6 +7,7 @@ import { TextInput } from "@strapi/design-system/TextInput";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { cron } from "../../api/cron";
+import { getResponseErrors } from "../../utils/getResponseErrors";
 import { pluginBasePath } from "../../utils/plugin";
 
 const initialInput = {
@@ -18,6 +19,7 @@ const initialInput = {
 
 export const NewCronJob: React.FunctionComponent = () => {
   const [input, setInput] = useState(initialInput);
+  const [errors, setErrors] = useState({});
   const history = useHistory();
 
   function handleInputChange(e: any) {
@@ -27,8 +29,13 @@ export const NewCronJob: React.FunctionComponent = () => {
 
   async function handleFormSubmit(e) {
     e.preventDefault();
-    await cron.createNewCronJob(input);
-    history.push(pluginBasePath);
+    try {
+      await cron.createNewCronJob(input);
+      history.push(pluginBasePath);
+    } catch (error) {
+      const errors = getResponseErrors(error.response);
+      setErrors(errors);
+    }
   }
 
   return (
@@ -45,7 +52,7 @@ export const NewCronJob: React.FunctionComponent = () => {
                 aria-label="Cron Job name input"
                 value={input.name}
                 onChange={handleInputChange}
-                // error={"Content is too long"}
+                error={errors["name"]}
               />
             </Box>
             <Box padding={2}>
@@ -57,6 +64,7 @@ export const NewCronJob: React.FunctionComponent = () => {
                 aria-label="Cron Job schedule expression input"
                 value={input.schedule}
                 onChange={handleInputChange}
+                error={errors["schedule"]}
               />
             </Box>
             <Box padding={2}>
@@ -70,6 +78,7 @@ export const NewCronJob: React.FunctionComponent = () => {
                 onValueChange={(value) =>
                   handleInputChange({ target: { name: "iterations", value } })
                 }
+                error={errors["iterations"]}
                 // min value
               />
             </Box>
@@ -82,6 +91,7 @@ export const NewCronJob: React.FunctionComponent = () => {
                 aria-label="Cron Job script input"
                 value={input.script}
                 onChange={handleInputChange}
+                error={errors["script"]}
               />
             </Box>
             <Box padding={2}>
