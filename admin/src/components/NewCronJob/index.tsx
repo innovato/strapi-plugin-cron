@@ -11,9 +11,9 @@ import { getResponseErrors } from "../../utils/getResponseErrors";
 import { pluginBasePath } from "../../utils/plugin";
 
 const initialInput = {
-  name: "Test Job ",
-  schedule: "* * * * * *",
-  script: `console.log("Test Job ")`,
+  name: "",
+  schedule: "",
+  script: "",
   iterations: null,
 };
 
@@ -25,6 +25,7 @@ export const NewCronJob: React.FunctionComponent = () => {
   function handleInputChange(e: any) {
     const { name, value } = e.target;
     setInput({ ...input, [name]: value });
+    setErrors({ ...errors, [name]: null });
   }
 
   async function handleFormSubmit(e) {
