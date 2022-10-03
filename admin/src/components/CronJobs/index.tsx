@@ -25,7 +25,7 @@ import { pluginBasePath } from "../../utils/plugin";
 
 type Props = {
   cronJobs: CronJob[];
-  fetchCronJobs(): void;
+  fetchCronJobs(): Promise<void>;
 };
 
 export const CronJobs: React.FunctionComponent<Props> = (props) => {
@@ -36,7 +36,9 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
 
   async function handleSwitchChange(cronJob: CronJob) {
     const isPublished = !!cronJob.publishedAt;
-    await (isPublished ? cron.unpublish(cronJob.id) : cron.publish(cronJob.id));
+    await (isPublished
+      ? cron.unpublishCronJob(cronJob.id)
+      : cron.publishCronJob(cronJob.id));
     props.fetchCronJobs();
   }
 
