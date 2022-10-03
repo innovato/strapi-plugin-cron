@@ -9,6 +9,14 @@ export default [
     },
   },
   {
+    method: "POST",
+    path: "/cron-jobs",
+    handler: "cronJobController.create",
+    config: {
+      policies: [],
+    },
+  },
+  {
     method: "PUT",
     path: "/cron-jobs/:id",
     handler: "cronJobController.update",

@@ -1,21 +1,20 @@
-import { CronJob } from "../../../types";
+import { CronJob, NewCronJobData } from "../../../types";
 import axiosInstance from "../utils/axiosInstance";
 
 export const cron = {
   async getAllCronJobs() {
-    const res = await axiosInstance.get("/cron/cron-jobs");
-    return res.data;
+    return axiosInstance.get<CronJob[]>("/cron/cron-jobs");
   },
-  async update(id: number, data: Partial<CronJob>) {
-    const res = await axiosInstance.put(`/cron/cron-jobs/${id}`, data);
-    return res.data;
+  async createNewCronJob(data: NewCronJobData) {
+    return axiosInstance.post(`/cron/cron-jobs`, data);
   },
-  async publish(id: number) {
-    const res = await axiosInstance.put(`/cron/cron-jobs/publish/${id}`);
-    return res.data;
+  async updateCronJob(id: number, data: Partial<CronJob>) {
+    return axiosInstance.put(`/cron/cron-jobs/${id}`, data);
   },
-  async unpublish(id: number) {
-    const res = await axiosInstance.put(`/cron/cron-jobs/unpublish/${id}`);
-    return res.data;
+  async publishCronJob(id: number) {
+    return axiosInstance.put(`/cron/cron-jobs/publish/${id}`);
+  },
+  async unpublishCronJob(id: number) {
+    return axiosInstance.put(`/cron/cron-jobs/unpublish/${id}`);
   },
 };
