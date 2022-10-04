@@ -28,7 +28,7 @@ type Props = {
   fetchCronJobs(): Promise<void>;
 };
 
-export const CronJobs: React.FunctionComponent<Props> = (props) => {
+export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   const ROW_COUNT = 6;
   const COL_COUNT = 10;
 
@@ -109,10 +109,14 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
                 <Flex justifyContent="space-evenly">
                   <Flex>
                     <IconButton
-                      onClick={() => console.log("edit")}
                       label="Edit"
                       noBorder
                       icon={<Pencil />}
+                      onClick={() => {
+                        history.push(`${pluginBasePath}/cron-jobs/edit`, {
+                          cronJob,
+                        });
+                      }}
                     />
                     <Box paddingLeft={1}>
                       <IconButton
