@@ -8,5 +8,5 @@ export type CronJob = {
 };
 
 export type NewCronJobData = Pick<CronJob, "name" | "schedule" | "script"> & {
-  iterations: number | null;
+  iterations: number | undefined;
 };
