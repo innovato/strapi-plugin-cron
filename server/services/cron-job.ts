@@ -23,4 +23,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       data,
     });
   },
+  async delete(id) {
+    return await strapi.entityService.delete("plugin::cron.cron-job", id);
+  },
 });

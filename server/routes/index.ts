@@ -40,4 +40,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: "DELETE",
+    path: "/cron-jobs/:id",
+    handler: "cronJobController.delete",
+    config: {
+      policies: [],
+    },
+  },
 ];
