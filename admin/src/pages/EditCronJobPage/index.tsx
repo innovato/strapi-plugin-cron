@@ -1,18 +1,19 @@
 import { Box } from "@strapi/design-system/Box";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { cron } from "../../api/cron";
 import { CronJobForm } from "../../components/CronJobForm";
 import { getResponseErrors } from "../../utils/getResponseErrors";
 import { pluginBasePath } from "../../utils/plugin";
 
-export const NewCronJobPage: React.FunctionComponent = () => {
+export const EditCronJobPage: React.FunctionComponent = () => {
+  const location = useLocation();
   const history = useHistory();
 
   async function handleFormSubmit({ input, setErrors }) {
     try {
-      await cron.createNewCronJob(input);
+      await cron.updateCronJob(location.state.cronJob.id, input);
       history.push(pluginBasePath);
     } catch (error) {
       const errors = getResponseErrors(error.response);
@@ -22,10 +23,13 @@ export const NewCronJobPage: React.FunctionComponent = () => {
 
   return (
     <>
-      <BaseHeaderLayout title="New Cron Job" as="h2" />
+      <BaseHeaderLayout title="Edit Cron Job" as="h2" />
       <ContentLayout>
         <Box padding={8} background="neutral0">
-          <CronJobForm handleSubmit={handleFormSubmit} />
+          <CronJobForm
+            initialData={location.state.cronJob}
+            handleSubmit={handleFormSubmit}
+          />
         </Box>
       </ContentLayout>
     </>
