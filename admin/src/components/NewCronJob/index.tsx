@@ -14,7 +14,7 @@ const initialInput = {
   name: "",
   schedule: "",
   script: "",
-  iterations: null,
+  iterations: undefined,
 };
 
 export const NewCronJob: React.FunctionComponent = () => {
@@ -80,7 +80,6 @@ export const NewCronJob: React.FunctionComponent = () => {
                   handleInputChange({ target: { name: "iterations", value } })
                 }
                 error={errors["iterations"]}
-                // min value
               />
             </Box>
             <Box padding={2}>
