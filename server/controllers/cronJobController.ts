@@ -33,6 +33,15 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   },
   async update(ctx: any) {
     const { params, body } = ctx.request;
+    const validation = strapi
+      .plugin("cron")
+      .service("validation")
+      .validateCronJobData(body);
+    if (validation.errors) {
+      return ctx.badRequest("ValidationError", {
+        errors: validation.errors,
+      });
+    }
     try {
       const cronJob = await strapi
         .plugin("cron")

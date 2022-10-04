@@ -5,10 +5,7 @@ import { NumberInput } from "@strapi/design-system/NumberInput";
 import { Textarea } from "@strapi/design-system/Textarea";
 import { TextInput } from "@strapi/design-system/TextInput";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { cron } from "../../api/cron";
-import { getResponseErrors } from "../../utils/getResponseErrors";
-import { pluginBasePath } from "../../utils/plugin";
+import { CronJob } from "../../../../types";
 
 const initialInput = {
   name: "",
@@ -17,10 +14,14 @@ const initialInput = {
   iterations: undefined,
 };
 
-export const CronJobForm: React.FunctionComponent = () => {
-  const [input, setInput] = useState(initialInput);
+type Props = {
+  initialData?: CronJob;
+  handleSubmit({ input, setErrors }): Promise<void>;
+};
+
+export const CronJobForm: React.FunctionComponent<Props> = (props) => {
+  const [input, setInput] = useState(props.initialData ?? initialInput);
   const [errors, setErrors] = useState({});
-  const history = useHistory();
 
   function handleInputChange(e: any) {
     const { name, value } = e.target;
@@ -28,20 +29,14 @@ export const CronJobForm: React.FunctionComponent = () => {
     setErrors({ ...errors, [name]: null });
   }
 
-  async function handleFormSubmit(e) {
-    e.preventDefault();
-    try {
-      await cron.createNewCronJob(input);
-      history.push(pluginBasePath);
-    } catch (error) {
-      const errors = getResponseErrors(error.response);
-      setErrors(errors);
-    }
-  }
-
   return (
     <>
-      <form onSubmit={handleFormSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          props.handleSubmit({ input, setErrors });
+        }}
+      >
         <Grid gap={5} gridCols={1}>
           <Box padding={2}>
             <TextInput
