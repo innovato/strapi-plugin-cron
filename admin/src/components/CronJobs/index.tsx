@@ -42,6 +42,11 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
     props.fetchCronJobs();
   }
 
+  async function handleDeleteBtnClick(cronJob) {
+    await cron.deleteCronJob(cronJob.id);
+    props.fetchCronJobs();
+  }
+
   return (
     <>
       <Table
@@ -111,10 +116,10 @@ export const CronJobs: React.FunctionComponent<Props> = (props) => {
                     />
                     <Box paddingLeft={1}>
                       <IconButton
-                        onClick={() => console.log("delete")}
                         label="Delete"
                         noBorder
                         icon={<Trash />}
+                        onClick={() => handleDeleteBtnClick(cronJob)}
                       />
                     </Box>
                   </Flex>

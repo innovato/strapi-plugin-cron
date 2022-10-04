@@ -71,4 +71,16 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e);
     }
   },
+  async delete(ctx: any) {
+    const { params } = ctx.request;
+    try {
+      const deletedCronJob = await strapi
+        .plugin("cron")
+        .service("cron-job")
+        .delete(params.id);
+      ctx.body = deletedCronJob;
+    } catch (e) {
+      ctx.throw(500, e);
+    }
+  },
 });

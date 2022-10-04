@@ -17,4 +17,7 @@ export const cron = {
   async unpublishCronJob(id: number) {
     return axiosInstance.put(`/cron/cron-jobs/unpublish/${id}`);
   },
+  async deleteCronJob(id: number) {
+    return axiosInstance.delete(`/cron/cron-jobs/${id}`);
+  },
 };
