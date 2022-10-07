@@ -20,3 +20,11 @@ export const isRequired = (value) => {
     return "This vaule is required";
   }
 };
+
+export const minValue = (minValue: number) => {
+  return (value) => {
+    if (value < minValue) {
+      return `This value must be greater than or equal to ${minValue}`;
+    }
+  };
+};

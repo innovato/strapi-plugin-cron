@@ -13,7 +13,7 @@ export const EditCronJobPage: React.FunctionComponent = () => {
 
   async function handleFormSubmit({ input, setErrors }) {
     try {
-      await cron.updateCronJob(location.state.cronJob.id, input);
+      await cron.updateCronJob(location.state?.cronJob.id, input);
       history.push(pluginBasePath);
     } catch (error) {
       const errors = getResponseErrors(error.response);
@@ -27,7 +27,7 @@ export const EditCronJobPage: React.FunctionComponent = () => {
       <ContentLayout>
         <Box padding={8} background="neutral0">
           <CronJobForm
-            initialData={location.state.cronJob}
+            initialData={location.state?.cronJob}
             handleSubmit={handleFormSubmit}
           />
         </Box>
