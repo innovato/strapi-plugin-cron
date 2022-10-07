@@ -87,6 +87,9 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               <Typography variant="sigma">Schedule</Typography>
             </Th>
             <Th>
+              <Typography variant="sigma">Iterations</Typography>
+            </Th>
+            <Th>
               <VisuallyHidden>Actions</VisuallyHidden>
             </Th>
           </Tr>
@@ -103,6 +106,11 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               <Td>
                 <Typography textColor="neutral800">
                   {cronJob.schedule}
+                </Typography>
+              </Td>
+              <Td>
+                <Typography textColor="neutral800">
+                  {cronJob.iterations}
                 </Typography>
               </Td>
               <Td>
