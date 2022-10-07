@@ -1,11 +1,11 @@
-import { CronJob, NewCronJobData } from "../../../types";
+import { CronJob } from "../../../types";
 import axiosInstance from "../utils/axiosInstance";
 
 export const cron = {
   async getAllCronJobs() {
     return axiosInstance.get<CronJob[]>("/cron/cron-jobs");
   },
-  async createNewCronJob(data: NewCronJobData) {
+  async createNewCronJob(data) {
     return axiosInstance.post(`/cron/cron-jobs`, data);
   },
   async updateCronJob(id: number, data: Partial<CronJob>) {
