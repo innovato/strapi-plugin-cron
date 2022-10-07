@@ -5,18 +5,26 @@ import { NumberInput } from "@strapi/design-system/NumberInput";
 import { Textarea } from "@strapi/design-system/Textarea";
 import { TextInput } from "@strapi/design-system/TextInput";
 import React, { useState } from "react";
-import { CronJob } from "../../../../types";
+import { CronJob, NewCronJobPayload } from "../../../../types";
 
 const initialInput = {
   name: "",
   schedule: "",
   script: "",
-  iterations: undefined,
+  iterations: -1,
+  startDate: "",
+  endDate: "",
 };
 
 type Props = {
   initialData?: CronJob;
-  handleSubmit({ input, setErrors }): Promise<void>;
+  handleSubmit({
+    input,
+    setErrors,
+  }: {
+    input: NewCronJobPayload;
+    setErrors: any;
+  }): Promise<void>;
 };
 
 export const CronJobForm: React.FunctionComponent<Props> = (props) => {

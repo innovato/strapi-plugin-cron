@@ -1,12 +1,15 @@
 export type CronJob = {
   id: number;
+  publishedAt: string | null;
   name: string;
   schedule: string;
   script: string;
   iterations: number;
-  publishedAt: string | null;
+  startDate: string | null;
+  endDate: string | null;
 };
 
-export type NewCronJobData = Pick<CronJob, "name" | "schedule" | "script"> & {
-  iterations: number | undefined;
-};
+export type NewCronJobPayload = Pick<
+  CronJob,
+  "name" | "schedule" | "script" | "iterations" | "startDate" | "endDate"
+>;
