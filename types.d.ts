@@ -9,7 +9,7 @@ export type CronJob = {
   endDate: string | null;
 };
 
-export type NewCronJobPayload = Pick<
+export type CronJobInputData = Pick<
   CronJob,
   "name" | "schedule" | "script" | "iterations" | "startDate" | "endDate"
 >;

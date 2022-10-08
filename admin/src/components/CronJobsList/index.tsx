@@ -1,4 +1,4 @@
-import { Box } from "@strapi/design-system/Box";
+import { Badge } from "@strapi/design-system/Badge";
 import { Flex } from "@strapi/design-system/Flex";
 import { IconButton } from "@strapi/design-system/IconButton";
 import { Switch } from "@strapi/design-system/Switch";
@@ -11,6 +11,7 @@ import {
   Thead,
   Tr,
 } from "@strapi/design-system/Table";
+import { Tooltip } from "@strapi/design-system/Tooltip";
 import { Typography } from "@strapi/design-system/Typography";
 import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden";
 import CarretDown from "@strapi/icons/CarretDown";
@@ -21,6 +22,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { CronJob } from "../../../../types";
 import { cron } from "../../api/cron";
+import { getReadableDate } from "../../utils/date";
 import { pluginBasePath } from "../../utils/plugin";
 
 type Props = {
@@ -29,13 +31,20 @@ type Props = {
 };
 
 export const CronJobsList: React.FunctionComponent<Props> = (props) => {
-  const ROW_COUNT = 6;
-  const COL_COUNT = 10;
+  const ROW_COUNT = 1;
+  const COL_COUNT = 1;
 
   const history = useHistory();
 
   async function handleSwitchChange(cronJob: CronJob) {
     const isPublished = !!cronJob.publishedAt;
+    const message = isPublished
+      ? "This action will unpublish the Cron Job"
+      : "This action will publish the Cron Job";
+    const confirmation = confirm(message);
+    if (!confirmation) {
+      return;
+    }
     await (isPublished
       ? cron.unpublishCronJob(cronJob.id)
       : cron.publishCronJob(cronJob.id));
@@ -43,6 +52,10 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   }
 
   async function handleDeleteBtnClick(cronJob) {
+    const confirmation = confirm("This action will delete: " + cronJob.name);
+    if (!confirmation) {
+      return;
+    }
     await cron.deleteCronJob(cronJob.id);
     props.fetchCronJobs();
   }
@@ -50,8 +63,8 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   return (
     <>
       <Table
-        colCount={COL_COUNT}
         rowCount={ROW_COUNT}
+        colCount={COL_COUNT}
         footer={
           <TFooter
             onClick={() => {
@@ -90,6 +103,12 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               <Typography variant="sigma">Iterations</Typography>
             </Th>
             <Th>
+              <Typography variant="sigma">Start Date</Typography>
+            </Th>
+            <Th>
+              <Typography variant="sigma">End Date</Typography>
+            </Th>
+            <Th>
               <VisuallyHidden>Actions</VisuallyHidden>
             </Th>
           </Tr>
@@ -110,37 +129,60 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               </Td>
               <Td>
                 <Typography textColor="neutral800">
-                  {cronJob.iterations}
+                  {cronJob.iterations === -1 ? "-" : cronJob.iterations}
                 </Typography>
               </Td>
               <Td>
-                <Flex justifyContent="space-evenly">
-                  <Flex>
-                    <IconButton
-                      label="Edit"
-                      noBorder
-                      icon={<Pencil />}
-                      onClick={() => {
-                        history.push(`${pluginBasePath}/cron-jobs/edit`, {
-                          cronJob,
-                        });
-                      }}
-                    />
-                    <Box paddingLeft={1}>
+                <Typography textColor="neutral800">
+                  {getReadableDate(cronJob.startDate) || "-"}
+                </Typography>
+              </Td>
+              <Td>
+                <Typography textColor="neutral800">
+                  {getReadableDate(cronJob.endDate) || "-"}
+                </Typography>
+              </Td>
+              <Td>
+                <Flex justifyContent="justify-between">
+                  {!cronJob.publishedAt ? (
+                    <Flex justifyContent="center" grow="1">
+                      <Badge>Draft</Badge>
+                    </Flex>
+                  ) : (
+                    <Flex justifyContent="center" grow="1">
+                      <Tooltip
+                        description={getReadableDate(cronJob.publishedAt)}
+                        position="bottom"
+                      >
+                        <Badge active>Published</Badge>
+                      </Tooltip>
+                    </Flex>
+                  )}
+                  <Flex justifyContent="justify-evenly">
+                    <Flex paddingLeft="10px" paddingRight="10px">
+                      <IconButton
+                        label="Edit"
+                        noBorder
+                        icon={<Pencil />}
+                        onClick={() => {
+                          history.push(`${pluginBasePath}/cron-jobs/edit`, {
+                            cronJob,
+                          });
+                        }}
+                      />
                       <IconButton
                         label="Delete"
                         noBorder
                         icon={<Trash />}
                         onClick={() => handleDeleteBtnClick(cronJob)}
                       />
-                    </Box>
+                    </Flex>
+                    <Switch
+                      label="Toggle Cron Job"
+                      selected={!!cronJob.publishedAt}
+                      onChange={() => handleSwitchChange(cronJob)}
+                    />
                   </Flex>
-                  <Switch
-                    label="Toggle Cron Job"
-                    selected={!!cronJob.publishedAt}
-                    onChange={() => handleSwitchChange(cronJob)}
-                    visibleLabels
-                  />
                 </Flex>
               </Td>
             </Tr>

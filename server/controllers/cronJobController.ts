@@ -59,7 +59,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         .plugin("cron")
         .service("cron-job")
         .update(params.id, {
-          publishedAt: new Date().toISOString(),
+          publishedAt: new Date(),
         });
       ctx.body = cronJob;
     } catch (e) {
