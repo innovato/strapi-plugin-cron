@@ -1,34 +1,31 @@
 import { Box } from "@strapi/design-system/Box";
 import { Button } from "@strapi/design-system/Button";
-import { Grid } from "@strapi/design-system/Grid";
+import { DatePicker } from "@strapi/design-system/DatePicker";
+import { Grid, GridItem } from "@strapi/design-system/Grid";
 import { NumberInput } from "@strapi/design-system/NumberInput";
 import { Textarea } from "@strapi/design-system/Textarea";
 import { TextInput } from "@strapi/design-system/TextInput";
 import React, { useState } from "react";
-import { CronJob, NewCronJobPayload } from "../../../../types";
+import type { CronJob, CronJobInputData } from "../../../../types";
 
-const initialInput = {
+const initialInput: CronJobInputData = {
   name: "",
-  schedule: "",
-  script: "",
+  schedule: "* * * * * *",
+  script: `console.log("")`,
   iterations: -1,
-  startDate: "",
-  endDate: "",
+  startDate: null,
+  endDate: null,
 };
 
 type Props = {
   initialData?: CronJob;
-  handleSubmit({
-    input,
-    setErrors,
-  }: {
-    input: NewCronJobPayload;
-    setErrors: any;
-  }): Promise<void>;
+  handleSubmit({ input, setErrors }): Promise<void>;
 };
 
 export const CronJobForm: React.FunctionComponent<Props> = (props) => {
-  const [input, setInput] = useState(props.initialData ?? initialInput);
+  const [input, setInput] = useState<CronJobInputData>(
+    props.initialData ?? initialInput
+  );
   const [errors, setErrors] = useState({});
 
   function handleInputChange(e: any) {
@@ -37,16 +34,30 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
     setErrors({ ...errors, [name]: null });
   }
 
+  function handleDateChange(inputName: string, value: Date | null) {
+    handleInputChange({
+      target: { name: inputName, value },
+    });
+  }
+
   return (
-    <>
+    <Box
+      padding={8}
+      borderStyle={"solid"}
+      borderWidth={"1px"}
+      borderColor={"neutral150"}
+      borderRadius={"4px"}
+      shadow="tableShadow"
+      background="neutral0"
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
           props.handleSubmit({ input, setErrors });
         }}
       >
-        <Grid gap={5} gridCols={1}>
-          <Box padding={2}>
+        <Grid gap={7} gridCols={1}>
+          <Box>
             <TextInput
               placeholder="Cron Job name"
               required
@@ -58,7 +69,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               error={errors["name"]}
             />
           </Box>
-          <Box padding={2}>
+          <Box>
             <TextInput
               placeholder="Cron Job schdule expression"
               required
@@ -70,7 +81,45 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               error={errors["schedule"]}
             />
           </Box>
-          <Box padding={2}>
+          <Grid gap={7} gridCols={2}>
+            <GridItem col={1} s={2} xs={2}>
+              <Box>
+                <DatePicker
+                  placeholder="03/01/1970"
+                  label="Start date"
+                  name="startDate"
+                  hint="Publish on this date"
+                  selectedDateLabel={(formattedDate) =>
+                    `Cron Job start date is ${formattedDate}`
+                  }
+                  selectedDate={
+                    input.startDate ? new Date(input.startDate) : null
+                  }
+                  onChange={(value) => handleDateChange("startDate", value)}
+                  onClear={(value) => handleDateChange("startDate", null)}
+                  error={errors["startDate"]}
+                />
+              </Box>
+            </GridItem>
+            <GridItem col={1} s={2} xs={2}>
+              <Box>
+                <DatePicker
+                  placeholder="03/01/1970"
+                  label="End date"
+                  name="endDate"
+                  hint="Unpublish on this date"
+                  selectedDateLabel={(formattedDate) =>
+                    `Cron Job end date is ${formattedDate}`
+                  }
+                  selectedDate={input.endDate ? new Date(input.endDate) : null}
+                  onChange={(value) => handleDateChange("endDate", value)}
+                  onClear={(value) => handleDateChange("endDate", null)}
+                  error={errors["endDate"]}
+                />
+              </Box>
+            </GridItem>
+          </Grid>
+          <Box>
             <NumberInput
               placeholder="Number of iterations"
               label="Iterations"
@@ -84,7 +133,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               error={errors["iterations"]}
             />
           </Box>
-          <Box padding={2}>
+          <Box>
             <Textarea
               placeholder="Cron Job script"
               required
@@ -96,13 +145,13 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               error={errors["script"]}
             />
           </Box>
-          <Box padding={2}>
+          <Box>
             <Button size="L" type="submit">
               Save
             </Button>
           </Box>
         </Grid>
       </form>
-    </>
+    </Box>
   );
 };

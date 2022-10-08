@@ -1,4 +1,3 @@
-import { Box } from "@strapi/design-system/Box";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import React from "react";
 import { useHistory } from "react-router-dom";
@@ -24,9 +23,7 @@ export const NewCronJobPage: React.FunctionComponent = () => {
     <>
       <BaseHeaderLayout title="New Cron Job" as="h2" />
       <ContentLayout>
-        <Box padding={8} background="neutral0">
-          <CronJobForm handleSubmit={handleFormSubmit} />
-        </Box>
+        <CronJobForm handleSubmit={handleFormSubmit} />
       </ContentLayout>
     </>
   );
