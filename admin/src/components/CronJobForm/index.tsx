@@ -7,6 +7,7 @@ import { Textarea } from "@strapi/design-system/Textarea";
 import { TextInput } from "@strapi/design-system/TextInput";
 import React, { useState } from "react";
 import type { CronJob, CronJobInputData } from "../../../../types";
+import { getCurrentDate } from "../../utils/date";
 
 const initialInput: CronJobInputData = {
   name: "",
@@ -85,7 +86,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             <GridItem col={1} s={2} xs={2}>
               <Box>
                 <DatePicker
-                  placeholder="03/01/1970"
+                  placeholder={getCurrentDate()}
                   label="Start date"
                   name="startDate"
                   hint="Publish on this date"
@@ -104,7 +105,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             <GridItem col={1} s={2} xs={2}>
               <Box>
                 <DatePicker
-                  placeholder="03/01/1970"
+                  placeholder={getCurrentDate()}
                   label="End date"
                   name="endDate"
                   hint="Unpublish on this date"

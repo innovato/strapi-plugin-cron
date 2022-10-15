@@ -144,20 +144,20 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               </Td>
               <Td>
                 <Flex justifyContent="justify-between">
-                  {!cronJob.publishedAt ? (
+                  <div style={{ width: "70px" }}>
                     <Flex justifyContent="center" grow="1">
-                      <Badge>Draft</Badge>
+                      {!cronJob.publishedAt ? (
+                        <Badge>Draft</Badge>
+                      ) : (
+                        <Tooltip
+                          description={getReadableDate(cronJob.publishedAt)}
+                          position="bottom"
+                        >
+                          <Badge active>Published</Badge>
+                        </Tooltip>
+                      )}
                     </Flex>
-                  ) : (
-                    <Flex justifyContent="center" grow="1">
-                      <Tooltip
-                        description={getReadableDate(cronJob.publishedAt)}
-                        position="bottom"
-                      >
-                        <Badge active>Published</Badge>
-                      </Tooltip>
-                    </Flex>
-                  )}
+                  </div>
                   <Flex justifyContent="justify-evenly">
                     <Flex paddingLeft="10px" paddingRight="10px">
                       <IconButton
