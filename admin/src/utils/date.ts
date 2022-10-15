@@ -4,3 +4,7 @@ export const getReadableDate = (date: string | null) => {
   }
   return new Date(date).toDateString();
 };
+
+export const getCurrentDate = () => {
+  return new Date().toLocaleString().split(",")[0];
+};
