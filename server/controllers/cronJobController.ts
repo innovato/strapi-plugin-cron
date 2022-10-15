@@ -1,5 +1,4 @@
 import { Strapi } from "@strapi/strapi";
-const { ValidationError } = require("@strapi/utils").errors;
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async getAll(ctx: any) {
@@ -12,14 +11,12 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   },
   async create(ctx: any) {
     const { body } = ctx.request;
-    const validation = strapi
+    const { errors } = strapi
       .plugin("cron")
       .service("validation")
       .validateCronJobData(body);
-    if (validation.errors) {
-      return ctx.badRequest("ValidationError", {
-        errors: validation.errors,
-      });
+    if (errors) {
+      return ctx.badRequest("ValidationError", { errors });
     }
     try {
       const newCronJob = await strapi
@@ -33,14 +30,12 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   },
   async update(ctx: any) {
     const { params, body } = ctx.request;
-    const validation = strapi
+    const { errors } = strapi
       .plugin("cron")
       .service("validation")
       .validateCronJobData(body);
-    if (validation.errors) {
-      return ctx.badRequest("ValidationError", {
-        errors: validation.errors,
-      });
+    if (errors) {
+      return ctx.badRequest("ValidationError", { errors });
     }
     try {
       const cronJob = await strapi
