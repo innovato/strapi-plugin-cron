@@ -7,6 +7,7 @@
 import { NotFound } from "@strapi/helper-plugin";
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { CronJobDetails } from "../../components/CronJobDetails";
 import { pluginBasePath } from "../../utils/plugin";
 import { EditCronJobPage } from "../EditCronJobPage";
 import { HomePage } from "../HomePage";
@@ -25,6 +26,11 @@ const App: React.FunctionComponent = () => {
         <Route
           path={`${pluginBasePath}/cron-jobs/edit`}
           component={EditCronJobPage}
+          exact
+        />
+        <Route
+          path={`${pluginBasePath}/cron-jobs/:id`}
+          component={CronJobDetails}
           exact
         />
         <Route component={NotFound} />
