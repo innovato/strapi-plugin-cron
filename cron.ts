@@ -2,13 +2,11 @@ import nodeSchedule from "node-schedule";
 import { CronJob } from "./types";
 
 // TODO
-// //1. check if nodeSchedule.scheduledJobs are maintained according to publication state and start/end date
 // 2. implement job details page with job logs
 // 3. implement job schedule selector via dropdown inputs
-// //4. home page should display a loading indicator when loading jobs, instead of flickering no entries component
 // 5. add tests
-// //6. validation: name must be unique
-// 7. new cron job page returns to home page after hitting the url
+// 6. cron jobs list sort
+// 7. implement job iterations
 
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 

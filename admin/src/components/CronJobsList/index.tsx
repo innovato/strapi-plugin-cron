@@ -1,6 +1,7 @@
 import { Badge } from "@strapi/design-system/Badge";
 import { Flex } from "@strapi/design-system/Flex";
 import { IconButton } from "@strapi/design-system/IconButton";
+import { Link } from "@strapi/design-system/Link";
 import { Switch } from "@strapi/design-system/Switch";
 import {
   Table,
@@ -19,7 +20,7 @@ import Pencil from "@strapi/icons/Pencil";
 import Plus from "@strapi/icons/Plus";
 import Trash from "@strapi/icons/Trash";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { CronJob } from "../../../../types";
 import { cron } from "../../api/cron";
 import { getReadableDate } from "../../utils/date";
@@ -120,7 +121,12 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 <Typography textColor="neutral800">{cronJob.id}</Typography>
               </Td>
               <Td>
-                <Typography textColor="neutral800">{cronJob.name}</Typography>
+                <Link
+                  as={NavLink}
+                  to={`${pluginBasePath}/cron-jobs/${cronJob.id}`}
+                >
+                  <Typography textColor="primary700">{cronJob.name}</Typography>
+                </Link>
               </Td>
               <Td>
                 <Typography textColor="neutral800">
