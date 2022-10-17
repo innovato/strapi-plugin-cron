@@ -36,6 +36,12 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
   }
 
   function handleDateChange(inputName: string, value: Date | null) {
+    if (inputName === "startDate") {
+      value?.setHours(0, 0, 0, 0);
+    }
+    if (inputName === "endDate") {
+      value?.setHours(23, 59, 59, 999);
+    }
     handleInputChange({
       target: { name: inputName, value },
     });
