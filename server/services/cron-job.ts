@@ -1,4 +1,5 @@
 import { Strapi } from "@strapi/strapi";
+import { CronJobInputData } from "../../types";
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async getAll() {
@@ -13,17 +14,17 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       },
     });
   },
-  async create(data) {
+  async create(data: CronJobInputData) {
     return strapi.entityService.create("plugin::cron.cron-job", {
       data,
     });
   },
-  async update(id, data) {
+  async update(id: number, data: CronJobInputData) {
     return await strapi.entityService.update("plugin::cron.cron-job", id, {
       data,
     });
   },
-  async delete(id) {
+  async delete(id: number) {
     return await strapi.entityService.delete("plugin::cron.cron-job", id);
   },
 });
