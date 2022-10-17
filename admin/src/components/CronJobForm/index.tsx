@@ -3,9 +3,11 @@ import { Button } from "@strapi/design-system/Button";
 import { DatePicker } from "@strapi/design-system/DatePicker";
 import { Grid, GridItem } from "@strapi/design-system/Grid";
 import { NumberInput } from "@strapi/design-system/NumberInput";
+import { Stack } from "@strapi/design-system/Stack";
 import { Textarea } from "@strapi/design-system/Textarea";
 import { TextInput } from "@strapi/design-system/TextInput";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import type { CronJob, CronJobInputData } from "../../../../types";
 import { getCurrentDate } from "../../utils/date";
 
@@ -28,6 +30,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
     props.initialData ?? initialInput
   );
   const [errors, setErrors] = useState({});
+  const history = useHistory();
 
   function handleInputChange(e: any) {
     const { name, value } = e.target;
@@ -50,6 +53,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
   return (
     <Box
       padding={8}
+      marginBottom={8}
       borderStyle={"solid"}
       borderWidth={"1px"}
       borderColor={"neutral150"}
@@ -152,11 +156,18 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               error={errors["script"]}
             />
           </Box>
-          <Box>
+          <Stack horizontal spacing={4}>
             <Button size="L" type="submit">
               Save
             </Button>
-          </Box>
+            <Button
+              size="L"
+              variant="tertiary"
+              onClick={() => history.goBack()}
+            >
+              Cancel
+            </Button>
+          </Stack>
         </Grid>
       </form>
     </Box>

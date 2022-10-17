@@ -2,11 +2,22 @@ import nodeSchedule from "node-schedule";
 import { CronJob } from "./types";
 
 // TODO
-// 2. implement job details page with job logs
-// 3. implement job schedule selector via dropdown inputs
-// 5. add tests
-// 6. cron jobs list sort
-// 7. implement job iterations
+// - implement job details page with job logs
+// - implement job iterations
+//    reset iterationsCount checkbox?
+//    reset iterationsCount on update?
+//    reset iterationsCount on publish?
+// - path to file
+// - job schedule regex validation
+// - validate in cron job service instead of in controller?
+// - remove form placeholder data
+// - Strapi DatePicker component bug: when date picker popover has been activated,
+//    and date has not been selected, and user navigates back with a click of a button
+//    a TypeError "source is null" is thrown
+// TODO Extra
+// - implement job schedule selector via dropdown inputs
+// - add tests
+// - cron jobs list sort
 
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 
@@ -22,6 +33,7 @@ class Cron {
   }
 
   scheduleJob(cronJob: CronJob) {
+    let { iterations, iterationsCount } = cronJob;
     const task = new AsyncFunction(cronJob.script);
     const job = nodeSchedule.scheduleJob(
       cronJob.name,
@@ -30,17 +42,31 @@ class Cron {
         end: cronJob.endDate,
         rule: cronJob.schedule,
       },
-      () => task(strapi)
+      () => {
+        if (iterations !== -1 && iterations <= iterationsCount) {
+          nodeSchedule.scheduledJobs[cronJob.name].cancel();
+          return;
+        }
+        task(strapi);
+        if (iterations > 0) {
+          strapi
+            .plugin("cron")
+            .service("cron-job")
+            .update(cronJob.id, {
+              iterationsCount: ++iterationsCount,
+            });
+        }
+      }
     );
   }
 
   updateJob(cronJob: CronJob) {
     const job = nodeSchedule.scheduledJobs[cronJob.name];
-    const isPublished = !!cronJob.publishedAt;
+    const isNotPublished = !cronJob.publishedAt;
     if (job) {
       job.cancel();
     }
-    if (!isPublished) {
+    if (isNotPublished) {
       return;
     }
     this.scheduleJob(cronJob);

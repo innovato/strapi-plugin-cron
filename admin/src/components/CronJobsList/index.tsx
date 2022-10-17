@@ -135,17 +135,17 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               </Td>
               <Td>
                 <Typography textColor="neutral800">
-                  {cronJob.iterations === -1 ? "-" : cronJob.iterations}
+                  {cronJob.iterations === -1 ? "∞" : cronJob.iterations}
                 </Typography>
               </Td>
               <Td>
                 <Typography textColor="neutral800">
-                  {getReadableDate(cronJob.startDate) || "-"}
+                  {getReadableDate(cronJob.startDate) || "—"}
                 </Typography>
               </Td>
               <Td>
                 <Typography textColor="neutral800">
-                  {getReadableDate(cronJob.endDate) || "-"}
+                  {getReadableDate(cronJob.endDate) || "—"}
                 </Typography>
               </Td>
               <Td>

@@ -7,6 +7,7 @@ export type CronJob = {
   iterations: number;
   startDate: string | null;
   endDate: string | null;
+  iterationsCount: number;
 };
 
 export type CronJobInputData = Pick<
