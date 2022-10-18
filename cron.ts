@@ -2,15 +2,14 @@ import nodeSchedule from "node-schedule";
 import { CronJob } from "./types";
 
 // TODO
+// - input for path to a script file
 // - implement job details page with job logs
-// - path to file
-// - job schedule regex validation
-// - validate in cron job service instead of in controller?
+// - job schedule expression regex validation
 // - remove form placeholder data
+// TODO Extra
 // - Strapi DatePicker component bug: when date picker popover has been activated,
 //    and date has not been selected, and user navigates back with a click of a button
 //    a TypeError "source is null" is thrown
-// TODO Extra
 // - implement job schedule selector via dropdown inputs
 // - add tests
 // - cron jobs list sort
