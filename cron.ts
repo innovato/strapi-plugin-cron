@@ -3,10 +3,6 @@ import { CronJob } from "./types";
 
 // TODO
 // - implement job details page with job logs
-// - implement job iterations
-//    reset iterationsCount checkbox?
-//    reset iterationsCount on update?
-//    reset iterationsCount on publish?
 // - path to file
 // - job schedule regex validation
 // - validate in cron job service instead of in controller?

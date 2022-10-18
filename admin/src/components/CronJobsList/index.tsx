@@ -40,7 +40,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   async function handleSwitchChange(cronJob: CronJob) {
     const isPublished = !!cronJob.publishedAt;
     const message = isPublished
-      ? "This action will unpublish the Cron Job"
+      ? "This action will unpublish the Cron Job and reset its iterations count"
       : "This action will publish the Cron Job";
     const confirmation = confirm(message);
     if (!confirmation) {

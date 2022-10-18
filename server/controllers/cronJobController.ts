@@ -69,6 +69,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         .service("cron-job")
         .update(params.id, {
           publishedAt: null,
+          iterationsCount: null,
         });
       ctx.body = cronJob;
     } catch (e) {
