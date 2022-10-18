@@ -5,6 +5,9 @@ export const cron = {
   async getAllCronJobs() {
     return axiosInstance.get<CronJob[]>("/cron/cron-jobs");
   },
+  async getCronJob(id: number) {
+    return axiosInstance.get<CronJob>(`/cron/cron-jobs/${id}`);
+  },
   async createNewCronJob(data: CronJobInputData) {
     return axiosInstance.post(`/cron/cron-jobs`, data);
   },

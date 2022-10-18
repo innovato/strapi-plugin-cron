@@ -5,6 +5,9 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   async getAll() {
     return strapi.entityService.findMany("plugin::cron.cron-job");
   },
+  async getOne(id: number) {
+    return strapi.entityService.findOne("plugin::cron.cron-job", id);
+  },
   async getPublished() {
     return strapi.entityService.findMany("plugin::cron.cron-job", {
       filters: {
@@ -20,11 +23,11 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     });
   },
   async update(id: number, data: CronJobInputData) {
-    return await strapi.entityService.update("plugin::cron.cron-job", id, {
+    return strapi.entityService.update("plugin::cron.cron-job", id, {
       data,
     });
   },
   async delete(id: number) {
-    return await strapi.entityService.delete("plugin::cron.cron-job", id);
+    return strapi.entityService.delete("plugin::cron.cron-job", id);
   },
 });

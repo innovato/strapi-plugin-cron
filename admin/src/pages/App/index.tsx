@@ -6,7 +6,7 @@
  */
 import { NotFound } from "@strapi/helper-plugin";
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { CronJobDetails } from "../../components/CronJobDetails";
 import { pluginBasePath } from "../../utils/plugin";
 import { EditCronJobPage } from "../EditCronJobPage";
@@ -35,9 +35,10 @@ const App: React.FunctionComponent = () => {
         />
         <Route component={NotFound} />
       </Switch>
-      <Route path={`${pluginBasePath}`}>
+      {/* default redirect */}
+      {/* <Route path={`${pluginBasePath}`}>
         <Redirect to={`${pluginBasePath}`} />
-      </Route>
+      </Route> */}
     </>
   );
 };

@@ -5,7 +5,14 @@ export default [
     handler: "cronJobController.getAll",
     config: {
       policies: [],
-      auth: false,
+    },
+  },
+  {
+    method: "GET",
+    path: "/cron-jobs/:id",
+    handler: "cronJobController.getOne",
+    config: {
+      policies: [],
     },
   },
   {

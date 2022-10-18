@@ -9,6 +9,18 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e);
     }
   },
+  async getOne(ctx: any) {
+    const { params } = ctx.request;
+    try {
+      const cronJob = await strapi
+        .plugin("cron")
+        .service("cron-job")
+        .getOne(params.id);
+      ctx.body = cronJob;
+    } catch (e) {
+      ctx.throw(500, e);
+    }
+  },
   async create(ctx: any) {
     const { body } = ctx.request;
     const { errors } = strapi
