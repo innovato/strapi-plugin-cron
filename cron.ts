@@ -1,8 +1,8 @@
 import nodeSchedule from "node-schedule";
 import { CronJob } from "./types";
+import { getExtensionsFileDefaultExport } from "./utils/pluginExtensions";
 
 // TODO
-// - enable cron to run a task from a file: cronJob.pathToScript
 // - implement job details page with job logs
 // - job schedule expression regex validation
 // - remove form placeholder data
@@ -27,9 +27,12 @@ class Cron {
     }
   }
 
-  scheduleJob(cronJob: CronJob) {
+  async scheduleJob(cronJob: CronJob) {
     let { iterations, iterationsCount } = cronJob;
-    const task = new AsyncFunction(cronJob.script);
+    const task = cronJob.pathToScript
+      ? await getExtensionsFileDefaultExport(cronJob.pathToScript)
+      : new AsyncFunction(cronJob.script);
+
     const job = nodeSchedule.scheduleJob(
       cronJob.name,
       {
