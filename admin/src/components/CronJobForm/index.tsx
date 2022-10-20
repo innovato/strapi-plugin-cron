@@ -10,6 +10,7 @@ import { TextInput } from "@strapi/design-system/TextInput";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import type { CronJob, CronJobInputData } from "../../../../types";
+import { pluginName } from "../../../../utils/pluginName";
 import { getCurrentDate } from "../../utils/date";
 
 const initialInput: CronJobInputData = {
@@ -183,7 +184,7 @@ export const CronJobForm: React.FunctionComponent<Props> = ({
               label="Path to file"
               name="pathToScript"
               aria-label="Path to Cron Job script file"
-              hint="Relative to project root"
+              hint={`Relative to ./src/extensions/${pluginName}`}
               value={input.pathToScript}
               onChange={handleInputChange}
               error={isChecked ? errors["pathToScript"] : ""}

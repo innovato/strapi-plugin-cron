@@ -2,9 +2,9 @@ import { prefixPluginTranslations } from "@strapi/helper-plugin";
 import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
 import pluginId from "./pluginId";
-import { pluginBasePath, pluginName } from "./utils/plugin";
+import { pluginBasePath, pluginDisplayName } from "./utils/plugin";
 
-const name = pluginName;
+const name = pluginDisplayName;
 
 export default {
   register(app) {
