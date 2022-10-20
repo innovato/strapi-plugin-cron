@@ -1,5 +1,6 @@
 import { Box } from "@strapi/design-system/Box";
 import { Button } from "@strapi/design-system/Button";
+import { Checkbox } from "@strapi/design-system/Checkbox";
 import { DatePicker } from "@strapi/design-system/DatePicker";
 import { Grid, GridItem } from "@strapi/design-system/Grid";
 import { NumberInput } from "@strapi/design-system/NumberInput";
@@ -14,6 +15,8 @@ import { getCurrentDate } from "../../utils/date";
 const initialInput: CronJobInputData = {
   name: "",
   schedule: "* * * * * *",
+  isPathToScriptOptChecked: true,
+  pathToScript: "",
   script: `console.log("")`,
   iterations: -1,
   startDate: null,
@@ -25,10 +28,18 @@ type Props = {
   handleSubmit({ input, setErrors }): Promise<void>;
 };
 
-export const CronJobForm: React.FunctionComponent<Props> = (props) => {
-  const [input, setInput] = useState<CronJobInputData>(
-    props.initialData ?? initialInput
-  );
+export const CronJobForm: React.FunctionComponent<Props> = ({
+  initialData,
+  ...props
+}) => {
+  const state = initialData
+    ? {
+        ...initialData,
+        isPathToScriptOptChecked: !!initialData.pathToScript,
+      }
+    : initialInput;
+  const [input, setInput] = useState<CronJobInputData>(state);
+  const isChecked = input.isPathToScriptOptChecked;
   const [errors, setErrors] = useState({});
   const history = useHistory();
 
@@ -50,6 +61,18 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
     });
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.handleSubmit({
+      input: {
+        ...input,
+        pathToScript: input.isPathToScriptOptChecked ? input.pathToScript : "",
+        script: input.isPathToScriptOptChecked ? "" : input.script,
+      },
+      setErrors,
+    });
+  }
+
   return (
     <Box
       padding={8}
@@ -61,12 +84,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
       shadow="tableShadow"
       background="neutral0"
     >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          props.handleSubmit({ input, setErrors });
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <Grid gap={7} gridCols={1}>
           <Box>
             <TextInput
@@ -144,16 +162,45 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               error={errors["iterations"]}
             />
           </Box>
+          <Stack spacing={5}>
+            <Checkbox
+              name="isPathToScriptOptChecked"
+              checked={isChecked}
+              onClick={(value) =>
+                handleInputChange({
+                  target: {
+                    name: "isPathToScriptOptChecked",
+                    value: !isChecked,
+                  },
+                })
+              }
+            >
+              Use a script file stored in the project folder
+            </Checkbox>
+            <TextInput
+              placeholder="Path to script file"
+              required={isChecked}
+              label="Path to file"
+              name="pathToScript"
+              aria-label="Path to Cron Job script file"
+              hint="Relative to project root"
+              value={input.pathToScript}
+              onChange={handleInputChange}
+              error={isChecked ? errors["pathToScript"] : ""}
+              disabled={!isChecked}
+            />
+          </Stack>
           <Box>
             <Textarea
               placeholder="Cron Job script"
-              required
+              required={!isChecked}
               label="Script"
               name="script"
               aria-label="Cron Job script input"
               value={input.script}
               onChange={handleInputChange}
-              error={errors["script"]}
+              error={!isChecked ? errors["script"] : ""}
+              disabled={isChecked}
             />
           </Box>
           <Stack horizontal spacing={4}>

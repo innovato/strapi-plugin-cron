@@ -2,7 +2,7 @@ import nodeSchedule from "node-schedule";
 import { CronJob } from "./types";
 
 // TODO
-// - input for path to a script file
+// - enable cron to run a task from a file: cronJob.pathToScript
 // - implement job details page with job logs
 // - job schedule expression regex validation
 // - remove form placeholder data

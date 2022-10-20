@@ -17,6 +17,7 @@ const endDateSchema = z.preprocess((arg) => {
 export const CronJobSchema = z.object({
   name: z.string().min(1, { message: "This vaule is required" }),
   schedule: z.string().min(1, { message: "This vaule is required" }),
+  pathToScript: z.string().min(1, { message: "This vaule is required" }),
   script: z.string().min(1, { message: "This vaule is required" }),
   iterations: z
     .number()

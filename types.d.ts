@@ -3,6 +3,7 @@ export type CronJob = {
   publishedAt: string | null;
   name: string;
   schedule: string;
+  pathToScript: string;
   script: string;
   iterations: number;
   startDate: string | null;
@@ -12,5 +13,13 @@ export type CronJob = {
 
 export type CronJobInputData = Pick<
   CronJob,
-  "name" | "schedule" | "script" | "iterations" | "startDate" | "endDate"
->;
+  | "name"
+  | "schedule"
+  | "pathToScript"
+  | "script"
+  | "iterations"
+  | "startDate"
+  | "endDate"
+> & {
+  isPathToScriptOptChecked: boolean;
+};
