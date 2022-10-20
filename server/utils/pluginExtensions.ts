@@ -1,4 +1,4 @@
-import { pluginName } from "./pluginName";
+import { pluginName } from "../../utils/plugin";
 
 export const getPathToExtensionsFile = (path: string) => {
   const rootDir = process.cwd();
