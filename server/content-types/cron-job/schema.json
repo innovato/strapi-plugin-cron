@@ -28,9 +28,11 @@
       "type": "string",
       "required": true
     },
+    "pathToScript": {
+      "type": "string"
+    },
     "script": {
-      "type": "text",
-      "required": true
+      "type": "text"
     },
     "iterations": {
       "type": "integer",
