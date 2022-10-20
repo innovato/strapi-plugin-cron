@@ -1,5 +1,5 @@
 import nodeSchedule from "node-schedule";
-import { CronJob } from "./types";
+import { CronJob } from "../types";
 import { getExtensionsFileDefaultExport } from "./utils/pluginExtensions";
 
 // TODO

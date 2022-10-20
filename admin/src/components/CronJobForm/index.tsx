@@ -10,7 +10,7 @@ import { TextInput } from "@strapi/design-system/TextInput";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import type { CronJob, CronJobInputData } from "../../../../types";
-import { pluginName } from "../../../../utils/pluginName";
+import { pluginName } from "../../../../utils/plugin";
 import { getCurrentDate } from "../../utils/date";
 
 const initialInput: CronJobInputData = {

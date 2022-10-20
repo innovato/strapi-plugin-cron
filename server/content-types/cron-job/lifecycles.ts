@@ -1,4 +1,4 @@
-import { cron } from "../../../cron";
+import { cron } from "../../cron";
 
 export default {
   afterUpdate({ result: cronJob }) {
