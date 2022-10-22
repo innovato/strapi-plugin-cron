@@ -1,7 +1,7 @@
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
-import React, { useEffect, useState } from "react";
-import { CronJob } from "../../../../types";
-import { cron } from "../../api/cron";
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { NotFound } from "../NotFound";
 
 type Props = {
   match: {
@@ -10,15 +10,11 @@ type Props = {
 };
 
 export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
-  const [cronJob, setCronJob] = useState<CronJob>();
+  const location = useLocation();
+  const cronJob = location.state?.cronJob;
 
-  useEffect(() => {
-    fetchCronJob();
-  }, []);
-
-  async function fetchCronJob() {
-    const { data } = await cron.getCronJob(match.params.id);
-    setCronJob(data);
+  if (!cronJob) {
+    return <NotFound />;
   }
 
   return (

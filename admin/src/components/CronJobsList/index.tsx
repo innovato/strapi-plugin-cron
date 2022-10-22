@@ -2,7 +2,6 @@ import { Badge } from "@strapi/design-system/Badge";
 import { Box } from "@strapi/design-system/Box";
 import { Flex } from "@strapi/design-system/Flex";
 import { IconButton } from "@strapi/design-system/IconButton";
-import { Link } from "@strapi/design-system/Link";
 import { Switch } from "@strapi/design-system/Switch";
 import {
   Table,
@@ -13,6 +12,7 @@ import {
   Thead,
   Tr,
 } from "@strapi/design-system/Table";
+import { TextButton } from "@strapi/design-system/TextButton";
 import { Tooltip } from "@strapi/design-system/Tooltip";
 import { Typography } from "@strapi/design-system/Typography";
 import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden";
@@ -122,9 +122,15 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 <Typography textColor="neutral800">{cronJob.id}</Typography>
               </Td>
               <Td>
-                <Link to={`${pluginBasePath}/cron-jobs/${cronJob.id}`}>
+                <TextButton
+                  onClick={() => {
+                    history.push(`${pluginBasePath}/cron-jobs/${cronJob.id}`, {
+                      cronJob,
+                    });
+                  }}
+                >
                   <Typography textColor="primary700">{cronJob.name}</Typography>
-                </Link>
+                </TextButton>
               </Td>
               <Td>
                 <Typography textColor="neutral800">
@@ -169,9 +175,12 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                         noBorder
                         icon={<Pencil />}
                         onClick={() => {
-                          history.push(`${pluginBasePath}/cron-jobs/edit`, {
-                            cronJob,
-                          });
+                          history.push(
+                            `${pluginBasePath}/cron-jobs/edit/${cronJob.id}`,
+                            {
+                              cronJob,
+                            }
+                          );
                         }}
                       />
                       <IconButton

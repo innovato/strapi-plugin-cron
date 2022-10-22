@@ -4,10 +4,10 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  *
  */
-import { NotFound } from "@strapi/helper-plugin";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { CronJobDetails } from "../../components/CronJobDetails";
+import { NotFound } from "../../components/NotFound";
 import { pluginBasePath } from "../../utils/plugin";
 import { EditCronJobPage } from "../EditCronJobPage";
 import { HomePage } from "../HomePage";
@@ -24,7 +24,7 @@ const App: React.FunctionComponent = () => {
           exact
         />
         <Route
-          path={`${pluginBasePath}/cron-jobs/edit`}
+          path={`${pluginBasePath}/cron-jobs/edit/:id`}
           component={EditCronJobPage}
           exact
         />
@@ -35,10 +35,6 @@ const App: React.FunctionComponent = () => {
         />
         <Route component={NotFound} />
       </Switch>
-      {/* default redirect */}
-      {/* <Route path={`${pluginBasePath}`}>
-        <Redirect to={`${pluginBasePath}`} />
-      </Route> */}
     </>
   );
 };
