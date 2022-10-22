@@ -27,7 +27,7 @@ class Cron {
 
   async scheduleJob(cronJob: CronJob) {
     let { iterations, iterationsCount } = cronJob;
-    const task = cronJob.pathToScript
+    const task = cronJob.isPathToScriptOptChecked
       ? await getExtensionsFileDefaultExport(cronJob.pathToScript)
       : new AsyncFunction(cronJob.script);
 

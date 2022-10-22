@@ -29,16 +29,8 @@ type Props = {
   handleSubmit({ input, setErrors }): Promise<void>;
 };
 
-export const CronJobForm: React.FunctionComponent<Props> = ({
-  initialData,
-  ...props
-}) => {
-  const state = initialData
-    ? {
-        ...initialData,
-        isPathToScriptOptChecked: !!initialData.pathToScript,
-      }
-    : initialInput;
+export const CronJobForm: React.FunctionComponent<Props> = (props) => {
+  const state = props.initialData ? props.initialData : initialInput;
   const [input, setInput] = useState<CronJobInputData>(state);
   const isChecked = input.isPathToScriptOptChecked;
   const [errors, setErrors] = useState({});
@@ -65,11 +57,7 @@ export const CronJobForm: React.FunctionComponent<Props> = ({
   function handleSubmit(e) {
     e.preventDefault();
     props.handleSubmit({
-      input: {
-        ...input,
-        pathToScript: input.isPathToScriptOptChecked ? input.pathToScript : "",
-        script: input.isPathToScriptOptChecked ? "" : input.script,
-      },
+      input,
       setErrors,
     });
   }

@@ -28,6 +28,10 @@
       "type": "string",
       "required": true
     },
+    "isPathToScriptOptChecked": {
+      "type": "boolean",
+      "default": true
+    },
     "pathToScript": {
       "type": "string"
     },
