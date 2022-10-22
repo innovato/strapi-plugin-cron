@@ -4,8 +4,6 @@ import { getExtensionsFileDefaultExport } from "./utils/pluginExtensions";
 
 // TODO
 // - implement job details page with job logs
-// - job schedule expression regex validation
-// - remove form placeholder data
 // TODO Extra
 // - Strapi DatePicker component bug: when date picker popover has been activated,
 //    and date has not been selected, and user navigates back with a click of a button

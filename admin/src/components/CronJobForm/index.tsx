@@ -15,10 +15,10 @@ import { getCurrentDate } from "../../utils/date";
 
 const initialInput: CronJobInputData = {
   name: "",
-  schedule: "* * * * * *",
+  schedule: "",
   isPathToScriptOptChecked: true,
   pathToScript: "",
-  script: `console.log("")`,
+  script: "",
   iterations: -1,
   startDate: null,
   endDate: null,
