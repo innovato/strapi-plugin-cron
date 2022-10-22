@@ -52,6 +52,9 @@
     },
     "endDate": {
       "type": "datetime"
+    },
+    "latestExecutionLog": {
+      "type": "text"
     }
   }
 }

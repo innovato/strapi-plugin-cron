@@ -1,7 +1,5 @@
 export const getReadableDate = (date: string | null) => {
-  if (!date) {
-    return "";
-  }
+  if (!date) return "";
   return new Date(date).toDateString();
 };
 

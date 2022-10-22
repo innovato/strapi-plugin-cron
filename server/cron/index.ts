@@ -1,18 +1,19 @@
 import nodeSchedule from "node-schedule";
-import { CronJob } from "../types";
-import { getExtensionsFileDefaultExport } from "./utils/pluginExtensions";
+import { CronJob } from "../../types";
+import { createCronJobCallback } from "./cronJob";
 
 // TODO
 // - implement job details page with job logs
+// - rename "isPathToScriptOptChecked" flag to "executeTaskFromFile"
 // TODO Extra
+// - import from "./cron" does not work the same as import from "./cron/" or "./cron/index"
+//    in regards to printing timestamp log in cron job callback
 // - Strapi DatePicker component bug: when date picker popover has been activated,
 //    and date has not been selected, and user navigates back with a click of a button
 //    a TypeError "source is null" is thrown
 // - implement job schedule selector via dropdown inputs
 // - add tests
 // - cron jobs list sort
-
-const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 
 class Cron {
   async init() {
@@ -26,11 +27,7 @@ class Cron {
   }
 
   async scheduleJob(cronJob: CronJob) {
-    let { iterations, iterationsCount } = cronJob;
-    const task = cronJob.isPathToScriptOptChecked
-      ? await getExtensionsFileDefaultExport(cronJob.pathToScript)
-      : new AsyncFunction(cronJob.script);
-
+    const cronJobCallback = await createCronJobCallback(cronJob);
     const job = nodeSchedule.scheduleJob(
       cronJob.name,
       {
@@ -38,41 +35,21 @@ class Cron {
         end: cronJob.endDate,
         rule: cronJob.schedule,
       },
-      () => {
-        if (iterations !== -1 && iterations <= iterationsCount) {
-          nodeSchedule.scheduledJobs[cronJob.name].cancel();
-          return;
-        }
-        task(strapi);
-        if (iterations > 0) {
-          strapi
-            .plugin("cron")
-            .service("cron-job")
-            .update(cronJob.id, {
-              iterationsCount: ++iterationsCount,
-            });
-        }
-      }
+      cronJobCallback
     );
   }
 
   updateJob(cronJob: CronJob) {
     const job = nodeSchedule.scheduledJobs[cronJob.name];
     const isNotPublished = !cronJob.publishedAt;
-    if (job) {
-      job.cancel();
-    }
-    if (isNotPublished) {
-      return;
-    }
+    if (job) job.cancel();
+    if (isNotPublished) return;
     this.scheduleJob(cronJob);
   }
 
   deleteJob(cronJob: CronJob) {
     const job = nodeSchedule.scheduledJobs[cronJob.name];
-    if (job) {
-      job.cancel();
-    }
+    if (job) job.cancel();
   }
 }
 
