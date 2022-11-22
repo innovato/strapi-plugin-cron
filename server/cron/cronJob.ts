@@ -5,7 +5,7 @@ import { getExtensionsFileDefaultExport } from "../utils/pluginExtensions";
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 
 const getCronJobTask = async (cronJob: CronJob) => {
-  return cronJob.isPathToScriptOptChecked
+  return cronJob.executeScriptFromFile
     ? await getExtensionsFileDefaultExport(cronJob.pathToScript)
     : new AsyncFunction(cronJob.script);
 };

@@ -3,7 +3,7 @@ import { CronJobSchema } from "./schema";
 export default {
   validateCronJobData(data) {
     const omitProps = {};
-    data.isPathToScriptOptChecked
+    data.executeScriptFromFile
       ? (omitProps["script"] = true)
       : (omitProps["pathToScript"] = true);
 

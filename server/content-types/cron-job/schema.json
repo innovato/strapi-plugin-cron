@@ -28,7 +28,7 @@
       "type": "string",
       "required": true
     },
-    "isPathToScriptOptChecked": {
+    "executeScriptFromFile": {
       "type": "boolean",
       "default": true
     },

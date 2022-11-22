@@ -16,7 +16,7 @@ import { getCurrentDate } from "../../utils/date";
 const initialInput: CronJobInputData = {
   name: "",
   schedule: "",
-  isPathToScriptOptChecked: true,
+  executeScriptFromFile: true,
   pathToScript: "",
   script: "",
   iterations: -1,
@@ -32,7 +32,7 @@ type Props = {
 export const CronJobForm: React.FunctionComponent<Props> = (props) => {
   const state = props.initialData ? props.initialData : initialInput;
   const [input, setInput] = useState<CronJobInputData>(state);
-  const isChecked = input.isPathToScriptOptChecked;
+  const isChecked = input.executeScriptFromFile;
   const [errors, setErrors] = useState({});
   const history = useHistory();
 
@@ -153,18 +153,18 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
           </Box>
           <Stack spacing={5}>
             <Checkbox
-              name="isPathToScriptOptChecked"
+              name="executeScriptFromFile"
               checked={isChecked}
               onClick={(value) =>
                 handleInputChange({
                   target: {
-                    name: "isPathToScriptOptChecked",
+                    name: "executeScriptFromFile",
                     value: !isChecked,
                   },
                 })
               }
             >
-              Use a script file stored in the project folder
+              Execute script from a file
             </Checkbox>
             <TextInput
               placeholder="Path to script file"

@@ -4,10 +4,7 @@ import { createCronJobCallback } from "./cronJob";
 
 // TODO
 // - implement job details page with job logs
-// - rename "isPathToScriptOptChecked" flag to "executeTaskFromFile"
 // TODO Extra
-// - import from "./cron" does not work the same as import from "./cron/" or "./cron/index"
-//    in regards to printing timestamp log in cron job callback
 // - Strapi DatePicker component bug: when date picker popover has been activated,
 //    and date has not been selected, and user navigates back with a click of a button
 //    a TypeError "source is null" is thrown
