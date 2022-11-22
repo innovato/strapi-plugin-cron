@@ -4,9 +4,9 @@
  *
  */
 
-import React from 'react';
-import Puzzle from '@strapi/icons/Puzzle';
+import Clock from "@strapi/icons/Clock";
+import React from "react";
 
-const PluginIcon: React.VoidFunctionComponent = () => <Puzzle />;
+const PluginIcon: React.VoidFunctionComponent = () => <Clock />;
 
 export default PluginIcon;
