@@ -38,7 +38,7 @@
     "script": {
       "type": "text"
     },
-    "iterations": {
+    "iterationsLimit": {
       "type": "integer",
       "min": -1,
       "default": -1
@@ -54,7 +54,7 @@
       "type": "datetime"
     },
     "latestExecutionLog": {
-      "type": "text"
+      "type": "json"
     }
   }
 }

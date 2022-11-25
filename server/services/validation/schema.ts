@@ -30,7 +30,7 @@ export const CronJobSchema = z.object({
     .endsWith(".ts", { message: `This vaule must end with ".ts"` })
     .startsWith("/", { message: `This vaule must start with "/"` }),
   script: z.string().min(1, { message: "This vaule is required" }),
-  iterations: z
+  iterationsLimit: z
     .number()
     .min(-1, { message: "This value must be greater than or equal to -1" })
     .optional(),

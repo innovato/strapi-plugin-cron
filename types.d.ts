@@ -6,10 +6,11 @@ export type CronJob = {
   executeScriptFromFile: boolean;
   pathToScript: string;
   script: string;
-  iterations: number;
+  iterationsLimit: number;
+  iterationsCount: number;
   startDate: string | null;
   endDate: string | null;
-  iterationsCount: number;
+  latestExecutionLog: string[][];
 };
 
 export type CronJobInputData = Pick<
@@ -19,7 +20,7 @@ export type CronJobInputData = Pick<
   | "executeScriptFromFile"
   | "pathToScript"
   | "script"
-  | "iterations"
+  | "iterationsLimit"
   | "startDate"
   | "endDate"
 >;

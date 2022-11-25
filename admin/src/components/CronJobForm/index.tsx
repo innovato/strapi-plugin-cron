@@ -19,7 +19,7 @@ const initialInput: CronJobInputData = {
   executeScriptFromFile: true,
   pathToScript: "",
   script: "",
-  iterations: -1,
+  iterationsLimit: -1,
   startDate: null,
   endDate: null,
 };
@@ -139,16 +139,18 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
           </Grid>
           <Box>
             <NumberInput
-              placeholder="Number of iterations"
+              placeholder="Number of iterationsLimit"
               label="Iterations"
-              name="iterations"
+              name="iterationsLimit"
               hint="Default: unlimited"
               aria-label="Number of iterations"
-              value={input.iterations}
+              value={input.iterationsLimit}
               onValueChange={(value) =>
-                handleInputChange({ target: { name: "iterations", value } })
+                handleInputChange({
+                  target: { name: "iterationsLimit", value },
+                })
               }
-              error={errors["iterations"]}
+              error={errors["iterationsLimit"]}
             />
           </Box>
           <Stack spacing={5}>

@@ -1,44 +1,50 @@
 import nodeSchedule from "node-schedule";
 import { CronJob } from "../../types";
-import { getExtensionsFileDefaultExport } from "../utils/pluginExtensions";
+import { getDefaultModuleExport } from "../utils/extensions";
 
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
 
-const getCronJobTask = async (cronJob: CronJob) => {
+const getCronJobScript = async (cronJob: CronJob) => {
   return cronJob.executeScriptFromFile
-    ? await getExtensionsFileDefaultExport(cronJob.pathToScript)
+    ? await getDefaultModuleExport(cronJob.pathToScript)
     : new AsyncFunction(cronJob.script);
 };
 
 const exectuteAndCaptureStdOutput = async (callback) => {
-  let stdOutputStr = "";
+  let stdOutputData = [];
 
   const consoleLogFn = console.log;
   const logAndCaptureFn = function (...args) {
-    stdOutputStr += args.join(" ") + "\n";
-    consoleLogFn.apply(null, args);
+    stdOutputData.push(args);
+    consoleLogFn(...args);
   };
 
   console.log = logAndCaptureFn;
   await callback();
   console.log = consoleLogFn;
-  return stdOutputStr;
+
+  try {
+    return JSON.parse(JSON.stringify(stdOutputData));
+  } catch (e) {
+    console.log(e);
+    return {};
+  }
 };
 
 export const createCronJobCallback = async (cronJob: CronJob) => {
-  let { iterations, iterationsCount } = cronJob;
-  const hasLimitedIterations = iterations !== -1;
-  const task = await getCronJobTask(cronJob);
+  let { iterationsLimit, iterationsCount } = cronJob;
+  const hasLimitedIterations = iterationsLimit > -1;
+  const script = await getCronJobScript(cronJob);
 
   return function () {
-    if (hasLimitedIterations && iterationsCount >= iterations) {
+    if (hasLimitedIterations && iterationsCount >= iterationsLimit) {
       nodeSchedule.scheduledJobs[cronJob.name].cancel();
       return;
     }
 
     exectuteAndCaptureStdOutput(async () => {
       console.log(`[${new Date().toLocaleString()}]`);
-      await task(strapi);
+      await script({ strapi, cronJob });
     }).then((stdOutputData) => {
       updateLatestExecutionLog(cronJob.id, stdOutputData);
       if (hasLimitedIterations) {
@@ -54,7 +60,7 @@ function updateCronJobIterationsCount(id: number, iterationsCount: number) {
   });
 }
 
-function updateLatestExecutionLog(id: number, latestExecutionLog: string) {
+function updateLatestExecutionLog(id: number, latestExecutionLog: object) {
   strapi.plugin("cron").service("cron-job").update(id, {
     latestExecutionLog,
   });

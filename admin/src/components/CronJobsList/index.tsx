@@ -139,7 +139,9 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               </Td>
               <Td>
                 <Typography textColor="neutral800">
-                  {cronJob.iterations === -1 ? "∞" : cronJob.iterations}
+                  {cronJob.iterationsLimit === -1
+                    ? "∞"
+                    : cronJob.iterationsLimit}
                 </Typography>
               </Td>
               <Td>
