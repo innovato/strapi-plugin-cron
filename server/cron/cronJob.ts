@@ -10,7 +10,7 @@ const getCronJobTask = async (cronJob: CronJob) => {
     : new AsyncFunction(cronJob.script);
 };
 
-const exectuteAndCaptureStdOutput = (callback) => {
+const exectuteAndCaptureStdOutput = async (callback) => {
   let stdOutputStr = "";
 
   const consoleLogFn = console.log;
@@ -20,7 +20,7 @@ const exectuteAndCaptureStdOutput = (callback) => {
   };
 
   console.log = logAndCaptureFn;
-  callback();
+  await callback();
   console.log = consoleLogFn;
   return stdOutputStr;
 };
@@ -36,16 +36,15 @@ export const createCronJobCallback = async (cronJob: CronJob) => {
       return;
     }
 
-    const stdOutputData = exectuteAndCaptureStdOutput(() => {
+    exectuteAndCaptureStdOutput(async () => {
       console.log(`[${new Date().toLocaleString()}]`);
-      task(strapi);
+      await task(strapi);
+    }).then((stdOutputData) => {
+      updateLatestExecutionLog(cronJob.id, stdOutputData);
+      if (hasLimitedIterations) {
+        updateCronJobIterationsCount(cronJob.id, ++iterationsCount);
+      }
     });
-
-    updateLatestExecutionLog(cronJob.id, stdOutputData);
-
-    if (hasLimitedIterations) {
-      updateCronJobIterationsCount(cronJob.id, ++iterationsCount);
-    }
   };
 };
 
