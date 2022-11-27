@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "node-schedule": "^2.1.0",
+    "react-code-blocks": "^0.0.9-0",
     "zod": "^3.19.1"
   },
   "devDependencies": {

@@ -20,13 +20,18 @@ const exectuteAndCaptureStdOutput = async (callback) => {
   };
 
   console.log = logAndCaptureFn;
-  await callback();
+  try {
+    await callback();
+  } catch (e) {
+    console.log("* Script error\n", e);
+  }
+
   console.log = consoleLogFn;
 
   try {
     return JSON.parse(JSON.stringify(stdOutputData));
   } catch (e) {
-    console.log(e);
+    console.log("* Script std output data parsing error", e);
     return {};
   }
 };

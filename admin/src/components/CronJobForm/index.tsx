@@ -171,7 +171,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             <TextInput
               placeholder="Path to script file"
               required={isChecked}
-              label="Path to file"
+              label="Path to script file"
               name="pathToScript"
               aria-label="Path to Cron Job script file"
               hint={`Relative to ./src/extensions/${pluginName}`}

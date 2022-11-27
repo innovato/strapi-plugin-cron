@@ -3,8 +3,6 @@ import { CronJob } from "../../types";
 import { createCronJobCallback } from "./cronJob";
 
 // TODO
-// - implement job details page with job logs
-// - objects are not stringified in stdOutputData string
 // - write documentation: { strapi, cronJob } parames are exposed to the script file, location of scipts
 // - execute script from a module file/ module/ callback/ hook/
 // TODO Extra
