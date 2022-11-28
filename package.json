@@ -1,11 +1,11 @@
 {
   "name": "strapi-plugin-cron",
   "version": "0.0.0",
-  "description": "Manage and monitor CRON from your admin panel.",
+  "description": "Manage and monitor cron from your admin panel.",
   "strapi": {
     "name": "cron",
     "displayName": "Cron",
-    "description": "Manage and monitor CRON from your admin panel.",
+    "description": "Manage and monitor cron from your admin panel.",
     "kind": "plugin"
   },
   "dependencies": {
