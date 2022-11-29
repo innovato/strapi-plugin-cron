@@ -1,14 +1,14 @@
 # Cron plugin for Strapi
 
-Manage and monitor cron from the admin panel.
+Manage and monitor cron from Strapi admin panel.
 
 ---
 
 ## 👋 Get Started
 
-- [Features](#✨-features)
-- [Installation](#🔧-installation)
-- [Configuration](#⚙️-configuration)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Configuration](#%EF%B8%8F-configuration)
 
 ## ✨ Features
 

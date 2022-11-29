@@ -1,12 +1,16 @@
 {
-  "name": "strapi-plugin-cron",
-  "version": "0.0.0",
-  "description": "Manage and monitor cron from your admin panel.",
+  "name": "@innovato/strapi-plugin-cron",
+  "version": "1.0.0",
+  "description": "Manage and monitor cron from Strapi admin panel.",
   "strapi": {
     "name": "cron",
     "displayName": "Cron",
-    "description": "Manage and monitor cron from your admin panel.",
+    "description": "Manage and monitor cron from Strapi admin panel.",
     "kind": "plugin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/innovato/strapi-plugin-cron.git"
   },
   "dependencies": {
     "node-schedule": "^2.1.0",
@@ -17,11 +21,25 @@
     "typescript": "4.6.3"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "mjnoach",
+    "url": "https://github.com/mjnoach"
   },
+  "contributors": [
+    {
+      "name": "mjnoach",
+      "url": "https://github.com/mjnoach"
+    },
+    {
+      "name": "Innovato",
+      "email": "info@innovato.nl",
+      "url": "https://innovato.nl"
+    }
+  ],
   "maintainers": [
     {
-      "name": "A Strapi developer"
+      "name": "Innovato",
+      "email": "info@innovato.nl",
+      "url": "https://innovato.nl"
     }
   ],
   "engines": {
