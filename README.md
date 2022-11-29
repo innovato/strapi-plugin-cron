@@ -1,18 +1,29 @@
+<center>
+
 # Cron plugin for Strapi
 
-Manage and monitor cron from the admin panel.
+**Manage and monitor cron from Strapi admin panel.**
+<br />
+<br />
 
----
+![Cron plugin for Strapi](/assets/image-1.png)
+
+</center>
+
+--
 
 ## 👋 Get Started
 
-- [Features](#✨-features)
-- [Installation](#🔧-installation)
-- [Configuration](#⚙️-configuration)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Configuration](#%EF%B8%8F-configuration)
+- [Usage](#-usage)
 
 ## ✨ Features
 
-TBD
+- GUI integrated with Strapi admin panel
+- tasks scheduling tool incorporating start/end dates and iterations counter
+- script logs & monitoring
 
 ## 🔧 Installation
 
@@ -22,7 +33,7 @@ TBD
 
 TBD
 
----
+## 📌 Usage
 
 If you want to maintain your cron job script files within the parent project and track them with a VCS, you should place them in a location relative to `<your-strapi-project>/src/extensions/cron/`.
 
