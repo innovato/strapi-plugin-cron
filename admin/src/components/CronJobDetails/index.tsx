@@ -33,9 +33,8 @@ export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
     setCronJob(data);
   }
 
-  const executionLog = cronJob.latestExecutionLog
-    .map((line) => line.join(" "))
-    .join("\n");
+  const executionLog =
+    cronJob.latestExecutionLog?.map((line) => line.join(" ")).join("\n") ?? "";
 
   const PropRow = ({ name, value }) => (
     <>
@@ -55,6 +54,11 @@ export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
     </>
   );
 
+  const iterations =
+    cronJob.iterationsLimit === -1
+      ? "∞"
+      : `${cronJob.iterationsCount} / ${cronJob.iterationsLimit}`;
+
   return (
     <>
       <BaseHeaderLayout title={cronJob?.name ?? ""} as="h2" />
@@ -73,22 +77,19 @@ export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
             <Grid gap={1} gridCols={6}>
               <PropRow
                 name="Published at"
-                value={getReadableDate(cronJob.publishedAt) ?? "—"}
+                value={getReadableDate(cronJob.publishedAt) || "—"}
               />
               <PropRow name="Schedule" value={cronJob.schedule} />
 
               <PropRow
                 name="Start date"
-                value={getReadableDate(cronJob.startDate) ?? "—"}
+                value={getReadableDate(cronJob.startDate) || "—"}
               />
               <PropRow
                 name="End date"
-                value={getReadableDate(cronJob.endDate) ?? "—"}
+                value={getReadableDate(cronJob.endDate) || "—"}
               />
-              <PropRow
-                name="Iterations"
-                value={`${cronJob.iterationsCount} / ${cronJob.iterationsLimit}`}
-              />
+              <PropRow name="Iterations" value={iterations} />
               <GridItem col={6}>
                 <Box paddingTop={6} paddingBottom={2}>
                   <Typography variant="epsilon">
