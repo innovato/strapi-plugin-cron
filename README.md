@@ -36,11 +36,10 @@ yarn add @innovato/strapi-plugin-cron
 
 2. Update or create `./config/plugins.ts` file with the following config:
 
-```
+```JS
 export default () => ({
   cron: true,
 });
-
 ```
 
 3. Run the build command from the Strapi app root directory.
