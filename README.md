@@ -1,5 +1,3 @@
-<center>
-
 # Cron plugin for Strapi
 
 **Manage and monitor cron from Strapi admin panel.**
@@ -7,10 +5,6 @@
 <br />
 
 ![Cron plugin for Strapi](/assets/image-1.png)
-
-</center>
-
---
 
 ## 👋 Get Started
 
