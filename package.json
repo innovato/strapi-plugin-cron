@@ -1,11 +1,11 @@
 {
   "name": "@innovato/strapi-plugin-cron",
   "version": "1.0.5",
-  "description": "Manage and monitor cron from Strapi admin panel.",
+  "description": "Manage and monitor cron jobs from Strapi admin panel.",
   "strapi": {
     "name": "cron",
     "displayName": "Cron",
-    "description": "Manage and monitor cron from Strapi admin panel.",
+    "description": "Manage and monitor cron jobs from Strapi admin panel.",
     "kind": "plugin"
   },
   "repository": {

@@ -21,7 +21,7 @@ export const NewCronJobPage: React.FunctionComponent = () => {
 
   return (
     <>
-      <BaseHeaderLayout title="New Cron Job" as="h2" />
+      <BaseHeaderLayout title="New cron job" as="h2" />
       <ContentLayout>
         <CronJobForm handleSubmit={handleFormSubmit} />
       </ContentLayout>

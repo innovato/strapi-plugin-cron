@@ -31,14 +31,14 @@ export const HomePage: React.FunctionComponent = () => {
   return (
     <>
       <BaseHeaderLayout
-        title="Cron Jobs"
+        title="cron jobs"
         as="h2"
         primaryAction={
           <Button
             startIcon={<Plus />}
             onClick={() => history.push(`${pluginBasePath}/cron-jobs/create`)}
           >
-            Add new Cron Job
+            Add new cron job
           </Button>
         }
       />
@@ -46,7 +46,7 @@ export const HomePage: React.FunctionComponent = () => {
         {cronJobs.length === 0 ? (
           <EmptyStateLayout
             icon={<EmptyDocuments style={{ fontSize: "10rem" }} />}
-            content="You don't have any Cron Jobs yet..."
+            content="You don't have any cron jobs yet..."
           />
         ) : (
           <CronJobsList cronJobs={cronJobs} fetchCronJobs={fetchCronJobs} />

@@ -1,6 +1,6 @@
 # Cron plugin for Strapi
 
-**Manage and monitor cron from Strapi admin panel.**
+**Manage and monitor cron jobs from Strapi admin panel.**
 <br />
 <br />
 

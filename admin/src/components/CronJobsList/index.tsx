@@ -41,8 +41,8 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   async function handleSwitchChange(cronJob: CronJob) {
     const isPublished = !!cronJob.publishedAt;
     const message = isPublished
-      ? "This action will unpublish the Cron Job and reset its iterations count"
-      : "This action will publish the Cron Job";
+      ? "This action will unpublish the cron job and reset its iterations count"
+      : "This action will publish the cron job";
     const confirmation = confirm(message);
     if (!confirmation) {
       return;
@@ -74,7 +74,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
             }}
             icon={<Plus />}
           >
-            Add new Cron Job
+            Add new cron job
           </TFooter>
         }
       >
@@ -193,7 +193,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                       />
                     </Flex>
                     <Switch
-                      label="Toggle Cron Job"
+                      label="Toggle cron job"
                       selected={!!cronJob.publishedAt}
                       onChange={() => handleSwitchChange(cronJob)}
                     />

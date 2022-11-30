@@ -77,11 +77,11 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         <Grid gap={7} gridCols={1}>
           <Box>
             <TextInput
-              placeholder="Cron Job name"
+              placeholder="cron job name"
               required
               label="Name"
               name="name"
-              aria-label="Cron Job name input"
+              aria-label="cron job name input"
               value={input.name}
               onChange={handleInputChange}
               error={errors["name"]}
@@ -89,11 +89,11 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
           </Box>
           <Box>
             <TextInput
-              placeholder="Cron Job schdule expression"
+              placeholder="cron job schdule expression"
               required
               label="Schedule"
               name="schedule"
-              aria-label="Cron Job schedule expression input"
+              aria-label="cron job schedule expression input"
               value={input.schedule}
               onChange={handleInputChange}
               error={errors["schedule"]}
@@ -108,7 +108,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
                   name="startDate"
                   hint="Publish on this date"
                   selectedDateLabel={(formattedDate) =>
-                    `Cron Job start date is ${formattedDate}`
+                    `cron job start date is ${formattedDate}`
                   }
                   selectedDate={
                     input.startDate ? new Date(input.startDate) : null
@@ -127,7 +127,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
                   name="endDate"
                   hint="Unpublish on this date"
                   selectedDateLabel={(formattedDate) =>
-                    `Cron Job end date is ${formattedDate}`
+                    `cron job end date is ${formattedDate}`
                   }
                   selectedDate={input.endDate ? new Date(input.endDate) : null}
                   onChange={(value) => handleDateChange("endDate", value)}
@@ -173,7 +173,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               required={isChecked}
               label="Path to script file"
               name="pathToScript"
-              aria-label="Path to Cron Job script file"
+              aria-label="Path to cron job script file"
               hint={`Relative to ./src/extensions/${pluginName}`}
               value={input.pathToScript}
               onChange={handleInputChange}
@@ -183,11 +183,11 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
           </Stack>
           <Box>
             <Textarea
-              placeholder="Cron Job script"
+              placeholder={'console.log("Hello World!");'}
               required={!isChecked}
               label="Script"
               name="script"
-              aria-label="Cron Job script input"
+              aria-label="cron job script input"
               value={input.script}
               onChange={handleInputChange}
               error={!isChecked ? errors["script"] : ""}
