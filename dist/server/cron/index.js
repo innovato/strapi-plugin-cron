@@ -7,9 +7,6 @@ exports.cron = void 0;
 const node_schedule_1 = __importDefault(require("node-schedule"));
 const cronJob_1 = require("./cronJob");
 // TODO
-// - write documentation: { strapi, cronJob } parames are exposed to the script file, location of scipts
-// - execute script from a module file/ module/ callback/ hook/
-// TODO Extra
 // - Strapi DatePicker component bug: when date picker popover has been activated,
 //    and date has not been selected, and user navigates back with a click of a button
 //    a TypeError "source is null" is thrown

@@ -1,6 +1,6 @@
 {
     "name": "@innovato/strapi-plugin-cron",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Manage and monitor cron from Strapi admin panel.",
     "strapi": {
         "name": "cron",
@@ -42,5 +42,9 @@
     "license": "MIT",
     "peerDependencies": {
         "@strapi/strapi": "^4.4.0"
+    },
+    "resolutions": {
+        "**/**/prismjs": "^1.27.0",
+        "**/**/highlight.js": "^10.4.1"
     }
 }
