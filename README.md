@@ -10,7 +10,6 @@
 
 - [Features](#-features)
 - [Installation](#-installation)
-- [Configuration](#%EF%B8%8F-configuration)
 - [Usage](#-usage)
 
 ## ✨ Features
@@ -21,11 +20,42 @@
 
 ## 🔧 Installation
 
-TBD
+1. Run the following command from the Strapi app root directory.
 
-## ⚙️ Configuration
+With `npm`:
 
-TBD
+```
+npm install --save @innovato/strapi-plugin-cron
+```
+
+With `yarn`:
+
+```
+yarn add @innovato/strapi-plugin-cron
+```
+
+2. Update or create `./config/plugins.ts` file with the following config:
+
+```
+export default () => ({
+  cron: true,
+});
+
+```
+
+3. Run the build command from the Strapi app root directory.
+
+With `npm`:
+
+```
+npm run build
+```
+
+With `yarn`:
+
+```
+yarn build
+```
 
 ## 📌 Usage
 
