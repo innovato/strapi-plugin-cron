@@ -3,7 +3,7 @@ import { Box } from "@strapi/design-system/Box";
 import { Grid, GridItem } from "@strapi/design-system/Grid";
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
 import React, { useEffect, useState } from "react";
-import { CodeBlock, xt256 } from "react-code-blocks";
+import { CodeBlock, xt256 } from "@discostudioteam/react-code-blocks";
 import { useLocation } from "react-router-dom";
 import { CronJob } from "../../../../types";
 import { cron } from "../../api/cron";

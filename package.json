@@ -1,6 +1,6 @@
 {
   "name": "@innovato/strapi-plugin-cron",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Manage and monitor cron jobs from Strapi admin panel.",
   "strapi": {
     "name": "cron",
@@ -13,8 +13,8 @@
     "url": "https://github.com/innovato/strapi-plugin-cron.git"
   },
   "dependencies": {
+    "@discostudioteam/react-code-blocks": "^0.1.1-0",
     "node-schedule": "^2.1.0",
-    "react-code-blocks": "^0.0.9-0",
     "zod": "^3.19.1"
   },
   "devDependencies": {
