@@ -4,13 +4,14 @@
 <br />
 <br />
 
-![Cron plugin for Strapi](/assets/image-1.png)
+![Cron plugin for Strapi](/screenshot.png)
 
 ## 👋 Get Started
 
 - [Features](#-features)
 - [Installation](#-installation)
 - [Usage](#-usage)
+- [Development](#-development)
 
 ## ✨ Features
 
@@ -18,20 +19,12 @@
 - tasks scheduling tool incorporating start/end dates and iterations counter
 - script logs & monitoring
 
-## 🔧 Installation
+## 📦 Installation
 
 1. Run the following command from the Strapi app root directory.
 
-With `npm`:
-
 ```
-npm install --save @innovato/strapi-plugin-cron
-```
-
-With `yarn`:
-
-```
-yarn add @innovato/strapi-plugin-cron
+[npm|yarn|bun] add @innovato/strapi-plugin-cron
 ```
 
 2. Update or create `./config/plugins.ts` file with the following config:
@@ -44,16 +37,8 @@ export default () => ({
 
 3. Run the build command from the Strapi app root directory.
 
-With `npm`:
-
 ```
-npm run build
-```
-
-With `yarn`:
-
-```
-yarn build
+[npm|yarn|bun] run build
 ```
 
 ## 📌 Usage
@@ -70,3 +55,8 @@ module.exports = async ({ strapi, cronJob }) => {
 The function has access to `strapi` global variable and the relevant `cronJob` object.
 
 The script snippet maintained via the Cron plugin dashboard has a direct top-level access to those parameters.
+
+
+## 🔧 Development
+
+A supplementary repository for development is available here [@mjnoach/strapi--strapi-plugin-cron](https://github.com/mjnoach/strapi--strapi-plugin-cron)
