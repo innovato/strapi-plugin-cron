@@ -1,9 +1,6 @@
-import { Button } from "@strapi/design-system/Button";
-import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout";
-import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
+import { BaseHeaderLayout, Button, ContentLayout, EmptyStateLayout } from "@strapi/design-system";
 import { LoadingIndicatorPage } from "@strapi/helper-plugin";
-import EmptyDocuments from "@strapi/icons/EmptyDocuments";
-import Plus from "@strapi/icons/Plus";
+import { EmptyDocuments, Plus } from "@strapi/icons";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { CronJob } from "../../../../types";

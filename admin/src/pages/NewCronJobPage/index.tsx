@@ -1,4 +1,4 @@
-import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
+import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { cron } from "../../api/cron";

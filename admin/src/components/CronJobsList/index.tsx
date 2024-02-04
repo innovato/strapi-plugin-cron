@@ -1,25 +1,11 @@
-import { Badge } from "@strapi/design-system/Badge";
-import { Box } from "@strapi/design-system/Box";
-import { Flex } from "@strapi/design-system/Flex";
-import { IconButton } from "@strapi/design-system/IconButton";
-import { Switch } from "@strapi/design-system/Switch";
 import {
-  Table,
+  Badge, Box, Flex, IconButton, Switch, Table,
   Tbody,
-  Td,
-  TFooter,
+  Td, TextButton, TFooter,
   Th,
-  Thead,
-  Tr,
-} from "@strapi/design-system/Table";
-import { TextButton } from "@strapi/design-system/TextButton";
-import { Tooltip } from "@strapi/design-system/Tooltip";
-import { Typography } from "@strapi/design-system/Typography";
-import { VisuallyHidden } from "@strapi/design-system/VisuallyHidden";
-import CarretDown from "@strapi/icons/CarretDown";
-import Pencil from "@strapi/icons/Pencil";
-import Plus from "@strapi/icons/Plus";
-import Trash from "@strapi/icons/Trash";
+  Thead, Tooltip, Tr, Typography, VisuallyHidden
+} from "@strapi/design-system";
+import { CarretDown, Pencil, Plus, Trash } from "@strapi/icons";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { CronJob } from "../../../../types";

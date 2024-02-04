@@ -1,9 +1,6 @@
-import { Divider, Typography } from "@strapi/design-system";
-import { Box } from "@strapi/design-system/Box";
-import { Grid, GridItem } from "@strapi/design-system/Grid";
-import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
-import React, { useEffect, useState } from "react";
 import { CodeBlock, xt256 } from "@discostudioteam/react-code-blocks";
+import { BaseHeaderLayout, Box, ContentLayout, Divider, Grid, GridItem, Typography } from "@strapi/design-system";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { CronJob } from "../../../../types";
 import { cron } from "../../api/cron";
@@ -17,7 +14,7 @@ type Props = {
 };
 
 export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
-  const location = useLocation();
+  const location = useLocation<{cronJob: CronJob}>();
   const [cronJob, setCronJob] = useState<CronJob>(location.state?.cronJob);
 
   useEffect(() => {
@@ -96,6 +93,7 @@ export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
                     Latest execution log
                   </Typography>
                 </Box>
+                {/* @ts-ignore */}
                 <CodeBlock text={executionLog} theme={xt256} language="text" />
               </GridItem>
             </Grid>

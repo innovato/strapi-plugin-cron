@@ -1,12 +1,4 @@
-import { Box } from "@strapi/design-system/Box";
-import { Button } from "@strapi/design-system/Button";
-import { Checkbox } from "@strapi/design-system/Checkbox";
-import { DatePicker } from "@strapi/design-system/DatePicker";
-import { Grid, GridItem } from "@strapi/design-system/Grid";
-import { NumberInput } from "@strapi/design-system/NumberInput";
-import { Stack } from "@strapi/design-system/Stack";
-import { Textarea } from "@strapi/design-system/Textarea";
-import { TextInput } from "@strapi/design-system/TextInput";
+import { Box, Button, Checkbox, DatePicker, Grid, GridItem, NumberInput, Stack, TextInput, Textarea } from "@strapi/design-system";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import type { CronJob, CronJobInputData } from "../../../../types";

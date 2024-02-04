@@ -1,6 +1,7 @@
-import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
-import React from "react";
+import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system";
+import React, { FunctionComponent } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { CronJob } from "../../../../types";
 import { cron } from "../../api/cron";
 import { CronJobForm } from "../../components/CronJobForm";
 import { NotFound } from "../../components/NotFound";
@@ -8,7 +9,7 @@ import { getResponseErrors } from "../../utils/getResponseErrors";
 import { pluginBasePath } from "../../utils/plugin";
 
 export const EditCronJobPage: React.FunctionComponent = () => {
-  const location = useLocation();
+  const location = useLocation<{cronJob: CronJob}>();
   const cronJob = location.state?.cronJob;
   const history = useHistory();
 

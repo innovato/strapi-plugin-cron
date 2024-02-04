@@ -1,6 +1,5 @@
-import { EmptyStateLayout } from "@strapi/design-system/EmptyStateLayout";
-import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system/Layout";
-import EmptyDocuments from "@strapi/icons/EmptyDocuments";
+import { BaseHeaderLayout, ContentLayout, EmptyStateLayout } from "@strapi/design-system";
+import { EmptyDocuments } from "@strapi/icons";
 import React from "react";
 
 export const NotFound: React.FunctionComponent = () => {

@@ -24,6 +24,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   },
   async update(id: number, data: CronJobInputData) {
     return strapi.entityService.update("plugin::cron.cron-job", id, {
+      // @ts-ignore
       data,
     });
   },
