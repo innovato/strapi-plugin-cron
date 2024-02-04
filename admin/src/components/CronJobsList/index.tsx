@@ -1,51 +1,64 @@
+import React from 'react'
+
+import { CronJob } from '../../../../types'
+import { cron } from '../../api/cron'
+import { getReadableDate } from '../../utils/date'
+import { pluginBasePath } from '../../utils/plugin'
+
 import {
-  Badge, Box, Flex, IconButton, Switch, Table,
+  Badge,
+  Box,
+  Flex,
+  IconButton,
+  Switch,
+  TFooter,
+  Table,
   Tbody,
-  Td, TextButton, TFooter,
+  Td,
+  TextButton,
   Th,
-  Thead, Tooltip, Tr, Typography, VisuallyHidden
-} from "@strapi/design-system";
-import { CarretDown, Pencil, Plus, Trash } from "@strapi/icons";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { CronJob } from "../../../../types";
-import { cron } from "../../api/cron";
-import { getReadableDate } from "../../utils/date";
-import { pluginBasePath } from "../../utils/plugin";
+  Thead,
+  Tooltip,
+  Tr,
+  Typography,
+  VisuallyHidden,
+} from '@strapi/design-system'
+import { CarretDown, Pencil, Plus, Trash } from '@strapi/icons'
+import { useHistory } from 'react-router-dom'
 
 type Props = {
-  cronJobs: CronJob[];
-  fetchCronJobs(): Promise<void>;
-};
+  cronJobs: CronJob[]
+  fetchCronJobs(): Promise<void>
+}
 
 export const CronJobsList: React.FunctionComponent<Props> = (props) => {
-  const ROW_COUNT = 1;
-  const COL_COUNT = 1;
+  const ROW_COUNT = 1
+  const COL_COUNT = 1
 
-  const history = useHistory();
+  const history = useHistory()
 
   async function handleSwitchChange(cronJob: CronJob) {
-    const isPublished = !!cronJob.publishedAt;
+    const isPublished = !!cronJob.publishedAt
     const message = isPublished
-      ? "This action will unpublish the cron job and reset its iterations count"
-      : "This action will publish the cron job";
-    const confirmation = confirm(message);
+      ? 'This action will unpublish the cron job and reset its iterations count'
+      : 'This action will publish the cron job'
+    const confirmation = confirm(message)
     if (!confirmation) {
-      return;
+      return
     }
     await (isPublished
       ? cron.unpublishCronJob(cronJob.id)
-      : cron.publishCronJob(cronJob.id));
-    props.fetchCronJobs();
+      : cron.publishCronJob(cronJob.id))
+    props.fetchCronJobs()
   }
 
   async function handleDeleteBtnClick(cronJob) {
-    const confirmation = confirm("This action will delete: " + cronJob.name);
+    const confirmation = confirm('This action will delete: ' + cronJob.name)
     if (!confirmation) {
-      return;
+      return
     }
-    await cron.deleteCronJob(cronJob.id);
-    props.fetchCronJobs();
+    await cron.deleteCronJob(cronJob.id)
+    props.fetchCronJobs()
   }
 
   return (
@@ -56,7 +69,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
         footer={
           <TFooter
             onClick={() => {
-              history.push(`${pluginBasePath}/cron-jobs/create`);
+              history.push(`${pluginBasePath}/cron-jobs/create`)
             }}
             icon={<Plus />}
           >
@@ -112,7 +125,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                   onClick={() => {
                     history.push(`${pluginBasePath}/cron-jobs/${cronJob.id}`, {
                       cronJob,
-                    });
+                    })
                   }}
                 >
                   <Typography textColor="primary700">{cronJob.name}</Typography>
@@ -126,23 +139,23 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               <Td>
                 <Typography textColor="neutral800">
                   {cronJob.iterationsLimit === -1
-                    ? "∞"
+                    ? '∞'
                     : cronJob.iterationsLimit}
                 </Typography>
               </Td>
               <Td>
                 <Typography textColor="neutral800">
-                  {getReadableDate(cronJob.startDate) || "—"}
+                  {getReadableDate(cronJob.startDate) || '—'}
                 </Typography>
               </Td>
               <Td>
                 <Typography textColor="neutral800">
-                  {getReadableDate(cronJob.endDate) || "—"}
+                  {getReadableDate(cronJob.endDate) || '—'}
                 </Typography>
               </Td>
               <Td>
                 <Flex justifyContent="justify-between">
-                  <div style={{ width: "70px" }}>
+                  <div style={{ width: '70px' }}>
                     <Flex justifyContent="center" grow="1">
                       {!cronJob.publishedAt ? (
                         <Badge>Draft</Badge>
@@ -168,7 +181,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                             {
                               cronJob,
                             }
-                          );
+                          )
                         }}
                       />
                       <IconButton
@@ -191,5 +204,5 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
         </Tbody>
       </Table>
     </Box>
-  );
-};
+  )
+}

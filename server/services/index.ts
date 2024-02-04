@@ -1,7 +1,7 @@
-import cronJob from "./cron-job";
-import validation from "./validation";
+import cronJob from './cron-job'
+import validation from './validation'
 
 export default {
-  "cron-job": cronJob,
+  'cron-job': cronJob,
   validation: validation,
-};
+}

@@ -4,14 +4,16 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  *
  */
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import { CronJobDetails } from "../../components/CronJobDetails";
-import { NotFound } from "../../components/NotFound";
-import { pluginBasePath } from "../../utils/plugin";
-import { EditCronJobPage } from "../EditCronJobPage";
-import { HomePage } from "../HomePage";
-import { NewCronJobPage } from "../NewCronJobPage";
+import React from 'react'
+
+import { CronJobDetails } from '../../components/CronJobDetails'
+import { NotFound } from '../../components/NotFound'
+import { pluginBasePath } from '../../utils/plugin'
+import { EditCronJobPage } from '../EditCronJobPage'
+import { HomePage } from '../HomePage'
+import { NewCronJobPage } from '../NewCronJobPage'
+
+import { Route, Switch } from 'react-router-dom'
 
 const App: React.FunctionComponent = () => {
   return (
@@ -36,7 +38,7 @@ const App: React.FunctionComponent = () => {
         <Route component={NotFound} />
       </Switch>
     </>
-  );
-};
+  )
+}
 
-export default App;
+export default App

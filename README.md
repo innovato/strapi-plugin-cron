@@ -56,7 +56,6 @@ The function has access to `strapi` global variable and the relevant `cronJob` o
 
 The script snippet maintained via the Cron plugin dashboard has a direct top-level access to those parameters.
 
-
 ## 🔧 Development
 
 A supplementary repository for development is available here [@mjnoach/strapi--strapi-plugin-cron](https://github.com/mjnoach/strapi--strapi-plugin-cron)

@@ -1,7 +1,8 @@
-import nodeSchedule from "node-schedule";
-import { CronJob } from "../../types";
-import { pluginName } from "../../utils/plugin";
-import { createCronJobCallback } from "./cronJob";
+import { CronJob } from '../../types'
+import { pluginName } from '../../utils/plugin'
+import { createCronJobCallback } from './cronJob'
+
+import nodeSchedule from 'node-schedule'
 
 // TODO
 // - Strapi DatePicker component bug: when date picker popover has been activated,
@@ -15,15 +16,15 @@ class Cron {
   async init() {
     const cronJobs = await strapi
       .plugin(pluginName)
-      .service("cron-job")
-      .getPublished();
+      .service('cron-job')
+      .getPublished()
     for (const cronJob of cronJobs) {
-      this.scheduleJob(cronJob);
+      this.scheduleJob(cronJob)
     }
   }
 
   async scheduleJob(cronJob: CronJob) {
-    const cronJobCallback = await createCronJobCallback(cronJob);
+    const cronJobCallback = await createCronJobCallback(cronJob)
     const job = nodeSchedule.scheduleJob(
       cronJob.name,
       {
@@ -32,23 +33,23 @@ class Cron {
         rule: cronJob.schedule,
       },
       cronJobCallback
-    );
+    )
   }
 
   updateJob(cronJob: CronJob) {
-    const job = nodeSchedule.scheduledJobs[cronJob.name];
-    const isNotPublished = !cronJob.publishedAt;
-    if (job) job.cancel();
-    if (isNotPublished) return;
-    this.scheduleJob(cronJob);
+    const job = nodeSchedule.scheduledJobs[cronJob.name]
+    const isNotPublished = !cronJob.publishedAt
+    if (job) job.cancel()
+    if (isNotPublished) return
+    this.scheduleJob(cronJob)
   }
 
   deleteJob(cronJob: CronJob) {
-    const job = nodeSchedule.scheduledJobs[cronJob.name];
-    if (job) job.cancel();
+    const job = nodeSchedule.scheduledJobs[cronJob.name]
+    if (job) job.cancel()
   }
 }
 
-const cron = new Cron();
+const cron = new Cron()
 
-export { cron };
+export { cron }

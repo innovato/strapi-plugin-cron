@@ -3,10 +3,10 @@
  * PluginIcon
  *
  */
+import React from 'react'
 
-import { Clock } from "@strapi/icons";
-import React from "react";
+import { Clock } from '@strapi/icons'
 
-const PluginIcon: React.VoidFunctionComponent = () => <Clock />;
+const PluginIcon: React.VoidFunctionComponent = () => <Clock />
 
-export default PluginIcon;
+export default PluginIcon

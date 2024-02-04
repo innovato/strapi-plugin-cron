@@ -1,29 +1,36 @@
-import { BaseHeaderLayout, Button, ContentLayout, EmptyStateLayout } from "@strapi/design-system";
-import { LoadingIndicatorPage } from "@strapi/helper-plugin";
-import { EmptyDocuments, Plus } from "@strapi/icons";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { CronJob } from "../../../../types";
-import { cron } from "../../api/cron";
-import { CronJobsList } from "../../components/CronJobsList";
-import { pluginBasePath } from "../../utils/plugin";
+import React, { useEffect, useState } from 'react'
+
+import { CronJob } from '../../../../types'
+import { cron } from '../../api/cron'
+import { CronJobsList } from '../../components/CronJobsList'
+import { pluginBasePath } from '../../utils/plugin'
+
+import {
+  BaseHeaderLayout,
+  Button,
+  ContentLayout,
+  EmptyStateLayout,
+} from '@strapi/design-system'
+import { LoadingIndicatorPage } from '@strapi/helper-plugin'
+import { EmptyDocuments, Plus } from '@strapi/icons'
+import { useHistory } from 'react-router-dom'
 
 export const HomePage: React.FunctionComponent = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [cronJobs, setCronJobs] = useState<CronJob[]>([]);
-  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(true)
+  const [cronJobs, setCronJobs] = useState<CronJob[]>([])
+  const history = useHistory()
 
   useEffect(() => {
-    fetchCronJobs();
-  }, []);
+    fetchCronJobs()
+  }, [])
 
   async function fetchCronJobs() {
-    const { data } = await cron.getAllCronJobs();
-    setCronJobs(data);
-    setIsLoading(false);
+    const { data } = await cron.getAllCronJobs()
+    setCronJobs(data)
+    setIsLoading(false)
   }
 
-  if (isLoading) return <LoadingIndicatorPage />;
+  if (isLoading) return <LoadingIndicatorPage />
 
   return (
     <>
@@ -42,7 +49,9 @@ export const HomePage: React.FunctionComponent = () => {
       <ContentLayout>
         {cronJobs.length === 0 ? (
           <EmptyStateLayout
-            icon={<EmptyDocuments style={{ width: "200px", height: "200px" }} />}
+            icon={
+              <EmptyDocuments style={{ width: '200px', height: '200px' }} />
+            }
             content="You don't have any cron jobs yet..."
           />
         ) : (
@@ -50,7 +59,7 @@ export const HomePage: React.FunctionComponent = () => {
         )}
       </ContentLayout>
     </>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

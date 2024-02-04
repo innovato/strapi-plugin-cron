@@ -1,10 +1,10 @@
-import { cron } from "../../cron/index";
+import { cron } from '../../cron/index'
 
 export default {
   afterUpdate({ result: cronJob }) {
-    cron.updateJob(cronJob);
+    cron.updateJob(cronJob)
   },
   afterDelete({ result: cronJob }) {
-    cron.deleteJob(cronJob);
+    cron.deleteJob(cronJob)
   },
-};
+}

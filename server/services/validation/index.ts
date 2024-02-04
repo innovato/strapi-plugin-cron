@@ -1,16 +1,16 @@
-import { CronJobSchema } from "./schema";
+import { CronJobSchema } from './schema'
 
 export default {
   validateCronJobData(data) {
-    const omitProps = {};
+    const omitProps = {}
     data.executeScriptFromFile
-      ? (omitProps["script"] = true)
-      : (omitProps["pathToScript"] = true);
+      ? (omitProps['script'] = true)
+      : (omitProps['pathToScript'] = true)
 
-    const validation = CronJobSchema.omit(omitProps).safeParse(data);
+    const validation = CronJobSchema.omit(omitProps).safeParse(data)
     if (!validation.success) {
-      return { errors: validation["error"].issues };
+      return { errors: validation['error'].issues }
     }
-    return { errors: null };
+    return { errors: null }
   },
-};
+}
