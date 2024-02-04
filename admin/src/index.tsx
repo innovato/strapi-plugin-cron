@@ -11,7 +11,7 @@ export default {
       icon: PluginIcon,
       intlLabel: {
         id: `${pluginId}.plugin.name`,
-        defaultMessage: 'Cron Jobs',
+        defaultMessage: pluginDisplayName,
       },
       Component: async () => {
         const component = await import(

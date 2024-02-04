@@ -14,6 +14,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e)
     }
   },
+
   async getOne(ctx: any) {
     const { params } = ctx.request
     try {
@@ -26,15 +27,15 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e)
     }
   },
+
   async create(ctx: any) {
     const { body } = ctx.request
     const { errors } = strapi
       .plugin(pluginName)
-      .service('validation')
-      .validateCronJobData(body)
-    if (errors) {
-      return ctx.badRequest('ValidationError', { errors })
-    }
+      .service('cron')
+      .validateData(body)
+    if (errors) return ctx.badRequest('ValidationError', { errors })
+
     try {
       const newCronJob = await strapi
         .plugin(pluginName)
@@ -45,15 +46,15 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e)
     }
   },
+
   async update(ctx: any) {
     const { params, body } = ctx.request
     const { errors } = strapi
       .plugin(pluginName)
-      .service('validation')
-      .validateCronJobData(body)
-    if (errors) {
-      return ctx.badRequest('ValidationError', { errors })
-    }
+      .service('cron')
+      .validateData(body)
+    if (errors) return ctx.badRequest('ValidationError', { errors })
+
     try {
       const cronJob = await strapi
         .plugin(pluginName)
@@ -64,6 +65,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e)
     }
   },
+
   async publish(ctx: any) {
     const { params } = ctx.request
     try {
@@ -78,6 +80,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e)
     }
   },
+
   async unpublish(ctx: any) {
     const { params } = ctx.request
     try {
@@ -86,13 +89,14 @@ export default ({ strapi }: { strapi: Strapi }) => ({
         .service('cron-job')
         .update(params.id, {
           publishedAt: null,
-          iterationsCount: null,
+          iterationsCount: 0,
         })
       ctx.body = cronJob
     } catch (e) {
       ctx.throw(500, e)
     }
   },
+
   async delete(ctx: any) {
     const { params } = ctx.request
     try {

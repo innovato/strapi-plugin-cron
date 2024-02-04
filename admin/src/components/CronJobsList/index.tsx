@@ -34,10 +34,22 @@ type Props = {
 export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   const ROW_COUNT = 1
   const COL_COUNT = 1
-
   const history = useHistory()
 
-  async function handleSwitchChange(cronJob: CronJob) {
+  async function handleEditClick(cronJob) {
+    history.push(`${pluginBasePath}/cron-jobs/edit/${cronJob.id}`, { cronJob })
+  }
+
+  async function handleDeleteClick(cronJob) {
+    const confirmation = confirm('This action will delete: ' + cronJob.name)
+    if (!confirmation) {
+      return
+    }
+    await cron.deleteCronJob(cronJob.id)
+    props.fetchCronJobs()
+  }
+
+  async function handleToggleChange(cronJob: CronJob) {
     const isPublished = !!cronJob.publishedAt
     const message = isPublished
       ? 'This action will unpublish the cron job and reset its iterations count'
@@ -52,13 +64,24 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
     props.fetchCronJobs()
   }
 
-  async function handleDeleteBtnClick(cronJob) {
-    const confirmation = confirm('This action will delete: ' + cronJob.name)
-    if (!confirmation) {
-      return
-    }
-    await cron.deleteCronJob(cronJob.id)
-    props.fetchCronJobs()
+  function handleSortOnId() {
+    console.log('handleSortOnId')
+  }
+
+  function handleSortOnName() {
+    console.log('handleSortOnName')
+  }
+
+  function handleSortOnStartDate() {
+    console.log('handleSortOnStartDate')
+  }
+
+  function handleSortOnEndDate() {
+    console.log('handleSortOnEndDate')
+  }
+
+  function handleSortOnStatus() {
+    console.log('handleSortOnStatus')
   }
 
   return (
@@ -81,7 +104,12 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
           <Tr>
             <Th
               action={
-                <IconButton label="Sort on ID" icon={<CarretDown />} noBorder />
+                <IconButton
+                  onClick={(e) => handleSortOnId()}
+                  label="Sort on ID"
+                  icon={<CarretDown />}
+                  noBorder
+                />
               }
             >
               <Typography variant="sigma">ID</Typography>
@@ -89,6 +117,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
             <Th
               action={
                 <IconButton
+                  onClick={(e) => handleSortOnName()}
                   label="Sort on Name"
                   icon={<CarretDown />}
                   noBorder
@@ -97,19 +126,49 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
             >
               <Typography variant="sigma">Name</Typography>
             </Th>
-            <Th>
+            <Th action={null}>
               <Typography variant="sigma">Schedule</Typography>
             </Th>
-            <Th>
+            <Th action={null}>
               <Typography variant="sigma">Iterations</Typography>
             </Th>
-            <Th>
+            <Th
+              action={
+                <IconButton
+                  onClick={(e) => handleSortOnStartDate()}
+                  label="Sort on Start Date"
+                  icon={<CarretDown />}
+                  noBorder
+                />
+              }
+            >
               <Typography variant="sigma">Start Date</Typography>
             </Th>
-            <Th>
+            <Th
+              action={
+                <IconButton
+                  onClick={(e) => handleSortOnEndDate()}
+                  label="Sort on End Date"
+                  icon={<CarretDown />}
+                  noBorder
+                />
+              }
+            >
               <Typography variant="sigma">End Date</Typography>
             </Th>
-            <Th>
+            <Th
+              action={
+                <IconButton
+                  onClick={(e) => handleSortOnStatus()}
+                  label="Sort on Status"
+                  icon={<CarretDown />}
+                  noBorder
+                />
+              }
+            >
+              <Typography variant="sigma">Status</Typography>
+            </Th>
+            <Th action={null}>
               <VisuallyHidden>Actions</VisuallyHidden>
             </Th>
           </Tr>
@@ -154,49 +213,40 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 </Typography>
               </Td>
               <Td>
-                <Flex justifyContent="justify-between">
-                  <div style={{ width: '70px' }}>
-                    <Flex justifyContent="center" grow="1">
-                      {!cronJob.publishedAt ? (
-                        <Badge>Draft</Badge>
-                      ) : (
-                        <Tooltip
-                          description={getReadableDate(cronJob.publishedAt)}
-                          position="bottom"
-                        >
-                          <Badge active>Published</Badge>
-                        </Tooltip>
-                      )}
-                    </Flex>
-                  </div>
-                  <Flex justifyContent="justify-evenly">
-                    <Flex paddingLeft="10px" paddingRight="10px">
-                      <IconButton
-                        label="Edit"
-                        noBorder
-                        icon={<Pencil />}
-                        onClick={() => {
-                          history.push(
-                            `${pluginBasePath}/cron-jobs/edit/${cronJob.id}`,
-                            {
-                              cronJob,
-                            }
-                          )
-                        }}
-                      />
-                      <IconButton
-                        label="Delete"
-                        noBorder
-                        icon={<Trash />}
-                        onClick={() => handleDeleteBtnClick(cronJob)}
-                      />
-                    </Flex>
-                    <Switch
-                      label="Toggle cron job"
-                      selected={!!cronJob.publishedAt}
-                      onChange={() => handleSwitchChange(cronJob)}
+                {!cronJob.publishedAt ? (
+                  <Badge>Draft</Badge>
+                ) : (
+                  <Tooltip
+                    description={getReadableDate(cronJob.publishedAt)}
+                    position="bottom"
+                    label={undefined}
+                    id={undefined}
+                  >
+                    <Badge active>Published</Badge>
+                  </Tooltip>
+                )}
+              </Td>
+              <Td>
+                <Flex justifyContent="justify-evenly">
+                  <Flex paddingLeft="10px" paddingRight="10px">
+                    <IconButton
+                      label="Edit"
+                      noBorder
+                      icon={<Pencil />}
+                      onClick={() => handleEditClick(cronJob)}
+                    />
+                    <IconButton
+                      label="Delete"
+                      noBorder
+                      icon={<Trash />}
+                      onClick={() => handleDeleteClick(cronJob)}
                     />
                   </Flex>
+                  <Switch
+                    label="Toggle"
+                    selected={!!cronJob.publishedAt}
+                    onChange={() => handleToggleChange(cronJob)}
+                  />
                 </Flex>
               </Td>
             </Tr>

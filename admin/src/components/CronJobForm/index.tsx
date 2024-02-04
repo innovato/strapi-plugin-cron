@@ -23,7 +23,7 @@ const initialState: CronJobInputData = {
   schedule: '',
   executeScriptFromFile: true,
   pathToScript: '',
-  script: '',
+  script: 'console.log("Hello World!");',
   iterationsLimit: -1,
   startDate: null,
   endDate: null,

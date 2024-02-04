@@ -10,6 +10,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async (config) => {
+    // @ts-ignore
     config.headers = {
       Authorization: `Bearer ${auth.getToken()}`,
       Accept: 'application/json',
@@ -26,7 +27,6 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => response,
   (error) => {
-    // whatever you want to do with the error
     if (error.response?.status === 401) {
       auth.clearAppStorage()
       window.location.reload()
