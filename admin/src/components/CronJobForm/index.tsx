@@ -5,7 +5,7 @@ import type { CronJob, CronJobInputData } from "../../../../types";
 import { pluginName } from "../../../../utils/plugin";
 import { getCurrentDate } from "../../utils/date";
 
-const initialInput: CronJobInputData = {
+const initialState: CronJobInputData = {
   name: "",
   schedule: "",
   executeScriptFromFile: true,
@@ -22,8 +22,7 @@ type Props = {
 };
 
 export const CronJobForm: React.FunctionComponent<Props> = (props) => {
-  const state = props.initialData ? props.initialData : initialInput;
-  const [input, setInput] = useState<CronJobInputData>(state);
+  const [input, setInput] = useState<CronJobInputData>(props.initialData ?? initialState);
   const isChecked = input.executeScriptFromFile;
   const [errors, setErrors] = useState({});
   const history = useHistory();

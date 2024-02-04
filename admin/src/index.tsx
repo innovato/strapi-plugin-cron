@@ -3,8 +3,6 @@ import Initializer from "./components/Initializer";
 import PluginIcon from "./components/PluginIcon";
 import { pluginBasePath, pluginDisplayName, pluginId } from "./utils/plugin";
 
-const name = pluginDisplayName;
-
 export default {
   register(app) {
     app.addMenuLink({
@@ -12,7 +10,7 @@ export default {
       icon: PluginIcon,
       intlLabel: {
         id: `${pluginId}.plugin.name`,
-        defaultMessage: name,
+        defaultMessage: 'Cron Jobs',
       },
       Component: async () => {
         const component = await import(
@@ -33,7 +31,7 @@ export default {
       id: pluginId,
       initializer: Initializer,
       isReady: false,
-      name,
+      name: pluginDisplayName,
     };
 
     app.registerPlugin(plugin);

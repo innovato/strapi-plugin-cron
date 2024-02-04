@@ -28,7 +28,7 @@ export const HomePage: React.FunctionComponent = () => {
   return (
     <>
       <BaseHeaderLayout
-        title="cron jobs"
+        title="Cron Jobs"
         as="h2"
         primaryAction={
           <Button
@@ -42,7 +42,7 @@ export const HomePage: React.FunctionComponent = () => {
       <ContentLayout>
         {cronJobs.length === 0 ? (
           <EmptyStateLayout
-            icon={<EmptyDocuments style={{ fontSize: "10rem" }} />}
+            icon={<EmptyDocuments style={{ width: "200px", height: "200px" }} />}
             content="You don't have any cron jobs yet..."
           />
         ) : (
