@@ -6,6 +6,7 @@ import { CronJob } from "../../../../types";
 import { cron } from "../../api/cron";
 import { getReadableDate } from "../../utils/date";
 import { NotFound } from "../NotFound";
+import { GoBackButton } from "../go-back-button";
 
 type Props = {
   match: {
@@ -58,7 +59,7 @@ export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
 
   return (
     <>
-      <BaseHeaderLayout title={cronJob?.name ?? ""} as="h2" />
+      <BaseHeaderLayout title={cronJob?.name ?? ""} as="h2" navigationAction={<GoBackButton />} />
       <ContentLayout>
         <Box
           padding={8}

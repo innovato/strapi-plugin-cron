@@ -1,10 +1,11 @@
 import { BaseHeaderLayout, ContentLayout } from "@strapi/design-system";
-import React, { FunctionComponent } from "react";
+import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import { CronJob } from "../../../../types";
 import { cron } from "../../api/cron";
 import { CronJobForm } from "../../components/CronJobForm";
 import { NotFound } from "../../components/NotFound";
+import { GoBackButton } from "../../components/go-back-button";
 import { getResponseErrors } from "../../utils/getResponseErrors";
 import { pluginBasePath } from "../../utils/plugin";
 
@@ -29,7 +30,7 @@ export const EditCronJobPage: React.FunctionComponent = () => {
 
   return (
     <>
-      <BaseHeaderLayout title="Edit cron job" as="h2" />
+      <BaseHeaderLayout title="Edit cron job" as="h2" navigationAction={<GoBackButton />} />
       <ContentLayout>
         <CronJobForm initialData={cronJob} handleSubmit={handleFormSubmit} />
       </ContentLayout>
