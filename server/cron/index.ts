@@ -1,5 +1,6 @@
 import nodeSchedule from "node-schedule";
 import { CronJob } from "../../types";
+import { pluginName } from "../../utils/plugin";
 import { createCronJobCallback } from "./cronJob";
 
 // TODO
@@ -13,7 +14,7 @@ import { createCronJobCallback } from "./cronJob";
 class Cron {
   async init() {
     const cronJobs = await strapi
-      .plugin("cron")
+      .plugin(pluginName)
       .service("cron-job")
       .getPublished();
     for (const cronJob of cronJobs) {

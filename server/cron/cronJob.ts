@@ -1,5 +1,6 @@
 import nodeSchedule from "node-schedule";
 import { CronJob } from "../../types";
+import { pluginName } from "../../utils/plugin";
 import { getDefaultModuleExport } from "../utils/extensions";
 
 const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor;
@@ -60,13 +61,13 @@ export const createCronJobCallback = async (cronJob: CronJob) => {
 };
 
 function updateCronJobIterationsCount(id: number, iterationsCount: number) {
-  strapi.plugin("cron").service("cron-job").update(id, {
+  strapi.plugin(pluginName).service("cron-job").update(id, {
     iterationsCount,
   });
 }
 
 function updateLatestExecutionLog(id: number, latestExecutionLog: object) {
-  strapi.plugin("cron").service("cron-job").update(id, {
+  strapi.plugin(pluginName).service("cron-job").update(id, {
     latestExecutionLog,
   });
 }

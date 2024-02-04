@@ -3,7 +3,7 @@
   "version": "1.0.6",
   "description": "Manage and monitor cron jobs from Strapi admin panel.",
   "strapi": {
-    "name": "cron",
+    "name": "strapi-plugin-cron",
     "displayName": "Cron",
     "description": "Manage and monitor cron jobs from Strapi admin panel.",
     "kind": "plugin"

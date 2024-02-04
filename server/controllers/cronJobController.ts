@@ -1,9 +1,10 @@
 import { Strapi } from "@strapi/strapi";
+import { pluginName } from "../../utils/plugin";
 
 export default ({ strapi }: { strapi: Strapi }) => ({
   async getAll(ctx: any) {
     try {
-      const cronJobs = await strapi.plugin("cron").service("cron-job").getAll();
+      const cronJobs = await strapi.plugin(pluginName).service("cron-job").getAll();
       ctx.body = cronJobs;
     } catch (e) {
       ctx.throw(500, e);
@@ -13,7 +14,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     const { params } = ctx.request;
     try {
       const cronJob = await strapi
-        .plugin("cron")
+        .plugin(pluginName)
         .service("cron-job")
         .getOne(params.id);
       ctx.body = cronJob;
@@ -24,7 +25,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   async create(ctx: any) {
     const { body } = ctx.request;
     const { errors } = strapi
-      .plugin("cron")
+      .plugin(pluginName)
       .service("validation")
       .validateCronJobData(body);
     if (errors) {
@@ -32,7 +33,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     }
     try {
       const newCronJob = await strapi
-        .plugin("cron")
+        .plugin(pluginName)
         .service("cron-job")
         .create(body);
       ctx.body = newCronJob;
@@ -43,7 +44,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   async update(ctx: any) {
     const { params, body } = ctx.request;
     const { errors } = strapi
-      .plugin("cron")
+      .plugin(pluginName)
       .service("validation")
       .validateCronJobData(body);
     if (errors) {
@@ -51,7 +52,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     }
     try {
       const cronJob = await strapi
-        .plugin("cron")
+        .plugin(pluginName)
         .service("cron-job")
         .update(params.id, body);
       ctx.body = cronJob;
@@ -63,7 +64,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     const { params } = ctx.request;
     try {
       const cronJob = await strapi
-        .plugin("cron")
+        .plugin(pluginName)
         .service("cron-job")
         .update(params.id, {
           publishedAt: new Date(),
@@ -77,7 +78,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     const { params } = ctx.request;
     try {
       const cronJob = await strapi
-        .plugin("cron")
+        .plugin(pluginName)
         .service("cron-job")
         .update(params.id, {
           publishedAt: null,
@@ -92,7 +93,7 @@ export default ({ strapi }: { strapi: Strapi }) => ({
     const { params } = ctx.request;
     try {
       const deletedCronJob = await strapi
-        .plugin("cron")
+        .plugin(pluginName)
         .service("cron-job")
         .delete(params.id);
       ctx.body = deletedCronJob;
