@@ -179,11 +179,12 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               label="Script"
               name="script"
               aria-label="cron job script input"
-              value={input.script}
-              onChange={handleInputChange}
+              onChange={e => handleInputChange({ target: { name: "script", value: e.target.value } })}
               error={!isChecked ? errors["script"] : ""}
               disabled={isChecked}
-            />
+            >
+              {input.script}
+            </Textarea>
           </Box>
           <Stack horizontal spacing={4}>
             <Button size="L" type="submit">
