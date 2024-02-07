@@ -109,4 +109,18 @@ export default ({ strapi }: { strapi: Strapi }) => ({
       ctx.throw(500, e)
     }
   },
+
+  async trigger(ctx: any) {
+    const { params } = ctx.request
+    try {
+      const cronJob = await strapi
+        .plugin(pluginName)
+        .service('cron-job')
+        .getOne(params.id)
+      await strapi.service(`plugin::${pluginName}.cron`).trigger(cronJob)
+      ctx.body = {}
+    } catch (e) {
+      ctx.throw(500, e)
+    }
+  },
 })

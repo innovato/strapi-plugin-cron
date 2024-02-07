@@ -23,7 +23,7 @@ import {
   Typography,
   VisuallyHidden,
 } from '@strapi/design-system'
-import { CarretDown, Pencil, Plus, Trash } from '@strapi/icons'
+import { CarretDown, Pencil, Play, Plus, Trash } from '@strapi/icons'
 import { useHistory } from 'react-router-dom'
 
 type Props = {
@@ -35,6 +35,10 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   const ROW_COUNT = 1
   const COL_COUNT = 1
   const history = useHistory()
+
+  async function handleTriggerClick(cronJob) {
+    cron.triggerCronJob(cronJob.id)
+  }
 
   async function handleEditClick(cronJob) {
     history.push(`${pluginBasePath}/cron-jobs/edit/${cronJob.id}`, { cronJob })
@@ -240,6 +244,12 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                       noBorder
                       icon={<Trash />}
                       onClick={() => handleDeleteClick(cronJob)}
+                    />
+                    <IconButton
+                      label="Trigger"
+                      noBorder
+                      icon={<Play />}
+                      onClick={() => handleTriggerClick(cronJob)}
                     />
                   </Flex>
                   <Switch

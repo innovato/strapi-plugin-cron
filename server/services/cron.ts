@@ -46,6 +46,13 @@ export default ({ strapi }: { strapi: Strapi }) => ({
   cancel: async (cronJob: CronJob) => {
     scheduledJobs[cronJob.name]?.cancel()
   },
+
+  trigger: async (cronJob: CronJob) => {
+    const cronJobCallback = await createCronJobCallback(cronJob, {
+      dryRun: true,
+    })
+    cronJobCallback()
+  },
 })
 
 const createCronJobCallback = async (

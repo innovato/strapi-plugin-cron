@@ -55,4 +55,12 @@ export default [
       policies: [],
     },
   },
+  {
+    method: 'GET',
+    path: '/cron-jobs/trigger/:id',
+    handler: 'cronJobController.trigger',
+    config: {
+      policies: [],
+    },
+  },
 ]

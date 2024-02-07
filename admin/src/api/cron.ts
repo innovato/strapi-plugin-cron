@@ -24,4 +24,7 @@ export const cron = {
   async deleteCronJob(id: number) {
     return axiosInstance.delete(`/${pluginName}/cron-jobs/${id}`)
   },
+  async triggerCronJob(id: number) {
+    return axiosInstance.get(`/${pluginName}/cron-jobs/trigger/${id}`)
+  },
 }
