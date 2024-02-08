@@ -148,8 +148,16 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
         </Thead>
         <Tbody>
           {props.cronJobs
-            // @ts-ignore
-            .sort((a, b) => (a[sortKey] > b[sortKey] ? 1 : -1))
+            .sort((a: CronJob, b: CronJob) => {
+              const order =
+                sortOrder === 'asc'
+                  ? // @ts-ignore
+                    a[sortKey] > b[sortKey]
+                  : // @ts-ignore
+                    a[sortKey] < b[sortKey]
+
+              return order ? 1 : -1
+            })
             .map((cronJob) => (
               <Tr key={cronJob.id}>
                 <Td>
