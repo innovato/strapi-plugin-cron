@@ -71,20 +71,26 @@ const createCronJobCallback = async (
 
     captureConsoleOutput(async () => {
       console.log(`[${new Date().toLocaleString()}]`)
-      await script({ strapi, cronJob })
+      try {
+        await script({ strapi, cronJob })
+      } catch (e) {
+        console.log(e)
+      }
     }).then((logs) => {
       const data: Partial<CronJob> = { latestExecutionLog: logs }
       if (!dryRun && hasLimitedIterations)
         data.iterationsCount = ++iterationsCount
-      strapi.plugin(pluginName).service('cron-job').update(cronJob.id, data)
+      strapi.service(`plugin::${pluginName}.cron-job`).update(cronJob.id, data)
     })
   }
 }
 
-const AsyncFunction = Object.getPrototypeOf(async function () {}).constructor
-
-const getCronJobScript = async (cronJob: CronJob) => {
+const getCronJobScript = async (
+  cronJob: CronJob
+): Promise<
+  ({ strapi, cronJob }: { strapi: Strapi; cronJob: CronJob }) => Promise<void>
+> => {
   return cronJob.executeScriptFromFile
     ? await getDefaultModuleExport(cronJob.pathToScript)
-    : new AsyncFunction(cronJob.script)
+    : new Function(cronJob.script)
 }

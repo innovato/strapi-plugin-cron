@@ -8,7 +8,7 @@ export const captureConsoleOutput = async (callback: Function) => {
   }
 
   try {
-    callback()
+    await callback()
   } catch (e) {
     console.log('* Callback error\n', e)
   }

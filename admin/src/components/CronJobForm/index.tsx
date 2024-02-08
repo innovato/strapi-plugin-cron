@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import type { CronJob, CronJobInputData } from '../../../../types'
 import { pluginName } from '../../../../utils/plugin'
@@ -22,8 +22,9 @@ const initialState: CronJobInputData = {
   name: '',
   schedule: '',
   executeScriptFromFile: true,
-  pathToScript: '',
-  script: 'console.log("Hello World!");',
+  pathToScript: '/example-script.ts',
+  script: `console.log('Hello World!')
+`,
   iterationsLimit: -1,
   startDate: null,
   endDate: null,
@@ -41,6 +42,16 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
   const isChecked = input.executeScriptFromFile
   const [errors, setErrors] = useState({})
   const history = useHistory()
+  const textareaRef = useRef<Textarea>(null)
+
+  useEffect(() => {
+    adjustTextareaHeight()
+  }, [])
+
+  const adjustTextareaHeight = () => {
+    textareaRef.current.style.height = 'auto'
+    textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+  }
 
   function handleInputChange(e: any) {
     const { name, value } = e.target
@@ -189,16 +200,18 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
           </Stack>
           <Box>
             <Textarea
+              ref={textareaRef}
               placeholder={'console.log("Hello World!");'}
               required={!isChecked}
               label="Script"
               name="script"
               aria-label="cron job script input"
-              onChange={(e) =>
+              onChange={(e) => {
                 handleInputChange({
                   target: { name: 'script', value: e.target.value },
                 })
-              }
+                adjustTextareaHeight()
+              }}
               error={!isChecked ? errors['script'] : ''}
               disabled={isChecked}
             >
