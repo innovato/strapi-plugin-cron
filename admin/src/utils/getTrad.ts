@@ -1,5 +1,5 @@
-import { pluginId } from "./plugin";
+import { pluginId } from './plugin'
 
-const getTrad = (id: string) => `${pluginId}.${id}`;
+const getTrad = (id: string) => `${pluginId}.${id}`
 
-export default getTrad;
+export default getTrad

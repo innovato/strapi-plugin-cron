@@ -1,13 +1,13 @@
-import register from './register';
-import bootstrap from './bootstrap';
-import destroy from './destroy';
-import config from './config';
-import contentTypes from './content-types';
-import controllers from './controllers';
-import routes from './routes';
-import middlewares from './middlewares';
-import policies from './policies';
-import services from './services';
+import bootstrap from './bootstrap'
+import config from './config'
+import contentTypes from './content-types'
+import controllers from './controllers'
+import destroy from './destroy'
+import middlewares from './middlewares'
+import policies from './policies'
+import register from './register'
+import routes from './routes'
+import services from './services'
 
 export default {
   register,
@@ -20,4 +20,4 @@ export default {
   contentTypes,
   policies,
   middlewares,
-};
+}

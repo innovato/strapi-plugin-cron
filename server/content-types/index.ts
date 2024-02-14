@@ -1,5 +1,5 @@
-import cronJob from "./cron-job";
+import cronJob from './cron-job'
 
 export default {
-  "cron-job": cronJob,
-};
+  'cron-job': cronJob,
+}

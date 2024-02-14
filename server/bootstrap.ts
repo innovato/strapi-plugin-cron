@@ -1,6 +1,7 @@
-import { Strapi } from "@strapi/strapi";
-import { cron } from "./cron/index";
+import { pluginName } from '../utils/plugin'
+
+import { Strapi } from '@strapi/strapi'
 
 export default ({ strapi }: { strapi: Strapi }) => {
-  cron.init();
-};
+  strapi.service(`plugin::${pluginName}.cron`).initialize()
+}
