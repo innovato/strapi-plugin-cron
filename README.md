@@ -4,7 +4,7 @@
 <br />
 <br />
 
-![Cron plugin for Strapi](/screenshot.png)
+![Cron plugin for Strapi](screenshot.png)
 
 ## 👋 Get Started
 
@@ -31,8 +31,11 @@
 
 ```JS
 export default () => ({
-  cron: true,
-});
+  'strapi-plugin-cron': {
+    enabled: true,
+    resolve: './src/plugins/strapi-plugin-cron',
+  },
+})
 ```
 
 3. Run the build command from the Strapi app root directory.
