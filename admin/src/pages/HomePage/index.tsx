@@ -38,7 +38,8 @@ export const HomePage: React.FunctionComponent = () => {
           >
             Add new cron job
           </Button>
-      <div/>
+        </div>
+        <div>
         {cronJobs.length === 0 ? (
           <EmptyStateLayout
             icon={
@@ -49,6 +50,7 @@ export const HomePage: React.FunctionComponent = () => {
         ) : (
           <CronJobsList cronJobs={cronJobs} fetchCronJobs={fetchCronJobs} />
         )}
+        </div>
     </>
   )
 }
