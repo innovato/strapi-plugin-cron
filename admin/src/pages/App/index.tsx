@@ -13,12 +13,12 @@ import { EditCronJobPage } from '../EditCronJobPage'
 import { HomePage } from '../HomePage'
 import { NewCronJobPage } from '../NewCronJobPage'
 
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
 const App: React.FunctionComponent = () => {
   return (
     <>
-      <Switch>
+      <Routes>
         <Route path={`${pluginBasePath}`} component={HomePage} exact />
         <Route
           path={`${pluginBasePath}/cron-jobs/create`}
@@ -36,7 +36,7 @@ const App: React.FunctionComponent = () => {
           exact
         />
         <Route component={NotFound} />
-      </Switch>
+      </Routes>
     </>
   )
 }

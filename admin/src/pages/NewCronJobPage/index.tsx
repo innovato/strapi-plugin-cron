@@ -6,15 +6,15 @@ import { GoBackButton } from '../../components/go-back-button'
 import { getResponseErrors } from '../../utils/getResponseErrors'
 import { pluginBasePath } from '../../utils/plugin'
 
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const NewCronJobPage: React.FunctionComponent = () => {
-  const history = useHistory()
+  const history = useNavigate()
 
   async function handleFormSubmit({ input, setErrors }) {
     try {
       await cron.createNewCronJob(input)
-      history.push(pluginBasePath)
+      history(pluginBasePath)
     } catch (error) {
       const errors = getResponseErrors(error.response)
       setErrors(errors)

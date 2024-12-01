@@ -14,7 +14,7 @@ import {
   TextInput,
   Textarea,
 } from '@strapi/design-system'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const initialState: CronJobInputData = {
   name: '',
@@ -39,7 +39,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
   )
   const isChecked = input.executeScriptFromFile
   const [errors, setErrors] = useState({})
-  const history = useHistory()
+  const history = useNavigate()
   const textareaRef = useRef<Textarea>(null)
 
   useEffect(() => {
@@ -216,7 +216,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             <Button
               size="L"
               variant="tertiary"
-              onClick={() => history.goBack()}
+              onClick={() => history(-1)}
             >
               Cancel
             </Button>

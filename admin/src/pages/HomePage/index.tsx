@@ -10,12 +10,12 @@ import {
   EmptyStateLayout,
 } from '@strapi/design-system'
 import { Plus } from '@strapi/icons'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export const HomePage: React.FunctionComponent = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [cronJobs, setCronJobs] = useState<CronJob[]>([])
-  const history = useHistory()
+  const history = useNavigate()
 
   useEffect(() => {
     fetchCronJobs()
@@ -34,7 +34,7 @@ export const HomePage: React.FunctionComponent = () => {
       <div>
           <Button
             startIcon={<Plus />}
-            onClick={() => history.push(`${pluginBasePath}/cron-jobs/create`)}
+            onClick={() => history(`${pluginBasePath}/cron-jobs/create`)}
           >
             Add new cron job
           </Button>

@@ -23,7 +23,7 @@ import {
   VisuallyHidden,
 } from '@strapi/design-system'
 import { CarretDown, CarretUp, Pencil, Play, Plus, Trash } from '@strapi/icons'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 type Props = {
   cronJobs: CronJob[]
@@ -33,7 +33,7 @@ type Props = {
 export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   const ROW_COUNT = 1
   const COL_COUNT = 1
-  const history = useHistory()
+  const history = useNavigate()
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
   const [sortKey, setSortKey] = useState<
     'id' | 'name' | 'startDate' | 'endDate' | 'publishedAt'
@@ -44,7 +44,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   }
 
   async function handleEditClick(cronJob) {
-    history.push(`${pluginBasePath}/cron-jobs/edit/${cronJob.id}`, { cronJob })
+    history(`${pluginBasePath}/cron-jobs/edit/${cronJob.id}`, { cronJob })
   }
 
   async function handleDeleteClick(cronJob) {
@@ -109,7 +109,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
         footer={
           <TFooter
             onClick={() => {
-              history.push(`${pluginBasePath}/cron-jobs/create`)
+              history(`${pluginBasePath}/cron-jobs/create`)
             }}
             icon={<Plus />}
           >
@@ -164,7 +164,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 <Td>
                   <TextButton
                     onClick={() => {
-                      history.push(
+                      history(
                         `${pluginBasePath}/cron-jobs/${cronJob.id}`,
                         {
                           cronJob,
