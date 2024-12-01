@@ -9,7 +9,7 @@ import {
   Button,
   EmptyStateLayout,
 } from '@strapi/design-system'
-import { EmptyDocuments, Plus } from '@strapi/icons'
+import { Plus } from '@strapi/icons'
 import { useHistory } from 'react-router-dom'
 
 export const HomePage: React.FunctionComponent = () => {
@@ -41,12 +41,9 @@ export const HomePage: React.FunctionComponent = () => {
         </div>
         <div>
         {cronJobs.length === 0 ? (
-          <EmptyStateLayout
-            icon={
-              <EmptyDocuments style={{ width: '200px', height: '200px' }} />
-            }
-            content="You don't have any cron jobs yet..."
-          />
+          <div>
+            content="You don't have any cron jobs yet...
+          </div>
         ) : (
           <CronJobsList cronJobs={cronJobs} fetchCronJobs={fetchCronJobs} />
         )}
