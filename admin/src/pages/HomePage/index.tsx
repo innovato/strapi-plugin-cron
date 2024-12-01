@@ -11,7 +11,6 @@ import {
   ContentLayout,
   EmptyStateLayout,
 } from '@strapi/design-system'
-import { LoadingIndicatorPage } from '@strapi/helper-plugin'
 import { EmptyDocuments, Plus } from '@strapi/icons'
 import { useHistory } from 'react-router-dom'
 
@@ -30,7 +29,7 @@ export const HomePage: React.FunctionComponent = () => {
     setIsLoading(false)
   }
 
-  if (isLoading) return <LoadingIndicatorPage />
+  if (isLoading) return <span>Loading...</span>
 
   return (
     <>

@@ -31,13 +31,12 @@
     "@discostudioteam/react-code-blocks": "^0.1.1-0",
     "node-schedule": "^2.1.0",
     "zod": "^3.19.1",
-    "@strapi/design-system": "^1.6.3",
-    "@strapi/helper-plugin": "^4.6.0",
-    "@strapi/icons": "^1.6.3",
+    "@strapi/design-system": "^2.0.0-rc.14",
+    "@strapi/icons": "^2.0.0-rc.14",
     "prop-types": "^15.7.2"
   },
   "devDependencies": {
-    "@strapi/typescript-utils": "^4.6.0",
+    "@strapi/typescript-utils": "^5.4.2",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^18.0.28",
     "@types/react-router-dom": "^5.3.3",
