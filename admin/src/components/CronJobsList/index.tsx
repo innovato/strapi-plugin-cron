@@ -22,7 +22,7 @@ import {
   Typography,
   VisuallyHidden,
 } from '@strapi/design-system'
-import { CarretDown, CarretUp, Pencil, Play, Plus, Trash } from '@strapi/icons'
+import { caretDown, caretUp, Pencil, Play, Plus, Trash } from '@strapi/icons'
 import { useNavigate } from 'react-router-dom'
 
 type Props = {
@@ -87,9 +87,9 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   const SortButton = (props: { sortKey: typeof sortKey }) => {
     let Icon =
       sortKey === props.sortKey && sortOrder === 'asc' ? (
-        <CarretUp />
+        <caretUp />
       ) : (
-        <CarretDown />
+        <caretDown />
       )
 
     return (
