@@ -8,12 +8,9 @@ import { GoBackButton } from '../go-back-button'
 
 import { CodeBlock, xt256 } from '@discostudioteam/react-code-blocks'
 import {
-  BaseHeaderLayout,
   Box,
-  ContentLayout,
   Divider,
   Grid,
-  GridItem,
   Typography,
 } from '@strapi/design-system'
 import { useLocation } from 'react-router-dom'
@@ -46,19 +43,13 @@ export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
 
   const PropRow = ({ name, value }) => (
     <>
-      <GridItem col={2}>
         <Box>
           <Typography variant="epsilon">{name}</Typography>
         </Box>
-      </GridItem>
-      <GridItem col={4}>
         <Box>
           <Typography variant="epsilon">{value}</Typography>
         </Box>
-      </GridItem>
-      <GridItem col={6} paddingTop={3} paddingBottom={3}>
         <Divider />
-      </GridItem>
     </>
   )
 
@@ -69,12 +60,6 @@ export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
 
   return (
     <>
-      <BaseHeaderLayout
-        title={cronJob?.name ?? ''}
-        as="h2"
-        navigationAction={<GoBackButton />}
-      />
-      <ContentLayout>
         <Box
           padding={8}
           marginBottom={8}
@@ -114,7 +99,6 @@ export const CronJobDetails: React.FunctionComponent<Props> = ({ match }) => {
             </Grid>
           </Box>
         </Box>
-      </ContentLayout>
     </>
   )
 }

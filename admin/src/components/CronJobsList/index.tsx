@@ -13,7 +13,6 @@ import {
   Switch,
   TFooter,
   Table,
-  Tbody,
   Td,
   TextButton,
   Th,
@@ -146,7 +145,6 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
             </Th>
           </Tr>
         </Thead>
-        <Tbody>
           {props.cronJobs
             .sort((a: CronJob, b: CronJob) => {
               const order =
@@ -246,7 +244,6 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 </Td>
               </Tr>
             ))}
-        </Tbody>
       </Table>
     </Box>
   )

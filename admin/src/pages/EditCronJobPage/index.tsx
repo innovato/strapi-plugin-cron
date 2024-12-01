@@ -8,7 +8,6 @@ import { GoBackButton } from '../../components/go-back-button'
 import { getResponseErrors } from '../../utils/getResponseErrors'
 import { pluginBasePath } from '../../utils/plugin'
 
-import { BaseHeaderLayout, ContentLayout } from '@strapi/design-system'
 import { useHistory, useLocation } from 'react-router-dom'
 
 export const EditCronJobPage: React.FunctionComponent = () => {
@@ -32,14 +31,7 @@ export const EditCronJobPage: React.FunctionComponent = () => {
 
   return (
     <>
-      <BaseHeaderLayout
-        title="Edit cron job"
-        as="h2"
-        navigationAction={<GoBackButton />}
-      />
-      <ContentLayout>
         <CronJobForm initialData={cronJob} handleSubmit={handleFormSubmit} />
-      </ContentLayout>
     </>
   )
 }

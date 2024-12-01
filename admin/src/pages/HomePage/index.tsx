@@ -6,9 +6,7 @@ import { CronJobsList } from '../../components/CronJobsList'
 import { pluginBasePath } from '../../utils/plugin'
 
 import {
-  BaseHeaderLayout,
   Button,
-  ContentLayout,
   EmptyStateLayout,
 } from '@strapi/design-system'
 import { EmptyDocuments, Plus } from '@strapi/icons'
@@ -33,19 +31,14 @@ export const HomePage: React.FunctionComponent = () => {
 
   return (
     <>
-      <BaseHeaderLayout
-        title="Cron Jobs"
-        as="h2"
-        primaryAction={
+      <div>
           <Button
             startIcon={<Plus />}
             onClick={() => history.push(`${pluginBasePath}/cron-jobs/create`)}
           >
             Add new cron job
           </Button>
-        }
-      />
-      <ContentLayout>
+      <div/>
         {cronJobs.length === 0 ? (
           <EmptyStateLayout
             icon={
@@ -56,7 +49,6 @@ export const HomePage: React.FunctionComponent = () => {
         ) : (
           <CronJobsList cronJobs={cronJobs} fetchCronJobs={fetchCronJobs} />
         )}
-      </ContentLayout>
     </>
   )
 }

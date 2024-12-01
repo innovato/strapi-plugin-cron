@@ -10,9 +10,7 @@ import {
   Checkbox,
   DatePicker,
   Grid,
-  GridItem,
   NumberInput,
-  Stack,
   TextInput,
   Textarea,
 } from '@strapi/design-system'
@@ -117,7 +115,6 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             />
           </Box>
           <Grid gap={7} gridCols={2}>
-            <GridItem col={1} s={2} xs={2}>
               <Box>
                 <DatePicker
                   placeholder={getCurrentDate()}
@@ -135,8 +132,6 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
                   error={errors['startDate']}
                 />
               </Box>
-            </GridItem>
-            <GridItem col={1} s={2} xs={2}>
               <Box>
                 <DatePicker
                   placeholder={getCurrentDate()}
@@ -152,7 +147,6 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
                   error={errors['endDate']}
                 />
               </Box>
-            </GridItem>
           </Grid>
           <Box>
             <NumberInput
@@ -170,7 +164,6 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               error={errors['iterationsLimit']}
             />
           </Box>
-          <Stack spacing={5}>
             <Checkbox
               name="executeScriptFromFile"
               checked={isChecked}
@@ -197,7 +190,6 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               error={isChecked ? errors['pathToScript'] : ''}
               disabled={!isChecked}
             />
-          </Stack>
           <Box>
             <Textarea
               ref={textareaRef}
@@ -218,7 +210,6 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               {input.script}
             </Textarea>
           </Box>
-          <Stack horizontal spacing={4}>
             <Button size="L" type="submit">
               Save
             </Button>
@@ -229,7 +220,6 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             >
               Cancel
             </Button>
-          </Stack>
         </Grid>
       </form>
     </Box>
