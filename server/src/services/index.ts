@@ -1,5 +1,7 @@
-import service from './service';
+import cron from './cron'
+import cronJob from './cron-job'
 
 export default {
-  service,
-};
+  'cron-job': cronJob,
+  cron,
+}
