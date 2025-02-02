@@ -1,5 +1,5 @@
-import controller from './controller';
+import cronJobController from './cronJobController';
 
 export default {
-  controller,
+  cronJobController,
 };
