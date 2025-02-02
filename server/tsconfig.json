@@ -3,6 +3,9 @@
   "include": ["./src"],
   "compilerOptions": {
     "rootDir": "../",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["../*"]
+    }
   }
 }
