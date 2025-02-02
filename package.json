@@ -1,0 +1,83 @@
+{
+  "version": "2.0.0",
+  "keywords": [],
+  "type": "commonjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./strapi-admin": {
+      "types": "./dist/admin/src/index.d.ts",
+      "source": "./admin/src/index.ts",
+      "import": "./dist/admin/index.mjs",
+      "require": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    },
+    "./strapi-server": {
+      "types": "./dist/server/src/index.d.ts",
+      "source": "./server/src/index.ts",
+      "import": "./dist/server/index.mjs",
+      "require": "./dist/server/index.js",
+      "default": "./dist/server/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "strapi-plugin build",
+    "watch": "strapi-plugin watch",
+    "watch:link": "strapi-plugin watch:link",
+    "verify": "strapi-plugin verify",
+    "test:ts:front": "run -T tsc -p admin/tsconfig.json",
+    "test:ts:back": "run -T tsc -p server/tsconfig.json"
+  },
+  "dependencies": {
+    "@strapi/design-system": "^2.0.0-rc.14",
+    "@strapi/icons": "^2.0.0-rc.14",
+    "react-intl": "^7.1.5"
+  },
+  "devDependencies": {
+    "@strapi/strapi": "^5.9.0",
+    "@strapi/sdk-plugin": "^5.3.0",
+    "prettier": "^3.4.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.29.0",
+    "styled-components": "^6.1.14",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@strapi/typescript-utils": "^5.9.0",
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "@strapi/strapi": "^5.9.0",
+    "@strapi/sdk-plugin": "^5.3.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.29.0",
+    "styled-components": "^6.1.14"
+  },
+  "strapi": {
+    "name": "strapi-plugin-cron",
+    "displayName": "Cron",
+    "description": "Manage and monitor cron jobs from Strapi admin panel.",
+    "kind": "plugin"
+  },
+  "name": "@innovato/strapi-plugin-cron",
+  "description": "Manage and monitor cron jobs from Strapi admin panel.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/innovato/strapi-plugin-cron.git"
+  },
+  "contributors": [
+    {
+      "name": "mjnoach",
+      "url": "https://github.com/mjnoach"
+    },
+    {
+      "name": "Innovato",
+      "email": "info@innovato.nl",
+      "url": "https://innovato.nl"
+    }
+  ]
+}
