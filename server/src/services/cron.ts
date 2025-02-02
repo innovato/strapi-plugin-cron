@@ -1,4 +1,5 @@
 import { CronJob, CronJobInputData } from '../../../types';
+import { PLUGIN_ID } from '../../../utils/plugin';
 import { captureConsoleOutput } from '../utils';
 import { getDefaultModuleExport } from '../utils/extensions';
 import { CronJobSchema } from './cron-job/schema';
@@ -8,7 +9,7 @@ import { scheduleJob, scheduledJobs } from 'node-schedule';
 
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   initialize: async function () {
-    const published = await strapi.plugin('strapi-plugin-cron').service('cron-job').getPublished();
+    const published = await strapi.plugin(PLUGIN_ID).service('cron-job').getPublished();
     for (const cronJob of published) this.update(cronJob);
   },
 
@@ -71,7 +72,7 @@ const createCronJobCallback = async (cronJob: CronJob, { dryRun = false } = {}) 
     }).then((logs) => {
       const data: Partial<CronJob> = { latestExecutionLog: logs };
       if (!dryRun && hasLimitedIterations) data.iterationsCount = ++iterationsCount;
-      strapi.plugin('strapi-plugin-cron').service('cron-job').update(cronJob.id, data);
+      strapi.plugin(PLUGIN_ID).service('cron-job').update(cronJob.id, data);
     });
   };
 };

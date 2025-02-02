@@ -3,9 +3,9 @@ import { PLUGIN_ID } from './../../../../utils/plugin';
 
 export default {
   afterUpdate({ result: cronJob }: { result: CronJob }) {
-    strapi.service(`plugin::${PLUGIN_ID}.cron`).update(cronJob);
+    strapi.plugin(PLUGIN_ID).service('cron').update(cronJob);
   },
   afterDelete({ result: cronJob }: { result: CronJob }) {
-    strapi.service(`plugin::${PLUGIN_ID}.cron`).cancel(cronJob);
+    strapi.plugin(PLUGIN_ID).service('cron').cancel(cronJob);
   },
 };

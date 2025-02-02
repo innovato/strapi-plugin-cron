@@ -1,4 +1,4 @@
-import { PLUGIN_ID } from '../../utils/plugin';
+import { PLUGIN_ID, pluginDisplayName } from '../../utils/plugin';
 import { Initializer } from './components/Initializer';
 import { PluginIcon } from './components/PluginIcon';
 
@@ -8,14 +8,10 @@ export default {
       to: `plugins/${PLUGIN_ID}`,
       icon: PluginIcon,
       intlLabel: {
-        id: `${PLUGIN_ID}.plugin.name`,
-        defaultMessage: PLUGIN_ID,
+        id: PLUGIN_ID,
+        defaultMessage: pluginDisplayName,
       },
-      Component: async () => {
-        const { App } = await import('./pages/App');
-
-        return App;
-      },
+      Component: () => import('./pages/App'),
     });
 
     app.registerPlugin({

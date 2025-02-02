@@ -24,3 +24,5 @@ export type CronJobInputData = Pick<
   | 'startDate'
   | 'endDate'
 >;
+
+export type CronJobInputErrors = { [K in keyof CronJobInputData]?: string | string[] };

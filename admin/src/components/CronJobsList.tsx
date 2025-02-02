@@ -30,8 +30,8 @@ type Props = {
 };
 
 export const CronJobsList: React.FunctionComponent<Props> = (props) => {
-  const ROW_COUNT = 1;
-  const COL_COUNT = 1;
+  const ROW_COUNT = 6;
+  const COL_COUNT = 10;
   const navigate = useNavigate();
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [sortKey, setSortKey] = useState<'id' | 'name' | 'startDate' | 'endDate' | 'publishedAt'>(
@@ -82,9 +82,15 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   }
 
   const SortButton = (props: { sortKey: typeof sortKey }) => {
-    let Icon = sortKey === props.sortKey && sortOrder === 'asc' ? <CaretUp /> : <CaretDown />;
+    let SortIcon = sortKey === props.sortKey && sortOrder === 'asc' ? <CaretUp /> : <CaretDown />;
 
-    return <IconButton onClick={(e: Event) => handleSort(props.sortKey)} icon={Icon} noBorder />;
+    return (
+      <Box marginLeft={2}>
+        <IconButton size="XS" onClick={(e: Event) => handleSort(props.sortKey)}>
+          {SortIcon}
+        </IconButton>
+      </Box>
+    );
   };
 
   return (
@@ -194,29 +200,34 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 <Td>
                   <Flex justifyContent="justify-evenly">
                     <Flex paddingLeft="10px" paddingRight="10px">
-                      <IconButton
-                        label="Edit"
-                        noBorder
-                        icon={<Pencil />}
-                        onClick={() => handleEditClick(cronJob)}
-                      />
-                      <IconButton
-                        label="Delete"
-                        noBorder
-                        icon={<Trash />}
-                        onClick={() => handleDeleteClick(cronJob)}
-                      />
-                      <IconButton
-                        label="Trigger"
-                        noBorder
-                        icon={<Play />}
-                        onClick={() => handleTriggerClick(cronJob)}
-                      />
+                      <Box marginLeft={2}>
+                        <IconButton size="XS" label="Edit" onClick={() => handleEditClick(cronJob)}>
+                          <Pencil />
+                        </IconButton>
+                      </Box>
+                      <Box marginLeft={2}>
+                        <IconButton
+                          size="XS"
+                          label="Delete"
+                          onClick={() => handleDeleteClick(cronJob)}
+                        >
+                          <Trash />
+                        </IconButton>
+                      </Box>
+                      <Box marginLeft={2}>
+                        <IconButton
+                          size="XS"
+                          label="Trigger"
+                          onClick={() => handleTriggerClick(cronJob)}
+                        >
+                          <Play />
+                        </IconButton>
+                      </Box>
                     </Flex>
                     <Switch
                       label="Toggle"
-                      selected={!!cronJob.publishedAt}
-                      onChange={() => handleToggleChange(cronJob)}
+                      checked={!!cronJob.publishedAt}
+                      onCheckedChange={() => handleToggleChange(cronJob)}
                     />
                   </Flex>
                 </Td>

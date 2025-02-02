@@ -3,19 +3,19 @@
  */
 import axios from 'axios';
 
-const instance = axios.create({
+const axiosInstance = axios.create({
   baseURL: process.env.STRAPI_ADMIN_BACKEND_URL,
 });
 
-instance.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   async (config) => {
+    const jwtToken = sessionStorage.getItem('jwtToken');
     // @ts-ignore
     config.headers = {
-      Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
+      Authorization: `Bearer ${jwtToken}`,
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-
     return config;
   },
   (error) => {
@@ -23,16 +23,14 @@ instance.interceptors.request.use(
   }
 );
 
-instance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.log('🚀 ~ Axios Error:', error);
     if (error.response?.status === 401) {
-      sessionStorage.clear();
-      window.location.reload();
     }
-
     throw error;
   }
 );
 
-export default instance;
+export default axiosInstance;

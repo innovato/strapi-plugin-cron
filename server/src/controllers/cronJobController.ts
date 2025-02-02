@@ -1,9 +1,10 @@
 import { Core } from '@strapi/strapi';
+import { PLUGIN_ID } from '../../../utils/plugin';
 
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async getAll(ctx: any) {
     try {
-      const cronJobs = await strapi.plugin('strapi-plugin-cron').service('cron-job').getAll();
+      const cronJobs = await strapi.plugin(PLUGIN_ID).service('cron-job').getAll();
       ctx.body = cronJobs;
     } catch (e) {
       ctx.throw(500, e);
@@ -13,10 +14,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async getOne(ctx: any) {
     const { params } = ctx.request;
     try {
-      const cronJob = await strapi
-        .plugin('strapi-plugin-cron')
-        .service('cron-job')
-        .getOne(params.id);
+      const cronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').getOne(params.id);
       ctx.body = cronJob;
     } catch (e) {
       ctx.throw(500, e);
@@ -25,11 +23,11 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 
   async create(ctx: any) {
     const { body } = ctx.request;
-    const { errors } = await strapi.plugin('strapi-plugin-cron').service('cron').validateData(body);
+    const { errors } = await strapi.plugin(PLUGIN_ID).service('cron').validateData(body);
     if (errors) return ctx.badRequest('ValidationError', { errors });
 
     try {
-      const newCronJob = await strapi.plugin('strapi-plugin-cron').service('cron-job').create(body);
+      const newCronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').create(body);
       ctx.body = newCronJob;
     } catch (e) {
       ctx.throw(500, e);
@@ -38,14 +36,11 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
 
   async update(ctx: any) {
     const { params, body } = ctx.request;
-    const { errors } = await strapi.plugin('strapi-plugin-cron').service('cron').validateData(body);
+    const { errors } = await strapi.plugin(PLUGIN_ID).service('cron').validateData(body);
     if (errors) return ctx.badRequest('ValidationError', { errors });
 
     try {
-      const cronJob = await strapi
-        .plugin('strapi-plugin-cron')
-        .service('cron-job')
-        .update(params.id, body);
+      const cronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').update(params.id, body);
       ctx.body = cronJob;
     } catch (e) {
       ctx.throw(500, e);
@@ -55,12 +50,9 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async publish(ctx: any) {
     const { params } = ctx.request;
     try {
-      const cronJob = await strapi
-        .plugin('strapi-plugin-cron')
-        .service('cron-job')
-        .update(params.id, {
-          publishedAt: new Date(),
-        });
+      const cronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').update(params.id, {
+        publishedAt: new Date(),
+      });
       ctx.body = cronJob;
     } catch (e) {
       ctx.throw(500, e);
@@ -70,13 +62,10 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async unpublish(ctx: any) {
     const { params } = ctx.request;
     try {
-      const cronJob = await strapi
-        .plugin('strapi-plugin-cron')
-        .service('cron-job')
-        .update(params.id, {
-          publishedAt: null,
-          iterationsCount: 0,
-        });
+      const cronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').update(params.id, {
+        publishedAt: null,
+        iterationsCount: 0,
+      });
       ctx.body = cronJob;
     } catch (e) {
       ctx.throw(500, e);
@@ -86,10 +75,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async delete(ctx: any) {
     const { params } = ctx.request;
     try {
-      const deletedCronJob = await strapi
-        .plugin('strapi-plugin-cron')
-        .service('cron-job')
-        .delete(params.id);
+      const deletedCronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').delete(params.id);
       ctx.body = deletedCronJob;
     } catch (e) {
       ctx.throw(500, e);
@@ -99,11 +85,8 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   async trigger(ctx: any) {
     const { params } = ctx.request;
     try {
-      const cronJob = await strapi
-        .plugin('strapi-plugin-cron')
-        .service('cron-job')
-        .getOne(params.id);
-      await strapi.plugin('strapi-plugin-cron').service('cron').trigger(cronJob);
+      const cronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').getOne(params.id);
+      await strapi.plugin(PLUGIN_ID).service('cron').trigger(cronJob);
       ctx.body = {};
     } catch (e) {
       ctx.throw(500, e);
