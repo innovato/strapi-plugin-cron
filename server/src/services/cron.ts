@@ -29,10 +29,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   },
 
   validateData: (data: CronJobInputData) => {
-    const omitProps = {};
-    data.executeScriptFromFile ? (omitProps['script'] = true) : (omitProps['pathToScript'] = true);
-
-    const validation = CronJobSchema.omit(omitProps).safeParse(data);
+    const validation = CronJobSchema.safeParse(data);
     if (!validation.success) {
       return { errors: validation['error'].issues };
     }
@@ -63,7 +60,7 @@ const createCronJobCallback = async (cronJob: CronJob, { dryRun = false } = {}) 
     }
 
     captureConsoleOutput(async () => {
-      console.log(`[${new Date().toLocaleString()}]`);
+      console.log(`-- ${new Date().toLocaleString()}`);
       try {
         await script({ strapi, cronJob });
       } catch (e) {

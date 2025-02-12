@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { CronJobInputData, CronJobInputErrors } from '../../../types';
 import { pluginBasePath } from '../../../utils/plugin';
 import { cron } from '../api/cron';
-import { BaseHeaderLayout } from '../components/BaseHeaderLayout';
-import { ContentLayout } from '../components/ContentLayout';
+import { ContentBlock } from '../components/ContentBlock';
 import { CronJobForm } from '../components/CronJobForm';
+import { PageLayout } from '../components/PageLayout';
 import { getResponseErrors } from '../utils/getResponseErrors';
 
 export const NewCronJobPage: React.FunctionComponent = () => {
@@ -23,20 +23,15 @@ export const NewCronJobPage: React.FunctionComponent = () => {
       navigate(pluginBasePath);
     } catch (error: any) {
       const errors = getResponseErrors(error.response);
-      // TODO
-      setErrors(errors as any);
+      setErrors(errors);
     }
   }
 
   return (
-    <>
-      <BaseHeaderLayout
-        title="New cron job"
-        // navigationAction={<GoBackButton />}
-      />
-      <ContentLayout>
+    <PageLayout title="New Cron Cob">
+      <ContentBlock>
         <CronJobForm handleSubmit={handleFormSubmit} />
-      </ContentLayout>
-    </>
+      </ContentBlock>
+    </PageLayout>
   );
 };

@@ -1,51 +1,45 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
-let startOfToday = new Date()
-startOfToday.setHours(0, 0, 0, 0)
+const startOfToday = () => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
+};
 
-let endOfToday = new Date()
-endOfToday.setHours(23, 59, 59, 999)
+const datePreprocess = (arg: unknown) => {
+  if (typeof arg == 'string' || arg instanceof Date) return new Date(arg);
+};
 
-const startDateSchema = z.preprocess(
-  (arg) => {
-    if (typeof arg == 'string' || arg instanceof Date) return new Date(arg)
-  },
-  z
-    .date()
-    .min(startOfToday, { message: "This date can't be in the past" })
-    .optional()
-)
+const cronExpressionRegex = /(((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5,7}/;
 
-const endDateSchema = z.preprocess(
-  (arg) => {
-    if (typeof arg == 'string' || arg instanceof Date) return new Date(arg)
-  },
-  z
-    .date()
-    .min(endOfToday, { message: "This date can't be in the past" })
-    .optional()
-)
+const REQUIRED = 'This field is required';
+const PAST_DATE = "This date can't be in the past";
 
-const cronExpressionRegex = /(((\d+,)+\d+|(\d+(\/|-)\d+)|\d+|\*) ?){5,7}/
-
-export const CronJobSchema = z.object({
-  name: z.string().min(1, { message: 'This vaule is required' }),
-  schedule: z
-    .string()
-    .min(1, { message: 'This vaule is required' })
-    .regex(cronExpressionRegex, {
+export const CronJobSchema = z
+  .object({
+    name: z.string().min(1, { message: REQUIRED }),
+    schedule: z.string().min(1, { message: REQUIRED }).regex(cronExpressionRegex, {
       message: 'This value must be a valid cron expression',
     }),
-  pathToScript: z
-    .string()
-    .min(1, { message: 'This vaule is required' })
-    .endsWith('.ts', { message: `This vaule must end with ".ts"` })
-    .startsWith('/', { message: `This vaule must start with "/"` }),
-  script: z.string().min(1, { message: 'This vaule is required' }),
-  iterationsLimit: z
-    .number()
-    .min(-1, { message: 'This value must be greater than or equal to -1' })
-    .optional(),
-  startDate: startDateSchema,
-  endDate: endDateSchema,
-})
+    pathToScript: z
+      .string()
+      .min(1, { message: REQUIRED })
+      .endsWith('.ts', { message: `This value must end with ".ts"` })
+      .startsWith('/', { message: `This value must start with "/"` }),
+    script: z.string().min(1, { message: REQUIRED }),
+    iterationsLimit: z
+      .number()
+      .min(-1, { message: 'This value must be greater than or equal to -1' }),
+    startDate: z.preprocess(
+      datePreprocess,
+      z.date({ required_error: REQUIRED }).min(startOfToday(), { message: PAST_DATE })
+    ),
+    endDate: z.preprocess(
+      datePreprocess,
+      z.date({ required_error: REQUIRED }).min(startOfToday(), { message: PAST_DATE })
+    ),
+  })
+  .refine((data) => (data.startDate && data.endDate ? data.endDate >= data.startDate : true), {
+    message: 'End date cannot be earlier than start date',
+    path: ['endDate'],
+  });

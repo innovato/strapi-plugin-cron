@@ -1,7 +1,7 @@
 export type CronJob = {
   documentId: string;
   id: number;
-  publishedAt: string | null;
+  publishedAt: string;
   name: string;
   schedule: string;
   executeScriptFromFile: boolean;
@@ -9,8 +9,8 @@ export type CronJob = {
   script: string;
   iterationsLimit: number;
   iterationsCount: number;
-  startDate: string | null;
-  endDate: string | null;
+  startDate: string;
+  endDate: string;
   latestExecutionLog: string[][];
 };
 

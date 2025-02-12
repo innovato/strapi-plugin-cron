@@ -3,11 +3,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CronJobInputData, CronJobInputErrors } from '../../../types';
 import { pluginBasePath } from '../../../utils/plugin';
 import { cron } from '../api/cron';
-import { BaseHeaderLayout } from '../components/BaseHeaderLayout';
-import { ContentLayout } from '../components/ContentLayout';
+import { ContentBlock } from '../components/ContentBlock';
 import { CronJobForm } from '../components/CronJobForm';
-import { GoBackButton } from '../components/GoBackButton';
 import { NotFound } from '../components/NotFound';
+import { PageLayout } from '../components/PageLayout';
 import { getResponseErrors } from '../utils/getResponseErrors';
 
 export const EditCronJobPage: React.FunctionComponent = () => {
@@ -31,17 +30,15 @@ export const EditCronJobPage: React.FunctionComponent = () => {
       navigate(pluginBasePath);
     } catch (error: any) {
       const errors = getResponseErrors(error.response);
-      // TODO
-      setErrors(errors as any);
+      setErrors(errors);
     }
   }
 
   return (
-    <>
-      <BaseHeaderLayout title="Edit cron job" navigationAction={<GoBackButton />} />
-      <ContentLayout>
+    <PageLayout title={'Edit Cron Cob'}>
+      <ContentBlock>
         <CronJobForm initialData={cronJob} handleSubmit={handleFormSubmit} />
-      </ContentLayout>
-    </>
+      </ContentBlock>
+    </PageLayout>
   );
 };

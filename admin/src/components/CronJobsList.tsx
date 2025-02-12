@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { CronJob } from '../../../types';
 import { pluginBasePath } from '../../../utils/plugin';
 import { cron } from '../api/cron';
-import { getReadableDate } from '../utils/date';
+import { getDateString } from '../utils/date';
 
 type Props = {
   cronJobs: CronJob[];
@@ -30,8 +30,6 @@ type Props = {
 };
 
 export const CronJobsList: React.FunctionComponent<Props> = (props) => {
-  const ROW_COUNT = 6;
-  const COL_COUNT = 10;
   const navigate = useNavigate();
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [sortKey, setSortKey] = useState<'id' | 'name' | 'startDate' | 'endDate' | 'publishedAt'>(
@@ -88,18 +86,30 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
 
     return (
       <Box marginLeft={2}>
-        <IconButton size="XS" onClick={(e: Event) => handleSort(props.sortKey)}>
+        <IconButton variant={'ghost'} size="XS" onClick={(e: Event) => handleSort(props.sortKey)}>
           {SortIcon}
         </IconButton>
       </Box>
     );
   };
 
+  const sortByCurrentKey = (a: CronJob, b: CronJob) => {
+    // Null-safe sorting with fallback values
+    const valueA = a[sortKey as keyof CronJob] ?? '';
+    const valueB = b[sortKey as keyof CronJob] ?? '';
+
+    if (sortOrder === 'asc') {
+      return valueA > valueB ? 1 : valueA < valueB ? -1 : 0;
+    } else {
+      return valueA < valueB ? 1 : valueA > valueB ? -1 : 0;
+    }
+  };
+
   return (
     <Box marginBottom={8}>
       <Table
-        rowCount={ROW_COUNT}
-        colCount={COL_COUNT}
+        rowCount={6}
+        colCount={10}
         footer={
           <TFooter
             onClick={() => {
@@ -140,101 +150,86 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {props.cronJobs
-            .sort((a: CronJob, b: CronJob) => {
-              const order =
-                sortOrder === 'asc'
-                  ? // @ts-ignore
-                    a[sortKey] > b[sortKey]
-                  : // @ts-ignore
-                    a[sortKey] < b[sortKey];
-
-              return order ? 1 : -1;
-            })
-            .map((cronJob) => (
-              <Tr key={cronJob.documentId}>
-                <Td>
-                  <Typography textColor="neutral800">{cronJob.id}</Typography>
-                </Td>
-                <Td>
-                  <TextButton
-                    onClick={() => {
-                      navigate(`${pluginBasePath}/cron-jobs/${cronJob.documentId}`, {
-                        state: { cronJob },
-                      });
-                    }}
+          {props.cronJobs.sort(sortByCurrentKey).map((cronJob) => (
+            <Tr key={cronJob.documentId}>
+              <Td>
+                <Typography textColor="neutral800">{cronJob.id}</Typography>
+              </Td>
+              <Td>
+                <TextButton
+                  onClick={() => {
+                    navigate(`${pluginBasePath}/cron-jobs/${cronJob.documentId}`, {
+                      state: { cronJob },
+                    });
+                  }}
+                >
+                  <Typography textColor="primary700">{cronJob.name}</Typography>
+                </TextButton>
+              </Td>
+              <Td>
+                <Typography textColor="neutral800">{cronJob.schedule}</Typography>
+              </Td>
+              <Td>
+                <Typography textColor="neutral800">
+                  {cronJob.iterationsLimit === -1 ? '∞' : cronJob.iterationsLimit}
+                </Typography>
+              </Td>
+              <Td>
+                <Typography textColor="neutral800">{getDateString(cronJob.startDate)}</Typography>
+              </Td>
+              <Td>
+                <Typography textColor="neutral800">{getDateString(cronJob.endDate)}</Typography>
+              </Td>
+              <Td>
+                {!cronJob.publishedAt ? (
+                  <Badge>Draft</Badge>
+                ) : (
+                  <Tooltip
+                    description={getDateString(cronJob.publishedAt)}
+                    position="bottom"
+                    label={undefined}
+                    id={undefined}
                   >
-                    <Typography textColor="primary700">{cronJob.name}</Typography>
-                  </TextButton>
-                </Td>
-                <Td>
-                  <Typography textColor="neutral800">{cronJob.schedule}</Typography>
-                </Td>
-                <Td>
-                  <Typography textColor="neutral800">
-                    {cronJob.iterationsLimit === -1 ? '∞' : cronJob.iterationsLimit}
-                  </Typography>
-                </Td>
-                <Td>
-                  <Typography textColor="neutral800">
-                    {getReadableDate(cronJob.startDate) || '—'}
-                  </Typography>
-                </Td>
-                <Td>
-                  <Typography textColor="neutral800">
-                    {getReadableDate(cronJob.endDate) || '—'}
-                  </Typography>
-                </Td>
-                <Td>
-                  {!cronJob.publishedAt ? (
-                    <Badge>Draft</Badge>
-                  ) : (
-                    <Tooltip
-                      description={getReadableDate(cronJob.publishedAt)}
-                      position="bottom"
-                      label={undefined}
-                      id={undefined}
-                    >
-                      <Badge active>Published</Badge>
-                    </Tooltip>
-                  )}
-                </Td>
-                <Td>
-                  <Flex justifyContent="justify-evenly">
-                    <Flex paddingLeft="10px" paddingRight="10px">
-                      <Box marginLeft={2}>
-                        <IconButton size="XS" label="Edit" onClick={() => handleEditClick(cronJob)}>
-                          <Pencil />
-                        </IconButton>
-                      </Box>
-                      <Box marginLeft={2}>
-                        <IconButton
-                          size="XS"
-                          label="Delete"
-                          onClick={() => handleDeleteClick(cronJob)}
-                        >
-                          <Trash />
-                        </IconButton>
-                      </Box>
-                      <Box marginLeft={2}>
-                        <IconButton
-                          size="XS"
-                          label="Trigger"
-                          onClick={() => handleTriggerClick(cronJob)}
-                        >
-                          <Play />
-                        </IconButton>
-                      </Box>
-                    </Flex>
-                    <Switch
-                      label="Toggle"
-                      checked={!!cronJob.publishedAt}
-                      onCheckedChange={() => handleToggleChange(cronJob)}
-                    />
+                    <Badge active>Published</Badge>
+                  </Tooltip>
+                )}
+              </Td>
+              <Td>
+                <Flex justifyContent="justify-evenly">
+                  <Flex paddingLeft="10px" paddingRight="10px">
+                    <Box marginLeft={2}>
+                      <IconButton size="XS" label="Edit" onClick={() => handleEditClick(cronJob)}>
+                        <Pencil />
+                      </IconButton>
+                    </Box>
+                    <Box marginLeft={2}>
+                      <IconButton
+                        size="XS"
+                        label="Delete"
+                        onClick={() => handleDeleteClick(cronJob)}
+                      >
+                        <Trash />
+                      </IconButton>
+                    </Box>
+                    <Box marginLeft={2}>
+                      <IconButton
+                        size="XS"
+                        label="Trigger"
+                        onClick={() => handleTriggerClick(cronJob)}
+                      >
+                        <Play />
+                      </IconButton>
+                    </Box>
                   </Flex>
-                </Td>
-              </Tr>
-            ))}
+                  <Switch
+                    label="Toggle"
+                    checked={!!cronJob.publishedAt}
+                    onCheckedChange={() => handleToggleChange(cronJob)}
+                  />
+                </Flex>
+              </Td>
+            </Tr>
+          ))}
         </Tbody>
       </Table>
     </Box>
