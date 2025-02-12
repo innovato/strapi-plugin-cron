@@ -5,14 +5,16 @@ export default [
     handler: 'cronJobController.getAll',
     config: {
       policies: [],
+      auth: false,
     },
   },
   {
     method: 'GET',
-    path: '/cron-jobs/:id',
+    path: '/cron-jobs/:documentId',
     handler: 'cronJobController.getOne',
     config: {
       policies: [],
+      auth: false,
     },
   },
   {
@@ -21,46 +23,52 @@ export default [
     handler: 'cronJobController.create',
     config: {
       policies: [],
+      auth: false,
     },
   },
   {
     method: 'PUT',
-    path: '/cron-jobs/:id',
+    path: '/cron-jobs/:documentId',
     handler: 'cronJobController.update',
     config: {
       policies: [],
+      auth: false,
     },
   },
   {
     method: 'PUT',
-    path: '/cron-jobs/publish/:id',
+    path: '/cron-jobs/publish/:documentId',
     handler: 'cronJobController.publish',
     config: {
       policies: [],
+      auth: false,
     },
   },
   {
     method: 'PUT',
-    path: '/cron-jobs/unpublish/:id',
+    path: '/cron-jobs/unpublish/:documentId',
     handler: 'cronJobController.unpublish',
     config: {
       policies: [],
+      auth: false,
     },
   },
   {
     method: 'DELETE',
-    path: '/cron-jobs/:id',
+    path: '/cron-jobs/:documentId',
     handler: 'cronJobController.delete',
     config: {
       policies: [],
+      auth: false,
     },
   },
   {
     method: 'GET',
-    path: '/cron-jobs/trigger/:id',
+    path: '/cron-jobs/trigger/:documentId',
     handler: 'cronJobController.trigger',
     config: {
       policies: [],
+      auth: false,
     },
   },
 ];

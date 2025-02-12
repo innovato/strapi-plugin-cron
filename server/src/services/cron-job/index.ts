@@ -8,9 +8,9 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     return strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).findMany();
   },
 
-  getOne: async (id: number) => {
+  getOne: async (documentId: string) => {
     return strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).findOne({
-      documentId: id.toString(),
+      documentId,
     });
   },
 
@@ -31,18 +31,18 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     });
   },
 
-  update: async (id: number, data: CronJobInputData) => {
+  update: async (documentId: string, data: CronJobInputData) => {
     return strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).update({
-      documentId: id.toString(),
+      documentId,
       // TODO
       // @ts-ignore
       data,
     });
   },
 
-  delete: async (id: number) => {
+  delete: async (documentId: string) => {
     return strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).delete({
-      documentId: id.toString(),
+      documentId,
     });
     //   scheduler.cancelJob(cronJob.name)
   },

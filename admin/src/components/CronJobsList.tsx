@@ -39,11 +39,11 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   );
 
   async function handleTriggerClick(cronJob: CronJob) {
-    cron.triggerCronJob(cronJob.id);
+    cron.triggerCronJob(cronJob.documentId);
   }
 
   async function handleEditClick(cronJob: CronJob) {
-    navigate(`${pluginBasePath}/cron-jobs/edit/${cronJob.id}`, { state: { cronJob } });
+    navigate(`${pluginBasePath}/cron-jobs/edit/${cronJob.documentId}`, { state: { cronJob } });
   }
 
   async function handleDeleteClick(cronJob: CronJob) {
@@ -51,7 +51,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
     if (!confirmation) {
       return;
     }
-    await cron.deleteCronJob(cronJob.id);
+    await cron.deleteCronJob(cronJob.documentId);
     props.fetchCronJobs();
   }
 
@@ -64,7 +64,9 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
     if (!confirmation) {
       return;
     }
-    await (isPublished ? cron.unpublishCronJob(cronJob.id) : cron.publishCronJob(cronJob.id));
+    await (isPublished
+      ? cron.unpublishCronJob(cronJob.documentId)
+      : cron.publishCronJob(cronJob.documentId));
     props.fetchCronJobs();
   }
 
@@ -150,14 +152,14 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               return order ? 1 : -1;
             })
             .map((cronJob) => (
-              <Tr key={cronJob.id}>
+              <Tr key={cronJob.documentId}>
                 <Td>
                   <Typography textColor="neutral800">{cronJob.id}</Typography>
                 </Td>
                 <Td>
                   <TextButton
                     onClick={() => {
-                      navigate(`${pluginBasePath}/cron-jobs/${cronJob.id}`, {
+                      navigate(`${pluginBasePath}/cron-jobs/${cronJob.documentId}`, {
                         state: { cronJob },
                       });
                     }}

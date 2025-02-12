@@ -1,4 +1,5 @@
 export type CronJob = {
+  documentId: string;
   id: number;
   publishedAt: string | null;
   name: string;

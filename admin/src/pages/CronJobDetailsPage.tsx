@@ -29,7 +29,7 @@ export const CronJobDetailsPage: React.FunctionComponent<Props> = ({ match }) =>
   }
 
   async function fetchCronJob() {
-    const { data } = await cron.getCronJob(cronJob.id);
+    const { data } = await cron.getCronJob(cronJob.documentId);
     setCronJob(data);
   }
 

@@ -72,7 +72,7 @@ const createCronJobCallback = async (cronJob: CronJob, { dryRun = false } = {}) 
     }).then((logs) => {
       const data: Partial<CronJob> = { latestExecutionLog: logs };
       if (!dryRun && hasLimitedIterations) data.iterationsCount = ++iterationsCount;
-      strapi.plugin(PLUGIN_ID).service('cron-job').update(cronJob.id, data);
+      strapi.plugin(PLUGIN_ID).service('cron-job').update(cronJob.documentId, data);
     });
   };
 };

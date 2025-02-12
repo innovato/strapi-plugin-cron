@@ -6,25 +6,25 @@ export const cron = {
   async getAllCronJobs() {
     return axios.get<CronJob[]>(`/${PLUGIN_ID}/cron-jobs`);
   },
-  async getCronJob(id: number) {
-    return axios.get<CronJob>(`/${PLUGIN_ID}/cron-jobs/${id}`);
+  async getCronJob(documentId: string) {
+    return axios.get<CronJob>(`/${PLUGIN_ID}/cron-jobs/${documentId}`);
   },
   async createNewCronJob(data: CronJobInputData) {
     return axios.post(`/${PLUGIN_ID}/cron-jobs`, data);
   },
-  async updateCronJob(id: number, data: Partial<CronJobInputData>) {
-    return axios.put(`/${PLUGIN_ID}/cron-jobs/${id}`, data);
+  async updateCronJob(documentId: string, data: Partial<CronJobInputData>) {
+    return axios.put(`/${PLUGIN_ID}/cron-jobs/${documentId}`, data);
   },
-  async publishCronJob(id: number) {
-    return axios.put(`/${PLUGIN_ID}/cron-jobs/publish/${id}`);
+  async publishCronJob(documentId: string) {
+    return axios.put(`/${PLUGIN_ID}/cron-jobs/publish/${documentId}`);
   },
-  async unpublishCronJob(id: number) {
-    return axios.put(`/${PLUGIN_ID}/cron-jobs/unpublish/${id}`);
+  async unpublishCronJob(documentId: string) {
+    return axios.put(`/${PLUGIN_ID}/cron-jobs/unpublish/${documentId}`);
   },
-  async deleteCronJob(id: number) {
-    return axios.delete(`/${PLUGIN_ID}/cron-jobs/${id}`);
+  async deleteCronJob(documentId: string) {
+    return axios.delete(`/${PLUGIN_ID}/cron-jobs/${documentId}`);
   },
-  async triggerCronJob(id: number) {
-    return axios.get(`/${PLUGIN_ID}/cron-jobs/trigger/${id}`);
+  async triggerCronJob(documentId: string) {
+    return axios.get(`/${PLUGIN_ID}/cron-jobs/trigger/${documentId}`);
   },
 };

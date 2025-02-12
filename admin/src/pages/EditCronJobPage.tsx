@@ -27,7 +27,7 @@ export const EditCronJobPage: React.FunctionComponent = () => {
     setErrors: (errors: CronJobInputErrors) => void;
   }) {
     try {
-      await cron.updateCronJob(cronJob.id, input);
+      await cron.updateCronJob(cronJob.documentId, input);
       navigate(pluginBasePath);
     } catch (error: any) {
       const errors = getResponseErrors(error.response);

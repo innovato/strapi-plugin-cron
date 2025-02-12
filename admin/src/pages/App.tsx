@@ -12,8 +12,8 @@ const App = () => {
       <Routes>
         <Route index element={<HomePage />} />
         <Route path={`/cron-jobs/create`} element={<NewCronJobPage />} />
-        <Route path={`/cron-jobs/edit/:id`} element={<EditCronJobPage />} />
-        <Route path={`/cron-jobs/:id`} element={<CronJobDetailsPage />} />
+        <Route path={`/cron-jobs/edit/:documentId`} element={<EditCronJobPage />} />
+        <Route path={`/cron-jobs/:documentId`} element={<CronJobDetailsPage />} />
         <Route path="*" element={<Page.Error />} />
       </Routes>
     </DesignSystemProvider>
