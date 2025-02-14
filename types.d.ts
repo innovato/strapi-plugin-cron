@@ -1,7 +1,6 @@
 export type CronJob = {
-  documentId: string;
   id: number;
-  publishedAt: string;
+  documentId: string;
   name: string;
   schedule: string;
   executeScriptFromFile: boolean;
@@ -12,6 +11,10 @@ export type CronJob = {
   startDate: string;
   endDate: string;
   latestExecutionLog: string[][];
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string | null;
+  locale: string | null;
 };
 
 export type CronJobInputData = Pick<

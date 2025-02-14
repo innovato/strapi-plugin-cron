@@ -10,7 +10,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       ctx.throw(500, e);
     }
   },
-
   async getOne(ctx: any) {
     const { params } = ctx.request;
     try {
@@ -20,12 +19,10 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       ctx.throw(500, e);
     }
   },
-
   async create(ctx: any) {
     const { body } = ctx.request;
     const { errors } = await strapi.plugin(PLUGIN_ID).service('cron').validateData(body);
     if (errors) return ctx.badRequest('ValidationError', { errors });
-
     try {
       const newCronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').create(body);
       ctx.body = newCronJob;
@@ -33,12 +30,10 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       ctx.throw(500, e);
     }
   },
-
   async update(ctx: any) {
     const { params, body } = ctx.request;
     const { errors } = await strapi.plugin(PLUGIN_ID).service('cron').validateData(body);
     if (errors) return ctx.badRequest('ValidationError', { errors });
-
     try {
       const cronJob = await strapi
         .plugin(PLUGIN_ID)
@@ -49,32 +44,27 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       ctx.throw(500, e);
     }
   },
-
   async publish(ctx: any) {
     const { params } = ctx.request;
     try {
-      const cronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').update(params.documentId, {
-        publishedAt: new Date(),
-      });
+      const cronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').publish(params.documentId);
       ctx.body = cronJob;
     } catch (e) {
       ctx.throw(500, e);
     }
   },
-
   async unpublish(ctx: any) {
     const { params } = ctx.request;
     try {
-      const cronJob = await strapi.plugin(PLUGIN_ID).service('cron-job').update(params.documentId, {
-        publishedAt: null,
-        iterationsCount: 0,
-      });
+      const cronJob = await strapi
+        .plugin(PLUGIN_ID)
+        .service('cron-job')
+        .unpublish(params.documentId);
       ctx.body = cronJob;
     } catch (e) {
       ctx.throw(500, e);
     }
   },
-
   async delete(ctx: any) {
     const { params } = ctx.request;
     try {
@@ -87,7 +77,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       ctx.throw(500, e);
     }
   },
-
   async trigger(ctx: any) {
     const { params } = ctx.request;
     try {

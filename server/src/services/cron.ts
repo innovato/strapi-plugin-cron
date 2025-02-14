@@ -12,7 +12,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     const published = await strapi.plugin(PLUGIN_ID).service('cron-job').getPublished();
     for (const cronJob of published) this.update(cronJob);
   },
-
   update: async function (cronJob: CronJob) {
     this.cancel(cronJob);
     const isNotPublished = !cronJob.publishedAt;
@@ -27,7 +26,6 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       await createCronJobCallback(cronJob)
     );
   },
-
   validateData: (data: CronJobInputData) => {
     const validation = CronJobSchema.safeParse(data);
     if (!validation.success) {
@@ -35,11 +33,9 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     }
     return { errors: null };
   },
-
   cancel: async (cronJob: CronJob) => {
     scheduledJobs[cronJob.name]?.cancel();
   },
-
   trigger: async (cronJob: CronJob) => {
     const cronJobCallback = await createCronJobCallback(cronJob, {
       dryRun: true,
@@ -58,7 +54,6 @@ const createCronJobCallback = async (cronJob: CronJob, { dryRun = false } = {}) 
       scheduledJobs[cronJob.name].cancel();
       return;
     }
-
     captureConsoleOutput(async () => {
       console.log(`-- ${new Date().toLocaleString()}`);
       try {

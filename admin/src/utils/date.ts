@@ -1,7 +1,13 @@
 const DAY_IN_MS = 86400000;
+
 export const getDateString = (date: string | null) => {
   if (!date) return '—';
   return new Date(date).toDateString();
+};
+
+export const getDateAndTimeString = (date: string | null) => {
+  if (!date) return '—';
+  return new Date(date).toLocaleString('en-GB');
 };
 
 export const getCurrentDate = () => {

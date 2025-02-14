@@ -22,7 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { CronJob } from '../../../types';
 import { pluginBasePath } from '../../../utils/plugin';
 import { cron } from '../api/cron';
-import { getDateString } from '../utils/date';
+import { getDateAndTimeString, getDateString } from '../utils/date';
 
 type Props = {
   cronJobs: CronJob[];
@@ -59,9 +59,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
       ? 'This action will unpublish the cron job and reset its iterations count'
       : 'This action will publish the cron job';
     const confirmation = confirm(message);
-    if (!confirmation) {
-      return;
-    }
+    if (!confirmation) return;
     await (isPublished
       ? cron.unpublishCronJob(cronJob.documentId)
       : cron.publishCronJob(cronJob.documentId));
@@ -153,7 +151,11 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
           {props.cronJobs.sort(sortByCurrentKey).map((cronJob) => (
             <Tr key={cronJob.documentId}>
               <Td>
-                <Typography textColor="neutral800">{cronJob.id}</Typography>
+                <Tooltip label={cronJob.documentId}>
+                  <Typography textColor="neutral800" ellipsis width={'80px'}>
+                    {cronJob.documentId}
+                  </Typography>
+                </Tooltip>
               </Td>
               <Td>
                 <TextButton
@@ -175,22 +177,23 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 </Typography>
               </Td>
               <Td>
-                <Typography textColor="neutral800">{getDateString(cronJob.startDate)}</Typography>
+                <Tooltip label={getDateAndTimeString(cronJob.startDate)}>
+                  <Typography textColor="neutral800">{getDateString(cronJob.startDate)}</Typography>
+                </Tooltip>
               </Td>
               <Td>
-                <Typography textColor="neutral800">{getDateString(cronJob.endDate)}</Typography>
+                <Tooltip label={getDateAndTimeString(cronJob.endDate)}>
+                  <Typography textColor="neutral800">{getDateString(cronJob.endDate)}</Typography>
+                </Tooltip>
               </Td>
               <Td>
                 {!cronJob.publishedAt ? (
                   <Badge>Draft</Badge>
                 ) : (
-                  <Tooltip
-                    description={getDateString(cronJob.publishedAt)}
-                    position="bottom"
-                    label={undefined}
-                    id={undefined}
-                  >
-                    <Badge active>Published</Badge>
+                  <Tooltip label={getDateAndTimeString(cronJob.publishedAt)}>
+                    <Box>
+                      <Badge active>Published</Badge>
+                    </Box>
                   </Tooltip>
                 )}
               </Td>
@@ -198,7 +201,12 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 <Flex justifyContent="justify-evenly">
                   <Flex paddingLeft="10px" paddingRight="10px">
                     <Box marginLeft={2}>
-                      <IconButton size="XS" label="Edit" onClick={() => handleEditClick(cronJob)}>
+                      <IconButton
+                        disabled={!!cronJob.publishedAt}
+                        size="XS"
+                        label="Edit"
+                        onClick={() => handleEditClick(cronJob)}
+                      >
                         <Pencil />
                       </IconButton>
                     </Box>
