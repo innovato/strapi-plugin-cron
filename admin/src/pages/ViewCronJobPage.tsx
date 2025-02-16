@@ -1,9 +1,11 @@
 import { Box, Typography } from '@strapi/design-system';
+import { Page } from '@strapi/strapi/admin';
+import 'prismjs/themes/prism.css';
 import { useEffect, useState } from 'react';
-import { CodeBlock, dracula } from 'react-code-blocks';
 import { useLocation } from 'react-router-dom';
 import { CronJob } from '../../../types';
 import { cron } from '../api/cron';
+import { CodeField } from '../components/CodeField';
 import { ContentBlock } from '../components/ContentBlock';
 import { CronJobFormView } from '../components/CronJobForm';
 import { DataField } from '../components/DataField';
@@ -11,28 +13,23 @@ import { NotFound } from '../components/NotFound';
 import { PageLayout } from '../components/PageLayout';
 import { getDateAndTimeString } from '../utils/date';
 
-type Props = {
-  match?: {
-    params: { id: number };
-  };
-};
-
-export const ViewCronJobPage: React.FunctionComponent<Props> = ({ match }) => {
+export const ViewCronJobPage: React.FunctionComponent = () => {
   const location = useLocation();
-  const [cronJob, setCronJob] = useState<CronJob>(location.state?.cronJob);
+  const documentId = location.pathname.split('/').at(-1);
+  const [cronJob, setCronJob] = useState<CronJob>();
 
   useEffect(() => {
-    fetchCronJob();
+    if (documentId) fetchCronJob(documentId);
   }, []);
 
-  if (!cronJob) {
-    return <NotFound />;
-  }
-
-  async function fetchCronJob() {
-    const { data } = await cron.getCronJob(cronJob.documentId);
+  async function fetchCronJob(documentId: string) {
+    const { data } = await cron.getCronJob(documentId);
     setCronJob(data);
   }
+
+  if (!documentId) return <NotFound />;
+
+  if (!cronJob) return <Page.Loading />;
 
   const executionLog = cronJob.latestExecutionLog?.map((line) => line.join(' ')).join('\n') ?? '';
 
@@ -43,7 +40,10 @@ export const ViewCronJobPage: React.FunctionComponent<Props> = ({ match }) => {
         <Box marginBottom={8} marginTop={8}>
           <Typography variant="beta">Metadata</Typography>
         </Box>
-        <DataField label="Iterations count" value={cronJob.iterationsCount.toString()} />
+        <DataField
+          label="Iterations count"
+          value={`${cronJob.iterationsCount} / ${cronJob.iterationsLimit}`}
+        />
         <DataField
           label="Created at"
           value={getDateAndTimeString(cronJob.createdAt)}
@@ -64,12 +64,7 @@ export const ViewCronJobPage: React.FunctionComponent<Props> = ({ match }) => {
         <Box marginBottom={8} marginTop={8}>
           <Typography variant="beta">Latest execution log</Typography>
         </Box>
-        <CodeBlock
-          customStyle={{ fontSize: '14px' }}
-          text={executionLog}
-          theme={dracula}
-          language="text"
-        />
+        <CodeField value={executionLog} onValueChange={() => {}} />
       </ContentBlock>
     </PageLayout>
   );

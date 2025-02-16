@@ -152,7 +152,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
             <Tr key={cronJob.documentId}>
               <Td>
                 <Tooltip label={cronJob.documentId}>
-                  <Typography textColor="neutral800" ellipsis width={'80px'}>
+                  <Typography textColor="neutral800" ellipsis width={'50px'}>
                     {cronJob.documentId}
                   </Typography>
                 </Tooltip>
@@ -160,9 +160,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
               <Td>
                 <TextButton
                   onClick={() => {
-                    navigate(`${pluginBasePath}/cron-jobs/${cronJob.documentId}`, {
-                      state: { cronJob },
-                    });
+                    navigate(`${pluginBasePath}/cron-jobs/${cronJob.documentId}`);
                   }}
                 >
                   <Typography textColor="primary700">{cronJob.name}</Typography>

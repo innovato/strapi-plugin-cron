@@ -12,12 +12,14 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
     const results = (await Promise.all([drafts, published])).flat();
 
     // Strapi apparently clones an entity whenever it's published and keeps the original draft in the database.
+    // // This code selects the latest version by highest `id` number if multiple entities with same documentId exist.
     // This code selects the published version if multiple entities with same documentId exist.
     const resultsMap = results.reduce(
       (acc, cronJob: CronJob) => {
         if (!acc[cronJob.documentId]) acc[cronJob.documentId] = cronJob;
         else {
           const isPublished = !!acc[cronJob.documentId].publishedAt;
+          // // const moreRecent = acc[cronJob.documentId].id > cronJob.id;
           if (!isPublished) acc[cronJob.documentId] = cronJob;
         }
         return acc;
@@ -34,11 +36,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   },
   getPublished: async () => {
     return strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).findMany({
-      filters: {
-        publishedAt: {
-          $notNull: true,
-        },
-      },
+      status: 'published',
     });
   },
   create: async (data) => {
@@ -61,19 +59,22 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       },
       status: 'published',
     });
+    await strapi.plugin(PLUGIN_ID).service('cron').updateSchedule(cronJob);
     return cronJob;
   },
   unpublish: async (documentId: string) => {
     const cronJob = await strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).update({
       documentId,
-      data: {},
       status: 'draft',
     });
+    await strapi.plugin(PLUGIN_ID).service('cron').updateSchedule(cronJob);
     return cronJob;
   },
   delete: async (documentId: string) => {
-    return strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).delete({
+    const cronJob = await strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).delete({
       documentId,
     });
+    await strapi.plugin(PLUGIN_ID).service('cron').cancel(cronJob);
+    return;
   },
 });

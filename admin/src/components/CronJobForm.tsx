@@ -5,7 +5,6 @@ import {
   Field,
   Flex,
   NumberInput,
-  Textarea,
   TextInput,
 } from '@strapi/design-system';
 import { Calendar } from '@strapi/icons';
@@ -16,16 +15,21 @@ import { PLUGIN_ID } from '../../../utils/plugin';
 import { FormField } from '../components/FormField';
 import { getDateAndTimeString, mapLocalDateToUTC } from '../utils/date';
 
+import 'prismjs/themes/prism.css';
+import { CodeField } from './CodeField';
+
 const initialState: CronJobInputData = {
   name: '',
   schedule: '',
   executeScriptFromFile: true,
-  pathToScript: '/example-script.ts',
-  script: `console.log('Hello World!')
-`,
+  pathToScript: '/example-cron-script.ts',
+  script: [
+    'console.log("Hello World!")',
+    'console.log(`${cronJob.name} – ${cronJob.iterationsCount} / ${cronJob.iterationsLimit}`)',
+  ].join('\n'),
   iterationsLimit: -1,
-  startDate: new Date().toISOString(),
-  endDate: new Date().toISOString(),
+  startDate: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
+  endDate: new Date(new Date().setHours(23, 59, 59, 999)).toISOString(),
 };
 
 type Props = {
@@ -186,13 +190,14 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         hint={`Relative to ./src/extensions/${PLUGIN_ID}`}
         error={input.executeScriptFromFile ? errors['pathToScript'] : undefined}
       >
-        <TextInput
-          placeholder="Path to script file"
-          name="pathToScript"
+        <CodeField
           value={input.pathToScript}
-          disabled={props.dataPreview || !input.executeScriptFromFile}
-          required={input.executeScriptFromFile}
-          onChange={handleInputChange}
+          onValueChange={(value) => {
+            handleInputChange({
+              target: { name: 'pathToScript', value },
+            });
+          }}
+          disabled={!input.executeScriptFromFile}
         />
       </FormField>
 
@@ -202,18 +207,15 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         width="100%"
         error={!input.executeScriptFromFile ? errors['script'] : undefined}
       >
-        <Textarea
-          placeholder={'console.log("Hello World!");'}
-          name="script"
+        <CodeField
           value={input.script}
-          disabled={props.dataPreview || input.executeScriptFromFile}
-          required={!input.executeScriptFromFile}
-          onChange={(e: any) => {
+          onValueChange={(value) => {
             handleInputChange({
-              target: { name: 'script', value: e.target.value },
+              target: { name: 'script', value },
             });
-            // adjustTextareaHeight();
           }}
+          disabled={input.executeScriptFromFile}
+          variant="javascript"
         />
       </FormField>
 
