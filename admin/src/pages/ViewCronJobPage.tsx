@@ -19,13 +19,11 @@ export const ViewCronJobPage: React.FunctionComponent = () => {
   const [cronJob, setCronJob] = useState<CronJob>();
 
   useEffect(() => {
-    if (documentId) fetchCronJob(documentId);
+    if (documentId)
+      cron.getCronJob(documentId).then(({ data }) => {
+        setCronJob(data);
+      });
   }, []);
-
-  async function fetchCronJob(documentId: string) {
-    const { data } = await cron.getCronJob(documentId);
-    setCronJob(data);
-  }
 
   if (!documentId) return <NotFound />;
 
@@ -56,7 +54,7 @@ export const ViewCronJobPage: React.FunctionComponent = () => {
         />
         <DataField
           label="Published at"
-          value={getDateAndTimeString(cronJob.publishedAt)}
+          value={getDateAndTimeString(cronJob.publicationDate)}
           type={'date'}
         />
         <DataField label="Document ID" value={cronJob.documentId} />

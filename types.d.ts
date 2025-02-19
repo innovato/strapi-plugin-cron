@@ -15,6 +15,7 @@ export type CronJob = {
   updatedAt: string;
   publishedAt: string | null;
   locale: string | null;
+  publicationDate: string | null;
 };
 
 export type CronJobInputData = Pick<

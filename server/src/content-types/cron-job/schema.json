@@ -4,18 +4,18 @@
   "info": {
     "singularName": "cron-job",
     "pluralName": "cron-jobs",
-    "displayName": "Cron Job"
+    "displayName": "Cron Job",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true,
-    "comment": ""
+    "draftAndPublish": true
   },
   "pluginOptions": {
     "content-manager": {
-      "visible": true
+      "visible": false
     },
     "content-type-builder": {
-      "visible": true
+      "visible": false
     }
   },
   "attributes": {
@@ -55,6 +55,9 @@
     },
     "latestExecutionLog": {
       "type": "json"
+    },
+    "publicationDate": {
+      "type": "datetime"
     }
   }
 }

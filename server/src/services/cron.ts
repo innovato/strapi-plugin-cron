@@ -14,7 +14,7 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   },
   updateSchedule: async function (cronJob: CronJob) {
     this.cancel(cronJob);
-    if (!cronJob.publishedAt) return;
+    if (!cronJob.publicationDate) return;
     const cronJobCallback = await createCronJobCallback(cronJob);
     scheduleJob(
       cronJob.documentId,
@@ -51,7 +51,7 @@ const createCronJobCallback = async (cronJob: CronJob, { dryRun = false } = {}) 
       scheduledJobs[cronJob.documentId].cancel();
       return;
     }
-    if (!dryRun && hasIterationsLimit) cronJob.iterationsCount += 1;
+    if (!dryRun) cronJob.iterationsCount += 1;
     captureConsoleOutput(async () => {
       console.log(`-- ${new Date().toLocaleString()}`);
       try {

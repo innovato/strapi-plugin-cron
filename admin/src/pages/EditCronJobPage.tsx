@@ -1,6 +1,7 @@
-import React from 'react';
+import { Page } from '@strapi/strapi/admin';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CronJobInputData, CronJobInputErrors } from '../../../types';
+import { CronJob, CronJobInputData, CronJobInputErrors } from '../../../types';
 import { pluginBasePath } from '../../../utils/plugin';
 import { cron } from '../api/cron';
 import { ContentBlock } from '../components/ContentBlock';
@@ -11,12 +12,20 @@ import { getResponseErrors } from '../utils/getResponseErrors';
 
 export const EditCronJobPage: React.FunctionComponent = () => {
   const location = useLocation();
-  const cronJob = location.state?.cronJob;
+  const documentId = location.pathname.split('/').at(-1);
   const navigate = useNavigate();
+  const [cronJob, setCronJob] = useState<CronJob>();
 
-  if (!cronJob) {
-    return <NotFound />;
-  }
+  useEffect(() => {
+    if (documentId)
+      cron.getCronJob(documentId).then(({ data }) => {
+        setCronJob(data);
+      });
+  }, []);
+
+  if (!documentId) return <NotFound />;
+
+  if (!cronJob) return <Page.Loading />;
 
   async function handleFormSubmit({
     input,
@@ -26,7 +35,7 @@ export const EditCronJobPage: React.FunctionComponent = () => {
     setErrors: (errors: CronJobInputErrors) => void;
   }) {
     try {
-      await cron.updateCronJob(cronJob.documentId, input);
+      if (documentId) await cron.updateCronJob(documentId, input);
       navigate(pluginBasePath);
     } catch (error: any) {
       const errors = getResponseErrors(error.response);

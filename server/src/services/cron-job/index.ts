@@ -1,33 +1,11 @@
-import { CronJob } from '../../../../types';
 import { PLUGIN_ID } from '../../../../utils/plugin';
 
 import { Core } from '@strapi/strapi';
 
 export default ({ strapi }: { strapi: Core.Strapi }) => ({
   getAll: async () => {
-    const drafts = strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).findMany();
-    const published = strapi
-      .documents(`plugin::${PLUGIN_ID}.cron-job`)
-      .findMany({ status: 'published' });
-    const results = (await Promise.all([drafts, published])).flat();
-
-    // Strapi apparently clones an entity whenever it's published and keeps the original draft in the database.
-    // // This code selects the latest version by highest `id` number if multiple entities with same documentId exist.
-    // This code selects the published version if multiple entities with same documentId exist.
-    const resultsMap = results.reduce(
-      (acc, cronJob: CronJob) => {
-        if (!acc[cronJob.documentId]) acc[cronJob.documentId] = cronJob;
-        else {
-          const isPublished = !!acc[cronJob.documentId].publishedAt;
-          // // const moreRecent = acc[cronJob.documentId].id > cronJob.id;
-          if (!isPublished) acc[cronJob.documentId] = cronJob;
-        }
-        return acc;
-      },
-      {} as Record<string, CronJob>
-    );
-
-    return Object.values(resultsMap);
+    const cronJobs = await strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).findMany();
+    return cronJobs;
   },
   getOne: async (documentId: string) => {
     return strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).findOne({
@@ -36,7 +14,11 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   },
   getPublished: async () => {
     return strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).findMany({
-      status: 'published',
+      filters: {
+        publicationDate: {
+          $notNull: true,
+        },
+      },
     });
   },
   create: async (data) => {
@@ -56,8 +38,8 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
       data: {
         // @ts-ignore
         iterationsCount: 0,
+        publicationDate: new Date(),
       },
-      status: 'published',
     });
     await strapi.plugin(PLUGIN_ID).service('cron').updateSchedule(cronJob);
     return cronJob;
@@ -65,7 +47,10 @@ export default ({ strapi }: { strapi: Core.Strapi }) => ({
   unpublish: async (documentId: string) => {
     const cronJob = await strapi.documents(`plugin::${PLUGIN_ID}.cron-job`).update({
       documentId,
-      status: 'draft',
+      data: {
+        // @ts-ignore
+        publicationDate: null,
+      },
     });
     await strapi.plugin(PLUGIN_ID).service('cron').updateSchedule(cronJob);
     return cronJob;

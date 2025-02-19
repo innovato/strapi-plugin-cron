@@ -32,16 +32,16 @@ type Props = {
 export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   const navigate = useNavigate();
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
-  const [sortKey, setSortKey] = useState<'id' | 'name' | 'startDate' | 'endDate' | 'publishedAt'>(
-    'id'
-  );
+  const [sortKey, setSortKey] = useState<
+    'id' | 'name' | 'startDate' | 'endDate' | 'publicationDate'
+  >('id');
 
   async function handleTriggerClick(cronJob: CronJob) {
     cron.triggerCronJob(cronJob.documentId);
   }
 
   async function handleEditClick(cronJob: CronJob) {
-    navigate(`${pluginBasePath}/cron-jobs/edit/${cronJob.documentId}`, { state: { cronJob } });
+    navigate(`${pluginBasePath}/cron-jobs/edit/${cronJob.documentId}`);
   }
 
   async function handleDeleteClick(cronJob: CronJob) {
@@ -54,7 +54,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
   }
 
   async function handleToggleChange(cronJob: CronJob) {
-    const isPublished = !!cronJob.publishedAt;
+    const isPublished = !!cronJob.publicationDate;
     const message = isPublished
       ? 'This action will unpublish the cron job and reset its iterations count'
       : 'This action will publish the cron job';
@@ -139,7 +139,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
             <Th action={<SortButton sortKey="endDate" />}>
               <Typography variant="sigma">End Date</Typography>
             </Th>
-            <Th action={<SortButton sortKey="publishedAt" />}>
+            <Th action={<SortButton sortKey="publicationDate" />}>
               <Typography variant="sigma">Status</Typography>
             </Th>
             <Th action={null}>
@@ -185,10 +185,10 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                 </Tooltip>
               </Td>
               <Td>
-                {!cronJob.publishedAt ? (
+                {!cronJob.publicationDate ? (
                   <Badge>Draft</Badge>
                 ) : (
-                  <Tooltip label={getDateAndTimeString(cronJob.publishedAt)}>
+                  <Tooltip label={getDateAndTimeString(cronJob.publicationDate)}>
                     <Box>
                       <Badge active>Published</Badge>
                     </Box>
@@ -200,7 +200,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                   <Flex paddingLeft="10px" paddingRight="10px">
                     <Box marginLeft={2}>
                       <IconButton
-                        disabled={!!cronJob.publishedAt}
+                        disabled={!!cronJob.publicationDate}
                         size="XS"
                         label="Edit"
                         onClick={() => handleEditClick(cronJob)}
@@ -229,7 +229,7 @@ export const CronJobsList: React.FunctionComponent<Props> = (props) => {
                   </Flex>
                   <Switch
                     label="Toggle"
-                    checked={!!cronJob.publishedAt}
+                    checked={!!cronJob.publicationDate}
                     onCheckedChange={() => handleToggleChange(cronJob)}
                   />
                 </Flex>
