@@ -1,52 +1,43 @@
 import { Page } from '@strapi/strapi/admin';
-import React, { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CronJob, CronJobInputData, CronJobInputErrors } from '../../../types';
+import { CronJob, CronJobInputData } from '../../../types';
 import { pluginBasePath } from '../../../utils/plugin';
-import { cron } from '../api/cron';
+import { cronApi } from '../api/cron';
 import { ContentBlock } from '../components/ContentBlock';
 import { CronJobForm } from '../components/CronJobForm';
 import { NotFound } from '../components/NotFound';
 import { PageLayout } from '../components/PageLayout';
-import { getResponseErrors } from '../utils/getResponseErrors';
 
 export const EditCronJobPage: React.FunctionComponent = () => {
   const location = useLocation();
-  const documentId = location.pathname.split('/').at(-1);
+  const documentId = location.pathname.split('/').at(-1) as string;
   const navigate = useNavigate();
-  const [cronJob, setCronJob] = useState<CronJob>();
-
-  useEffect(() => {
-    if (documentId)
-      cron.getCronJob(documentId).then(({ data }) => {
-        setCronJob(data);
-      });
-  }, []);
-
-  if (!documentId) return <NotFound />;
-
-  if (!cronJob) return <Page.Loading />;
-
-  async function handleFormSubmit({
-    input,
-    setErrors,
-  }: {
-    input: CronJobInputData;
-    setErrors: (errors: CronJobInputErrors) => void;
-  }) {
-    try {
-      if (documentId) await cron.updateCronJob(documentId, input);
+  const { isPending, data: cronJob } = useQuery({
+    queryKey: ['cronJob', documentId],
+    queryFn: () => cronApi.getCronJob(documentId),
+  });
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: cronApi.updateCronJob,
+    onSuccess: (cronJob: CronJob) => {
+      queryClient.invalidateQueries({ queryKey: ['cronJob', documentId] });
       navigate(pluginBasePath);
-    } catch (error: any) {
-      const errors = getResponseErrors(error.response);
-      setErrors(errors);
-    }
-  }
+    },
+  });
+
+  if (isPending) return <Page.Loading />;
+
+  if (!cronJob) return <NotFound />;
 
   return (
     <PageLayout title={'Edit Cron Cob'}>
       <ContentBlock>
-        <CronJobForm initialData={cronJob} handleSubmit={handleFormSubmit} />
+        <CronJobForm
+          initialData={cronJob}
+          handleSubmit={(data: CronJobInputData) => mutation.mutateAsync({ documentId, data })}
+        />
       </ContentBlock>
     </PageLayout>
   );

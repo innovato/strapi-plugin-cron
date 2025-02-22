@@ -27,7 +27,8 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     console.log('🚀 ~ Axios Error:', error);
-    if (error.response?.status === 401) {
+    if (error.name === 'AxiosError') {
+      throw error.response.data.error;
     }
     throw error;
   }

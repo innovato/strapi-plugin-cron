@@ -1,10 +1,9 @@
 import { Box, Typography } from '@strapi/design-system';
 import { Page } from '@strapi/strapi/admin';
+import { useQuery } from '@tanstack/react-query';
 import 'prismjs/themes/prism.css';
-import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { CronJob } from '../../../types';
-import { cron } from '../api/cron';
+import { cronApi } from '../api/cron';
 import { CodeField } from '../components/CodeField';
 import { ContentBlock } from '../components/ContentBlock';
 import { CronJobFormView } from '../components/CronJobForm';
@@ -15,21 +14,15 @@ import { getDateAndTimeString } from '../utils/date';
 
 export const ViewCronJobPage: React.FunctionComponent = () => {
   const location = useLocation();
-  const documentId = location.pathname.split('/').at(-1);
-  const [cronJob, setCronJob] = useState<CronJob>();
+  const documentId = location.pathname.split('/').at(-1) as string;
+  const { isPending, data: cronJob } = useQuery({
+    queryKey: ['cronJob', documentId],
+    queryFn: () => cronApi.getCronJob(documentId),
+  });
 
-  useEffect(() => {
-    if (documentId)
-      cron.getCronJob(documentId).then(({ data }) => {
-        setCronJob(data);
-      });
-  }, []);
+  if (isPending) return <Page.Loading />;
 
-  if (!documentId) return <NotFound />;
-
-  if (!cronJob) return <Page.Loading />;
-
-  const executionLog = cronJob.latestExecutionLog?.map((line) => line.join(' ')).join('\n') ?? '';
+  if (!cronJob) return <NotFound />;
 
   return (
     <PageLayout title={cronJob.name}>
@@ -62,7 +55,10 @@ export const ViewCronJobPage: React.FunctionComponent = () => {
         <Box marginBottom={8} marginTop={8}>
           <Typography variant="beta">Latest execution log</Typography>
         </Box>
-        <CodeField value={executionLog} onValueChange={() => {}} />
+        <CodeField
+          value={cronJob.latestExecutionLog?.map((line) => line.join(' ')).join('\n') ?? ''}
+          onValueChange={() => {}}
+        />
       </ContentBlock>
     </PageLayout>
   );

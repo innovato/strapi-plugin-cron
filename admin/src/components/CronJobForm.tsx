@@ -24,7 +24,6 @@ const initialState: CronJobInputData = {
   executeScriptFromFile: true,
   pathToScript: '/example-cron-script.ts',
   script: [
-    'console.log("Hello World!")',
     'console.log(`${cronJob.name} – ${cronJob.iterationsCount} / ${cronJob.iterationsLimit}`)',
   ].join('\n'),
   iterationsLimit: -1,
@@ -34,14 +33,8 @@ const initialState: CronJobInputData = {
 
 type Props = {
   initialData?: CronJob;
-  handleSubmit({
-    input,
-    setErrors,
-  }: {
-    input: CronJobInputData;
-    setErrors: (errors: CronJobInputErrors) => void;
-  }): Promise<void>;
-  dataPreview?: boolean;
+  handleSubmit: (data: CronJobInputData) => Promise<any>;
+  previewData?: boolean;
 };
 
 export const CronJobForm: React.FunctionComponent<Props> = (props) => {
@@ -63,12 +56,21 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
     });
   }
 
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
-    props.handleSubmit({
-      input,
-      setErrors,
-    });
+    try {
+      await props.handleSubmit?.(input);
+    } catch (error: any) {
+      if (error.message === 'ValidationError') {
+        const errors: Record<string, string> = {};
+        error.details.errors.map(({ path: [name], message }: any) => {
+          errors[name] = message;
+        });
+        setErrors(errors);
+      } else {
+        throw error;
+      }
+    }
   }
 
   const today = new Date();
@@ -82,7 +84,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
           onChange={handleInputChange}
           value={input.name}
           required
-          disabled={props.dataPreview}
+          disabled={props.previewData}
         />
       </FormField>
 
@@ -94,7 +96,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
           name="schedule"
           value={input.schedule}
           onChange={handleInputChange}
-          disabled={props.dataPreview}
+          disabled={props.previewData}
         />
       </FormField>
 
@@ -104,7 +106,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         hint="Publish on this date"
         error={errors['startDate']}
       >
-        {props.dataPreview ? (
+        {props.previewData ? (
           <Field.Input
             disabled
             startAction={<Calendar />}
@@ -115,7 +117,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             id="startDate"
             initialDate={mapLocalDateToUTC(input.startDate)}
             onChange={(value: any) => handleDateChange('startDate', value)}
-            disabled={props.dataPreview}
+            disabled={props.previewData}
             required
             minDate={mapLocalDateToUTC(today.toISOString())}
           />
@@ -128,7 +130,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         hint="Unpublish on this date"
         error={errors['endDate']}
       >
-        {props.dataPreview ? (
+        {props.previewData ? (
           <Field.Input
             disabled
             startAction={<Calendar />}
@@ -139,7 +141,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             id="endDate"
             initialDate={mapLocalDateToUTC(input.endDate)}
             onChange={(value: any) => handleDateChange('endDate', value)}
-            disabled={props.dataPreview}
+            disabled={props.previewData}
             required
             minDate={mapLocalDateToUTC(today.toISOString())}
           />
@@ -161,7 +163,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
             })
           }
           value={input.iterationsLimit}
-          disabled={props.dataPreview}
+          disabled={props.previewData}
           required
         />
       </FormField>
@@ -178,7 +180,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
               },
             })
           }
-          disabled={props.dataPreview}
+          disabled={props.previewData}
         >
           Execute script from a file
         </Checkbox>
@@ -219,7 +221,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         />
       </FormField>
 
-      {!props.dataPreview && (
+      {!props.previewData && (
         <Flex gap={5} marginTop={5}>
           <Button size="L" type="submit">
             Save
@@ -234,5 +236,5 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
 };
 
 export const CronJobFormView = ({ data }: { data: CronJob }) => {
-  return <CronJobForm dataPreview handleSubmit={() => Promise.resolve()} initialData={data} />;
+  return <CronJobForm previewData handleSubmit={Promise.resolve} initialData={data} />;
 };
