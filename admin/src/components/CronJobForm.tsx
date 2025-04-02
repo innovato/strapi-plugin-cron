@@ -22,7 +22,7 @@ const initialState: CronJobInputData = {
   name: '',
   schedule: '',
   executeScriptFromFile: true,
-  pathToScript: '/example-cron-script.ts',
+  pathToScript: '/example-cron-script.js',
   script: [
     'console.log(`${cronJob.name} – ${cronJob.iterationsCount} / ${cronJob.iterationsLimit}`)',
   ].join('\n'),
@@ -195,6 +195,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         <CodeField
           value={input.pathToScript}
           onValueChange={(value) => {
+            if (value.trim() === input.pathToScript) return;
             handleInputChange({
               target: { name: 'pathToScript', value },
             });
