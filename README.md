@@ -48,7 +48,7 @@ export default () => ({
 
 If you want to maintain your cron job script files within the parent project and track them with a VCS, you should place them in a location relative to `<your-strapi-project>/src/extensions/strapi-plugin-cron/`.
 
-The script file should be a `.ts` module which exports an async function:
+The script file should be a `.js` module which exports an async function:
 
 ```JS
 module.exports = async ({ strapi, cronJob }) => {
