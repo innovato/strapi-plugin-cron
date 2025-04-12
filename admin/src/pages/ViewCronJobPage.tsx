@@ -29,7 +29,7 @@ export const ViewCronJobPage: React.FunctionComponent = () => {
       <ContentBlock>
         <CronJobFormView data={cronJob} />
         <Box marginBottom={8} marginTop={8}>
-          <Typography variant="beta">Metadata</Typography>
+          <Typography variant="beta"></Typography>
         </Box>
         <DataField
           label="Iterations count"
@@ -50,8 +50,6 @@ export const ViewCronJobPage: React.FunctionComponent = () => {
           value={getDateAndTimeString(cronJob.publicationDate)}
           type={'date'}
         />
-        <DataField label="Document ID" value={cronJob.documentId} />
-
         <Box marginBottom={8} marginTop={8}>
           <Typography variant="beta">Latest execution log</Typography>
         </Box>

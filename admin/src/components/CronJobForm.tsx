@@ -195,6 +195,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         <CodeField
           value={input.pathToScript}
           onValueChange={(value) => {
+            if (props.previewData) return;
             if (value.trim() === input.pathToScript) return;
             handleInputChange({
               target: { name: 'pathToScript', value },
@@ -213,6 +214,7 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         <CodeField
           value={input.script}
           onValueChange={(value) => {
+            if (props.previewData) return;
             handleInputChange({
               target: { name: 'script', value },
             });

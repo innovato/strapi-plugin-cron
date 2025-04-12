@@ -36,6 +36,7 @@ export const cronApi = {
     return res.data;
   },
   async triggerCronJob(documentId: string) {
-    return axios.get(`/${PLUGIN_ID}/cron-jobs/trigger/${documentId}`);
+    const res = await axios.get(`/${PLUGIN_ID}/cron-jobs/trigger/${documentId}`);
+    return res.data;
   },
 };

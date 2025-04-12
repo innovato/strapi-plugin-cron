@@ -1,4 +1,5 @@
 import {
+  Alert,
   Badge,
   Box,
   Button,
@@ -36,6 +37,7 @@ export const HomePage: React.FunctionComponent = () => {
   const [sortKey, setSortKey] = useState<'name' | 'startDate' | 'endDate' | 'publicationDate'>(
     'name'
   );
+  const [triggerStatus, setTriggerStatus] = useState<null | 'error' | 'success'>(null);
   const {
     isPending,
     data: cronJobs,
@@ -52,7 +54,14 @@ export const HomePage: React.FunctionComponent = () => {
   });
 
   async function handleTriggerClick(cronJob: CronJob) {
-    cronApi.triggerCronJob(cronJob.documentId);
+    try {
+      await cronApi.triggerCronJob(cronJob.documentId);
+      setTriggerStatus('success');
+    } catch (e) {
+      setTriggerStatus('error');
+    } finally {
+      setTimeout(() => setTriggerStatus(null), 2000);
+    }
   }
 
   async function handleEditClick(cronJob: CronJob) {
@@ -136,6 +145,9 @@ export const HomePage: React.FunctionComponent = () => {
 
   return (
     <PageLayout title="Cron Jobs">
+      {triggerStatus && (
+        <TriggerAlert triggerStatus={triggerStatus} onClose={() => setTriggerStatus(null)} />
+      )}
       <Box marginBottom={8}>
         <Table
           rowCount={6}
@@ -244,7 +256,7 @@ export const HomePage: React.FunctionComponent = () => {
                       <Box marginLeft={2}>
                         <IconButton
                           size="XS"
-                          label="Trigger"
+                          label="Test Run"
                           onClick={() => handleTriggerClick(cronJob)}
                         >
                           <Play />
@@ -264,5 +276,43 @@ export const HomePage: React.FunctionComponent = () => {
         </Table>
       </Box>
     </PageLayout>
+  );
+};
+
+const TriggerAlert = ({
+  triggerStatus,
+  onClose,
+}: {
+  triggerStatus: null | 'error' | 'success';
+  onClose: () => void;
+}) => {
+  if (!triggerStatus) return null;
+
+  const variant = {
+    success: 'success',
+    error: 'danger',
+  }[triggerStatus];
+
+  const message = {
+    success: 'Success',
+    error: 'Error',
+  }[triggerStatus];
+
+  return (
+    <Box
+      style={{
+        width: '100%',
+        position: 'fixed',
+        top: 20,
+        left: 0,
+        zIndex: 10,
+      }}
+    >
+      <Flex direction="column" alignItems="center">
+        <Alert closeLabel="asdasdasddas" title="Test Run:" variant={variant} onClose={onClose}>
+          {message}
+        </Alert>
+      </Flex>
+    </Box>
   );
 };
