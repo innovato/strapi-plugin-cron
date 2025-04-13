@@ -15,7 +15,6 @@ import { PLUGIN_ID } from '../../../utils/plugin';
 import { FormField } from '../components/FormField';
 import { getDateAndTimeString, mapLocalDateToUTC } from '../utils/date';
 
-import 'prismjs/themes/prism.css';
 import { CodeField } from './CodeField';
 
 const initialState: CronJobInputData = {

@@ -1,7 +1,6 @@
 import { Box, Typography } from '@strapi/design-system';
 import { Page } from '@strapi/strapi/admin';
 import { useQuery } from '@tanstack/react-query';
-import 'prismjs/themes/prism.css';
 import { useLocation } from 'react-router-dom';
 import { cronApi } from '../api/cron';
 import { CodeField } from '../components/CodeField';

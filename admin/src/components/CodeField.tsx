@@ -1,6 +1,7 @@
 import { Box } from '@strapi/design-system';
 import { Grammar, highlight, languages } from 'prismjs';
-import Editor from 'react-simple-code-editor';
+import 'prismjs/themes/prism.css';
+import { default as Editor } from 'react-simple-code-editor';
 
 type Props = {
   value: string;
