@@ -1,7 +1,5 @@
-import { Box } from '@strapi/design-system';
-import { Grammar, highlight, languages } from 'prismjs';
-import 'prismjs/themes/prism.css';
-import { default as Editor } from 'react-simple-code-editor';
+import { Box, Textarea } from '@strapi/design-system';
+import { Grammar, languages } from 'prismjs';
 
 type Props = {
   value: string;
@@ -18,23 +16,17 @@ export const CodeField = ({ disabled, value, onValueChange, variant = 'plaintext
 
   return (
     <Box position="relative">
-      <Editor
+      <Textarea
+        placeholder="This is a content placeholder"
+        name="content"
         value={value}
-        onValueChange={(value) => {
+        onChange={(value: string) => {
           if (disabled) return;
           onValueChange(value);
         }}
-        highlight={(code) => highlight(code, grammar, language)}
-        padding={10}
-        style={{
-          fontFamily: '"Fira Code", "Fira Mono", monospace',
-          fontSize: 14,
-          border: '1px solid #cccccc50',
-          borderRadius: 4,
-          backgroundColor: '#1e1e1e',
-        }}
+        disabled
       />
-      {disabled && (
+      {/* {disabled && (
         <Box
           position="absolute"
           top={0}
@@ -43,7 +35,7 @@ export const CodeField = ({ disabled, value, onValueChange, variant = 'plaintext
           left={0}
           background="rgba(50, 50, 77, .5)"
         />
-      )}
+      )} */}
     </Box>
   );
 };

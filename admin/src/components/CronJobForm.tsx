@@ -15,7 +15,7 @@ import { PLUGIN_ID } from '../../../utils/plugin';
 import { FormField } from '../components/FormField';
 import { getDateAndTimeString, mapLocalDateToUTC } from '../utils/date';
 
-import { CodeField } from './CodeField';
+import { Textarea } from '@strapi/design-system';
 
 const initialState: CronJobInputData = {
   name: '',
@@ -191,16 +191,12 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         hint={`Relative to ./src/extensions/${PLUGIN_ID}`}
         error={input.executeScriptFromFile ? errors['pathToScript'] : undefined}
       >
-        <CodeField
+        <TextInput
+          name="pathToScript"
+          onChange={handleInputChange}
           value={input.pathToScript}
-          onValueChange={(value) => {
-            if (props.previewData) return;
-            if (value.trim() === input.pathToScript) return;
-            handleInputChange({
-              target: { name: 'pathToScript', value },
-            });
-          }}
-          disabled={!input.executeScriptFromFile}
+          required
+          disabled={props.previewData || !input.executeScriptFromFile}
         />
       </FormField>
 
@@ -210,16 +206,11 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         width="100%"
         error={!input.executeScriptFromFile ? errors['script'] : undefined}
       >
-        <CodeField
+        <Textarea
+          name="script"
           value={input.script}
-          onValueChange={(value) => {
-            if (props.previewData) return;
-            handleInputChange({
-              target: { name: 'script', value },
-            });
-          }}
-          disabled={input.executeScriptFromFile}
-          variant="javascript"
+          onChange={handleInputChange}
+          disabled={props.previewData || input.executeScriptFromFile}
         />
       </FormField>
 
