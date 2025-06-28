@@ -40,8 +40,8 @@
     },
     "iterationsLimit": {
       "type": "integer",
-      "min": -1,
-      "default": -1
+      "min": 0,
+      "default": 0
     },
     "iterationsCount": {
       "type": "integer",
