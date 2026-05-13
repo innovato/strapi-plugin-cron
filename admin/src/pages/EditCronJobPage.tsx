@@ -21,8 +21,12 @@ export const EditCronJobPage: React.FunctionComponent = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: cronApi.updateCronJob,
-    onSuccess: (cronJob: CronJob) => {
-      queryClient.invalidateQueries({ queryKey: ['cronJob', documentId] });
+    onSuccess: async (cronJob: CronJob) => {
+      queryClient.setQueryData(['cronJob', documentId], cronJob);
+      queryClient.setQueryData<CronJob[]>(['cronJobs'], (cronJobs) =>
+        cronJobs?.map((item) => (item.documentId === cronJob.documentId ? cronJob : item))
+      );
+      await queryClient.invalidateQueries({ queryKey: ['cronJobs'] });
       navigate(pluginBasePath);
     },
   });

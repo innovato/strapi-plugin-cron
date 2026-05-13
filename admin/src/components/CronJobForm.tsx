@@ -8,7 +8,7 @@ import {
   TextInput,
 } from '@strapi/design-system';
 import { Calendar } from '@strapi/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CronJob, CronJobInputData, CronJobInputErrors } from '../../../types';
 import { PLUGIN_ID } from '../../../utils/plugin';
@@ -17,7 +17,7 @@ import { getDateAndTimeString, mapLocalDateToUTC } from '../utils/date';
 
 import { Textarea } from '@strapi/design-system';
 
-const initialState: CronJobInputData = {
+const getInitialState = (): CronJobInputData => ({
   name: '',
   schedule: '',
   executeScriptFromFile: true,
@@ -28,6 +28,38 @@ const initialState: CronJobInputData = {
   iterationsLimit: -1,
   startDate: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
   endDate: new Date(new Date().setHours(23, 59, 59, 999)).toISOString(),
+});
+
+const getInitialInputData = (initialData?: CronJob): CronJobInputData => {
+  if (!initialData) return getInitialState();
+
+  const fallback = getInitialState();
+
+  return {
+    name: initialData.name ?? fallback.name,
+    schedule: initialData.schedule ?? fallback.schedule,
+    executeScriptFromFile: initialData.executeScriptFromFile ?? fallback.executeScriptFromFile,
+    pathToScript: initialData.pathToScript ?? fallback.pathToScript,
+    script: initialData.script ?? fallback.script,
+    iterationsLimit: initialData.iterationsLimit ?? fallback.iterationsLimit,
+    startDate: initialData.startDate ?? fallback.startDate,
+    endDate: initialData.endDate ?? fallback.endDate,
+  };
+};
+
+const getInitialInputDataKey = (initialData?: CronJob) => {
+  if (!initialData) return 'new';
+
+  return JSON.stringify({
+    name: initialData.name,
+    schedule: initialData.schedule,
+    executeScriptFromFile: initialData.executeScriptFromFile,
+    pathToScript: initialData.pathToScript,
+    script: initialData.script,
+    iterationsLimit: initialData.iterationsLimit,
+    startDate: initialData.startDate,
+    endDate: initialData.endDate,
+  });
 };
 
 type Props = {
@@ -37,21 +69,53 @@ type Props = {
 };
 
 export const CronJobForm: React.FunctionComponent<Props> = (props) => {
-  const [input, setInput] = useState<CronJobInputData>(props.initialData ?? initialState);
+  const initialInputDataKey = getInitialInputDataKey(props.initialData);
+  const initialDataDocumentId = props.initialData?.documentId;
+  const previousInitialInputDataKey = useRef(initialInputDataKey);
+  const previousInitialDataDocumentId = useRef(initialDataDocumentId);
+  const isDirty = useRef(false);
+  const [input, setInput] = useState<CronJobInputData>(() =>
+    getInitialInputData(props.initialData)
+  );
   const [errors, setErrors] = useState<CronJobInputErrors>({});
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const isDifferentDocument = previousInitialDataDocumentId.current !== initialDataDocumentId;
+    if (previousInitialInputDataKey.current === initialInputDataKey && !isDifferentDocument) {
+      return;
+    }
+
+    previousInitialInputDataKey.current = initialInputDataKey;
+    previousInitialDataDocumentId.current = initialDataDocumentId;
+
+    if (isDirty.current && !isDifferentDocument) return;
+
+    setInput(getInitialInputData(props.initialData));
+    setErrors({});
+    isDirty.current = false;
+  }, [initialInputDataKey, initialDataDocumentId, props.initialData]);
+
   function handleInputChange(e: any) {
+    isDirty.current = true;
+
     const { name, value } = e.target;
-    setInput({ ...input, [name]: value });
-    setErrors({ ...errors, [name]: null });
+    setInput((input) => ({ ...input, [name]: value }));
+    setErrors((errors) => {
+      const nextErrors = { ...errors };
+      delete nextErrors[name as keyof CronJobInputErrors];
+      return nextErrors;
+    });
   }
 
-  function handleDateChange(inputName: string, value: Date) {
-    if (inputName === 'startDate') value?.setHours(0, 0, 0, 0);
-    if (inputName === 'endDate') value?.setHours(23, 59, 59, 999);
+  function handleDateChange(inputName: string, value?: Date) {
+    if (!value) return;
+
+    const nextDate = new Date(value);
+    if (inputName === 'startDate') nextDate.setHours(0, 0, 0, 0);
+    if (inputName === 'endDate') nextDate.setHours(23, 59, 59, 999);
     handleInputChange({
-      target: { name: inputName, value: value.toISOString() },
+      target: { name: inputName, value: nextDate.toISOString() },
     });
   }
 
@@ -72,7 +136,9 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
     }
   }
 
-  const today = new Date();
+  const startDate = useMemo(() => mapLocalDateToUTC(input.startDate), [input.startDate]);
+  const endDate = useMemo(() => mapLocalDateToUTC(input.endDate), [input.endDate]);
+  const minDate = useMemo(() => mapLocalDateToUTC(new Date().toISOString()), []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -114,11 +180,12 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         ) : (
           <DatePicker
             id="startDate"
-            initialDate={mapLocalDateToUTC(input.startDate)}
-            onChange={(value: any) => handleDateChange('startDate', value)}
+            initialDate={startDate}
+            value={startDate}
+            onChange={(value) => handleDateChange('startDate', value)}
             disabled={props.previewData}
             required
-            minDate={mapLocalDateToUTC(today.toISOString())}
+            minDate={minDate}
           />
         )}
       </FormField>
@@ -138,11 +205,12 @@ export const CronJobForm: React.FunctionComponent<Props> = (props) => {
         ) : (
           <DatePicker
             id="endDate"
-            initialDate={mapLocalDateToUTC(input.endDate)}
-            onChange={(value: any) => handleDateChange('endDate', value)}
+            initialDate={endDate}
+            value={endDate}
+            onChange={(value) => handleDateChange('endDate', value)}
             disabled={props.previewData}
             required
-            minDate={mapLocalDateToUTC(today.toISOString())}
+            minDate={minDate}
           />
         )}
       </FormField>

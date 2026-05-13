@@ -1,19 +1,12 @@
 import { Box, Textarea } from '@strapi/design-system';
-import { Grammar, languages } from 'prismjs';
 
 type Props = {
   value: string;
   onValueChange: (value: string) => void;
-  variant?: 'plaintext' | 'javascript';
   disabled?: boolean;
 };
 
-export const CodeField = ({ disabled, value, onValueChange, variant = 'plaintext' }: Props) => {
-  const [grammar, language] = {
-    plaintext: [languages.markup, 'plaintext'],
-    javascript: [languages.javascript, 'js'],
-  }[variant] as [Grammar, string];
-
+export const CodeField = ({ disabled, value, onValueChange }: Props) => {
   return (
     <Box position="relative">
       <Textarea
@@ -26,16 +19,6 @@ export const CodeField = ({ disabled, value, onValueChange, variant = 'plaintext
         }}
         disabled
       />
-      {/* {disabled && (
-        <Box
-          position="absolute"
-          top={0}
-          right={0}
-          bottom={0}
-          left={0}
-          background="rgba(50, 50, 77, .5)"
-        />
-      )} */}
     </Box>
   );
 };

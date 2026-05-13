@@ -189,7 +189,7 @@ export const HomePage: React.FunctionComponent = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {cronJobs.sort(sortByCurrentKey).map((cronJob) => (
+            {[...cronJobs].sort(sortByCurrentKey).map((cronJob) => (
               <Tr key={cronJob.documentId}>
                 <Td>
                   <TextButton
@@ -309,7 +309,12 @@ const TriggerAlert = ({
       }}
     >
       <Flex direction="column" alignItems="center">
-        <Alert closeLabel="asdasdasddas" title="Test Run:" variant={variant} onClose={onClose}>
+        <Alert
+          closeLabel="Close notification"
+          title="Test Run:"
+          variant={variant}
+          onClose={onClose}
+        >
           {message}
         </Alert>
       </Flex>
